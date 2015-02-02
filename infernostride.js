@@ -1,38 +1,27 @@
 var dw_com = require('dw_com');
 
-function v1(plan) {
+function Istride(plan) {
 
   var next_tick = 0;
-
-  var obj_preant;
-
   var fn_len = 0;
   var count = 0;
   var isObj = false;
-
+  var obj_preant;
   function loop(arr, preant, ikeys) {
-
-
-    //var next_tick = 0;
-    var result_arr = [];
-
     var ty = dw_com.is(arr);
     switch (ty) {
       case 'Array':
-
         obj_preant = arr;
-
         _forarr(next_tick, arr);
-
         break;
       case 'Object':
         isObj = true;
-
-        var keys = Object.keys(preant),
-          len = keys.length;
-
+/*        var keys = Object.keys(preant),
+          len = keys.length;*/
         for (var i in arr) {
+
           loop(arr[i], arr, i);
+
         }
 
         break;
@@ -40,7 +29,7 @@ function v1(plan) {
         if (isObj) {
           fn_len = fn_len + 1;
         }
-        arr(cb);
+        arr(_cb);
         break;
       default:
         throw new Error('格式不对');
@@ -48,16 +37,10 @@ function v1(plan) {
 
 
     //callback
-    function cb(err, result) {
-
-
-
+    function _cb(err, result) {
       if (isObj) {
         count = count + 1;
       }
-
-
-
       if (preant) {
 
         var ty = dw_com.is(preant);
@@ -74,11 +57,9 @@ function v1(plan) {
           preant[ikeys] = result;
 
           if (count === fn_len) {
-
             fn_len = count = 0;
             isObj = false;
-
-            console.log('next_tick===' + next_tick + ' obj_preant==' + JSON.stringify(obj_preant));
+            //console.log('next_tick===' + next_tick + ' obj_preant==' + JSON.stringify(obj_preant));
 
             next_tick = next_tick + 1;
 
@@ -91,7 +72,9 @@ function v1(plan) {
 
       }
 
-      //console.log(' result===' + JSON.stringify(plan));
+      //var key= ikeys || next_tick;
+      console.log(' result===' + JSON.stringify(plan));
+      //console.log(next_tick+' ' +ikeys +' ok');
 
     }
 
@@ -109,43 +92,44 @@ function v1(plan) {
 
 
 
-function t1(cb) {
-  setTimeout(function() {
-    cb(1, 1);
-  }, 100);
+_dispath(opt){
+  var ty=dw_com.is(opt);
+  var C_i = 0;
+
+  switch(ty){
+  case 'Array':
+    _for_arr(i,opt);
+  break;
+  
+  case 'Object':
+  _for_obj(C_i,opt,arr);
+  break;
+  default:
+  break;
 }
 
-function t2(cb) {
-  setTimeout(function() {
-    cb(2, 2);
-  }, 300);
+
 }
 
-function t3(cb) {
-  setTimeout(function() {
-    cb(3, 3);
-  }, 300);
+
+_for_arr(i,arr){
+  var len = arr.length,ty=dw_com.is(arr[i]);
+  if(i<len){
+    switch(ty){
+      case 'Array':
+      break;
+      case 'Object':
+      _for_obj(i,arr[i],arr);
+      break;
+      default:
+      break;
+    }
+
+  }
+}
+_for_obj(i,obj,preant){
+
+
 }
 
-function t4(cb) {
-  setTimeout(function() {
-    cb(3, 8888);
-
-  }, 300);
-}
-
-var line = [t1,
-  t2, {
-    t3: t3,
-    t3_3: t3,
-    t4: {
-      t41: t1,
-      t42: t2
-    },
-    t1: t1
-  },
-  t4
-];
-
-
-v1(line);
+module.exports = Istride;

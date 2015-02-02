@@ -1,3 +1,25 @@
+var Istride = require('../infernostride');
+
+
+function first(cb){
+  setTimeout(function(){
+
+    cb(null,'first');
+
+  },100);
+}
+
+function last(cb){
+  setTimeout(function(){
+
+    cb(null,'last');
+  },100);
+}
+
+
+
+
+
 function t1(cb) {
   setTimeout(function() {
     cb(1, 1);
@@ -37,4 +59,14 @@ var line = [t1,
 ];
 
 
-v1(line);
+var line2=[first,{
+    t3: t3,
+    t3_3: t3,
+    t4: {
+      t41: t1,
+      t42: t2
+    },test:[t2,t3],
+    t1: t1
+  },last];
+
+Istride(line2);
