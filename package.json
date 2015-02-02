@@ -1,0 +1,22 @@
+{
+  "name": "infernostride",
+  "version": "0.0.1",
+  "main": "infernostride",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hezedu/infernostride.git"
+  },
+
+  "author": {
+    "name": "hezedu"
+  },
+  "dependencies": {
+    "dw_com": "^1.0.1"
+  },
+  "licenses": "MIT",
+  "email": "hezedu@hotmail.com",
+  "description": "可以递归的callback! <br/> Can be recursively callback!",
+  "bugs": {
+    "url": "https://github.com/hezedu/infernostride/issues"
+  }
+}
