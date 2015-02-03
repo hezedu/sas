@@ -7,6 +7,7 @@ function Istride(plan) {
   var count = 0;
   var isObj = false;
   var obj_preant;
+
   function loop(arr, preant, ikeys) {
     var ty = dw_com.is(arr);
     switch (ty) {
@@ -16,8 +17,8 @@ function Istride(plan) {
         break;
       case 'Object':
         isObj = true;
-/*        var keys = Object.keys(preant),
-          len = keys.length;*/
+        /*        var keys = Object.keys(preant),
+                  len = keys.length;*/
         for (var i in arr) {
 
           loop(arr[i], arr, i);
@@ -92,7 +93,7 @@ function Istride(plan) {
 
 
 
-_dispath(opt){
+/*_dispath(opt){
   var ty=dw_com.is(opt);
   var C_i = 0;
 
@@ -109,27 +110,75 @@ _dispath(opt){
 }
 
 
-}
+}*/
 
 
-_for_arr(i,arr){
-  var len = arr.length,ty=dw_com.is(arr[i]);
-  if(i<len){
-    switch(ty){
-      case 'Array':
-      break;
-      case 'Object':
-      _for_obj(i,arr[i],arr);
-      break;
-      default:
-      break;
+
+function v2(a) {
+    var isObj = false;
+
+    /*  var next_tick = 0;
+      var fn_len = 0;
+      var count = 0;
+
+      var obj_preant;*/
+
+    function _dispath(opt) {
+
+      var ty = dw_com.is(opt);
+
+      switch (ty) {
+
+        case 'Array':
+          _for_arr(0, opt);
+          break;
+        case 'Object':
+
+          _for_obj(C_i, opt, arr);
+
+          break;
+          
+        default:
+          break;
+      }
+
+
+      function _for_arr(i, arr) {
+        var len = arr.length,
+          ty = dw_com.is(arr[i]);
+        if (i < len) {
+          switch (ty) {
+
+            case 'Array':
+              _for_arr(0, arr[i]);
+              break;
+
+            case 'Object':
+              _for_obj(i, arr[i], arr);
+              break;
+
+            case 'Function':
+              arr[i](_cb);
+              break;
+
+            default:
+              break;
+
+          }
+
+        }
+      }
+
+      function _for_obj(i, obj, preant) {
+        for (var j in obj) {
+
+
+        }
+      }
+
+
     }
 
-  }
-}
-_for_obj(i,obj,preant){
 
 
-}
-
-module.exports = Istride;
+    module.exports = Istride;
