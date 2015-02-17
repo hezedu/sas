@@ -1,12 +1,14 @@
 {
   "name": "dw_stride",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dw_stride",
   "keywords": [
     "async",
     "callback",
-    "utility",
-    "module"
+    "recursively",
+    "callback",
+	"browser",
+	"node"
   ],
   "repository": {
     "type": "git",
@@ -21,7 +23,7 @@
   },
   "licenses": "MIT",
   "email": "hezedu@hotmail.com",
-  "description": "可以递归的callback!   Can be recursively callback!",
+  "description": "Async for node and the browser . can be recursively callback",
   "bugs": {
     "url": "https://github.com/hezedu/dw_stride/issues"
   }
