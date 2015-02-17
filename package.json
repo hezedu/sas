@@ -1,10 +1,16 @@
 {
-  "name": "infernostride",
+  "name": "dw_stride",
   "version": "0.0.1",
-  "main": "infernostride",
+  "main": "dw_stride",
+  "keywords": [
+    "async",
+    "callback",
+    "utility",
+    "module"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/hezedu/infernostride.git"
+    "url": "https://github.com/hezedu/dw_stride.git"
   },
 
   "author": {
@@ -15,8 +21,8 @@
   },
   "licenses": "MIT",
   "email": "hezedu@hotmail.com",
-  "description": "可以递归的callback! <br/> Can be recursively callback!",
+  "description": "可以递归的callback!   Can be recursively callback!",
   "bugs": {
-    "url": "https://github.com/hezedu/infernostride/issues"
+    "url": "https://github.com/hezedu/dw_stride/issues"
   }
 }
