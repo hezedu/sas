@@ -1,7 +1,7 @@
 {
-  "name": "dw_stride",
-  "version": "0.0.2",
-  "main": "dw_stride",
+  "name": "sas",
+  "version": "0.0.1",
+  "main": "sas",
   "keywords": [
     "async",
     "callback",
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/hezedu/dw_stride.git"
+    "url": "https://github.com/hezedu/sas.git"
   },
 
   "author": {
@@ -25,6 +25,6 @@
   "email": "hezedu@hotmail.com",
   "description": "Async for node and the browser . can be recursively callback",
   "bugs": {
-    "url": "https://github.com/hezedu/dw_stride/issues"
+    "url": "https://github.com/hezedu/sas/issues"
   }
 }
