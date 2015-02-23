@@ -1,36 +1,22 @@
-var dw_stride = require('../dw_stride');
+var sas = require('../sas');
 var fs = require('fs');
 
 var plan;
 var count = 0;
 
 var mktree = function(path) {
-	if (path === 'root') {
-		console.time('实际用时');
-	}
-	return function(cb) {
-		var start = Date.now();
-		if(path !==__dirname + '/root'){
-			path=this['_preant']+path;
-		}
+	return function(cb,ext) {
+			if(typeof ext.index ==='string'){
+	
+				path=ext.parent[0]+path;
+				console.log('ext.parent[0]== '+ext.parent[0])
+			}
+			console.log('path=='+path);
 		fs.mkdir(path, 777, function(err, result) {
 			if (err) {
-				console.log(err);
 				return cb('$STOPALL');
 			}
-			console.log('dwpath===='+path);
-			console.log('plan[0]===='+plan[0]);
 			cb(path);
-			var end = Date.now();
-			var ms = end - start;
-			count += (ms);
-			console.log(result + ':' + ms + 'ms');
-			if (path === __dirname + '/end') {
-				console.log('result=' + JSON.stringify(plan));
-				console.log('\n统计:' + count + 'ms');
-				console.timeEnd('实际用时');
-			}
-
 		});
 	}
 }
@@ -56,4 +42,4 @@ plan = [
 ]
 
 
-dw_stride(plan);
+sas(plan,{debug:true});

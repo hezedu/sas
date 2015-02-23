@@ -9,22 +9,11 @@ var line;
 var count = 0;
 
 var test = function(result) {
-  if (result === '同步start') {
-    console.time('实际用时');
-  }
-  return function(cb) {
-    var start = Date.now();
+  return function(cb,ext) {
+    console.log(ext);
     setTimeout(function() {
       cb(result);
-      var end = Date.now();
-      var ms = end - start;
-      count += (ms);
-      //console.log(result + ':' + ms + 'ms');
-      if (result === '同步end') {
-        //console.log('result=' + JSON.stringify(line));
-/*        console.log('\n统计:' + count + 'ms');
-        console.timeEnd('实际用时');*/
-      }
+
     }, r_t());
   }
 }
