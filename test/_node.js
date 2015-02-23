@@ -19,11 +19,11 @@ var test = function(result) {
       var end = Date.now();
       var ms = end - start;
       count += (ms);
-      console.log(result + ':' + ms + 'ms');
+      //console.log(result + ':' + ms + 'ms');
       if (result === '同步end') {
-        console.log('result=' + JSON.stringify(line));
-        console.log('\n统计:' + count + 'ms');
-        console.timeEnd('实际用时');
+        //console.log('result=' + JSON.stringify(line));
+/*        console.log('\n统计:' + count + 'ms');
+        console.timeEnd('实际用时');*/
       }
     }, r_t());
   }
@@ -57,4 +57,4 @@ line2 = [
   test('同步end')
 ]
 
-sas(line);
+sas(line,{debug:true});
