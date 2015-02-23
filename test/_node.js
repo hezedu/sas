@@ -1,4 +1,4 @@
-var dw_stride = require('../dw_stride');
+var sas = require('../sas');
 
 
 var r_t = function() {
@@ -35,7 +35,7 @@ line = [
     '2-1': test('异步2-1'),
     '2-2': test('异步2-2'),
     '2-3': test('异步2-3'),
-    '2-3': [
+    '2-4': [
       test('同步2-3-1'),
       test('同步2-3-2'),
       test('同步2-3-3')
@@ -57,4 +57,4 @@ line2 = [
   test('同步end')
 ]
 
-dw_stride(line);
+sas(line);
