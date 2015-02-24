@@ -1,3 +1,10 @@
+/*!
+ * author:hezedu,
+ * Released: jQuery.Released,
+ * Date: 2015-02-25,
+ * site: 北京,
+ *home:http://godmod.cn
+ */
 function sas(arr, opt) {
   opt = opt || {};
   var debug = opt.debug || sas.debug,
