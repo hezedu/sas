@@ -61,7 +61,9 @@ sas(plan);
 sas(plan,{debug:true});
 ```
 console将会显示log：
+
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/saslog.png?raw=true)
+
 其中灰色代表异步，白色代表同步。
 - `iterator:Function` 返回一个function.结构为：
 ```javascript
