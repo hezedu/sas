@@ -101,7 +101,6 @@ sas(line);
 魔法字符串
 
 如果想到中止程序的话，就`cb('$STOP')` 。同步会立刻停止，已执行的异步callback将不做处理直接retrun。
-- 基本元素若为其它类型而`opt`iterator不为true的话，会抛出一个错误。
 
 __ext__
 `ext`，是一个对象，可选。提供当前元素导航。
@@ -116,6 +115,8 @@ __ext__
       path = ext.Sparent[0] + path;
     }
 ```
+- 基本元素若为其它类型而`opt`iterator不为true的话，会抛出一个错误。
+
 第二个参数 `opt` 是一个对象,可选：
 
 - `debug:bool` 强大的追踪。不管是异步还是同步都能追踪到，默认为false。
