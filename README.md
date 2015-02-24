@@ -55,9 +55,7 @@ sas(plan);
 function(cb,ext){
 }
 ```
-__cb(result)__ 
-
-回调，如果`arguments.length<=1`的话，当前元素会被替换为result。
+`cb(result)`回调，如果`arguments.length<=1`的话，当前元素会被替换为result。
 ```javascript
 var line;
 
@@ -102,10 +100,7 @@ sas(line);
 
 如果想到中止程序的话，就`cb('$STOP')` 。同步会立刻停止，已执行的异步callback将不做处理直接retrun。
 
-__ext__
-`ext`，是一个对象，可选。提供当前元素导航。
-
-目前有：
+`ext`是一个对象，可选。提供当前元素导航。目前有：
 
 * `index` 当前元素index;
 * `path` 是一个数组，包含所有当前元素到 `arr` 的key和index值。
