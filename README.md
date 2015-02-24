@@ -41,6 +41,7 @@ var plan = [
 		}]
 	}
 ];
+sas(plan);
 ```
 ## 详细说明
 
@@ -73,7 +74,7 @@ function test(opt){
 如果 `arr` 里的基本元素type不为function，iterator将会被调用。
 前面的例子:
 ```javascript
-var plan2 = [
+var plan = [
 	__dirname + '/root' + Date.now(), {
 		'1': ['/1', {
 			'1-1': '/1-1',
@@ -92,6 +93,6 @@ var plan2 = [
 		}]
 	}
 ];
-sas(plan2,{iterator:mktree,debug:true});
+sas(plan,{iterator:mktree});
 ```
 将会得到相同的结果。
