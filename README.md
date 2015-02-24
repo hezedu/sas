@@ -104,9 +104,9 @@ sas(line);
 
 `ext`是一个对象，可选。提供当前元素导航。目前有：
 
-* `index` 当前元素index;
-* `path` 是一个数组，包含所有当前元素到 __arr__ 的key和index值。
-* `Sparent` 是当前元素第一个数组父级。如前例：
+`index` 当前元素index;
+`path` 是一个数组，包含所有当前元素到 __arr__ 的key和index值。
+`Sparent` 是当前元素第一个数组父级。如前例：
 ```javascript
     if (ext.Sparent) {//用之前先判定有没有。
       path = ext.Sparent[0] + path;
@@ -116,9 +116,9 @@ sas(line);
 
 __opt__
 
-第二个参数  是一个对象,可选：
+第二个参数是一个对象,可选：
 
-- `debug:bool` 强大的追踪。不管是异步还是同步都能追踪到，默认为false。
+`debug:bool` 强大的追踪。不管是异步还是同步都能追踪到，默认为false。
 前面的例子:
 ```javascript
 sas(plan,{debug:true});
@@ -128,7 +128,7 @@ console将会显示log：
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/saslog.png?raw=true)
 
 其中灰色代表异步，白色代表同步。
-- `iterator:Function` 返回一个function.结构为：
+`iterator:Function` 返回一个function.结构为：
 ```javascript
 function test(opt){
   return function(cb,ext){
