@@ -1,20 +1,11 @@
-# Async.js
+# Sas.js
+Sas 是一个可以递归的(同/异)步结合 的Function。
+S代表sync/同步 AS代表async/异步。
+可以用在[Node.js](http://nodejs.org) ,也可用用在前端。
 
-[![Build Status via Travis CI](https://travis-ci.org/caolan/async.svg?branch=master)](https://travis-ci.org/caolan/async)
+- [Node]: `npm install sas`
+- [前端]: `<script src="$youpath/sas.js"></script>`
 
-
-Async is a utility module which provides straight-forward, powerful functions
-for working with asynchronous JavaScript. Although originally designed for
-use with [Node.js](http://nodejs.org) and installable via `npm install async`,
-it can also be used directly in the browser.
- 
-Async is also installable via:
-
-- [bower](http://bower.io/): `bower install async`
-- [component](https://github.com/component/component): `component install
-  caolan/async`
-- [jam](http://jamjs.org/): `jam install async`
-- [spm](http://spmjs.io/): `spm install async`
 
 Async provides around 20 functions that include the usual 'functional'
 suspects (`map`, `reduce`, `filter`, `each`…) as well as some common patterns
