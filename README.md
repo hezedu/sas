@@ -96,6 +96,8 @@ var line = [
 ];
 sas(line);
 ```
+__魔法回调__
+如果result==='$STOP'，同步会立刻停止，已发出的异步callback将直接retrun。因此想要中断程序就cb('$STOP');
 - 基本元素若为其它类型而`opt`iterator不为true的话，会抛出一个错误。
 
 第二个参数 `opt` 是一个对象,可选：
