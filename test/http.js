@@ -1,4 +1,4 @@
-var dw_stride = require('../dw_stride');
+var sas = require('../sas');
 var http = require('http');
 
 function httpCreate(cb) {
@@ -13,4 +13,4 @@ var line = [
 	httpCreate,
 	OK
 ]
-dw_stride(line);
+sas(line);

@@ -10,7 +10,6 @@ var count = 0;
 
 var test = function(result) {
   return function(cb,ext) {
-    console.log(ext);
     setTimeout(function() {
       cb(result);
 
@@ -31,7 +30,9 @@ line = [
     ]
   },
   test('同步3'),
-  test('同步end')
+  function(cb,ext){
+    cb('1',2);
+  }
 ]
 
 line2 = [
