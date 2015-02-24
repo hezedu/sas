@@ -55,13 +55,29 @@ sas(plan);
 function(cb,ext){
 }
 ```
-  - cb(result)为回调，如果`arguments.length<=1`的话，当前元素会被替换为result。
+`cb(result)` 为回调，如果`arguments.length<=1`的话，当前元素会被替换为result。
 否则，当前元素会被替换为一个数组分别对应arguments。
 
 例：
 ```javascript
+var sas = require('../sas');
+var http = require('http');
 
+function httpCreate(cb) {
+	http.createServer(cb).listen(1337, '127.0.0.1');
+	console.log('Server running at http://127.0.0.1:1337/');
+}
+function OK(cb) {
+	var res= this[0][1];
+	res.end('OK');
+}
+var line = [
+	httpCreate,
+	OK
+];
+sas(line);
 ```
+注意：活用this.
 - 基本元素若为其它类型而`opt`iterator不为true的话，会抛出一个错误。
 
 第二个参数 `opt` 是一个对象,可选：
