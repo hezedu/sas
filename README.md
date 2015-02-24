@@ -23,23 +23,23 @@ var mktree = function(path) {
   }
 }
 var plan = [
-  mktree(__dirname + '/root' + Date.now()), {
-    '1': [mktree('/1'), {
-      '1-1': mktree('/1-1'),
-      '1-2': mktree('/1-2'),
-      '1-3': mktree('/1-3')
-    }],
-    '2': [mktree('/2'), {
-      '1-1': mktree('/2-1'),
-      '1-2': mktree('/2-2'),
-      '1-3': mktree('/2-3')
-    }],
-    '3': [mktree('/3'), {
-      '1-1': mktree('/3-1'),
-      '1-2': mktree('/3-2'),
-      '1-3': mktree('/3-3')
-    }]
-  }
+	mktree(__dirname + '/root' + Date.now()), {
+		'1': [mktree('/1'), {
+			'1-1': mktree('/1-1'),
+			'1-2': mktree('/1-2'),
+			'1-3': mktree('/1-3')
+		}],
+		'2': [mktree('/2'), {
+			'2-1': mktree('/2-1'),
+			'2-2': mktree('/2-2'),
+			'2-3': mktree('/2-3')
+		}],
+		'3': [mktree('/3'), {
+			'3-1': mktree('/3-1'),
+			'3-2': mktree('/3-2'),
+			'3-3': mktree('/3-3')
+		}]
+	}
 ];
 sas(plan);
 ```
@@ -50,13 +50,49 @@ sas(plan);
 
 - 数组Array:代表同步sync(因为有序)
 - 对象Object:代表异步async(因为有key,顺序乱了也没事)
-- 函数Function:处理回调callback
-- 若为其它类型而`opt`iterator不为true的话，会抛出一个错误。
+- 函数Function:基本元素，处理回调callback
+- 基本元素若为其它类型而`opt`iterator不为true的话，会抛出一个错误。
 
 第二个参数 `opt` 是一个对象,可选：
 
-- `debug:bool` 强大的追踪不管是异步还是同步都能追踪到，开启后会在console显示log，默认为false。
+- `debug:bool` 强大的追踪不管是异步还是同步都能追踪到，开启后会在，默认为false。
 前面的例子:
 ```javascript
-sas(plan,{debug:true})
+sas(plan,{debug:true});
 ```
+console将会显示log：
+![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/saslog.png?raw=true)
+其中灰色代表异步，白色代表同步。
+- `iterator:Function` 返回一个function.结构为：
+```javascript
+function test(opt){
+  return function(cb,ext){
+  
+  }
+}
+```
+如果 `arr` 里的基本元素type不为function，iterator将会被调用。
+前面的例子:
+```javascript
+var plan = [
+	__dirname + '/root' + Date.now(), {
+		'1': ['/1', {
+			'1-1': '/1-1',
+			'1-2': '/1-2',
+			'1-3': '/1-3'
+		}],
+		'2': ['/2', {
+			'2-1': '/2-1',
+			'2-2': '/2-2',
+			'2-3': '/2-3'
+		}],
+		'3': ['/3', {
+			'3-1': '/3-1',
+			'3-2': '/3-2',
+			'3-3': '/3-3'
+		}]
+	}
+];
+sas(plan,{iterator:mktree});
+```
+将会得到相同的结果。
