@@ -57,7 +57,7 @@ __arr__
 function(cb,ext){
 }
 ```
-`cb(result)`回调，如果`arguments.length<=1`的话，当前元素会被替换为result。
+`cb(result)`回调，如果arguments.length<=1的话，当前元素会被替换为result。例：
 ```javascript
 var line;
 
