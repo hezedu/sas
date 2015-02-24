@@ -69,11 +69,12 @@ line = [
     setTimeout(function() {
       cb('last');
       console.log(line);
-       // line =  ['first', 'last']
+       
     }, 200);
   }
 ]
 sas(line);
+// line =  ['first', 'last']
 ```
 否则，当前元素会被替换为一个数组分别对应arguments。
 例：
@@ -86,7 +87,7 @@ function httpCreate(cb) {
 	console.log('Server running at http://127.0.0.1:1337/');
 }
 function OK(cb) {
-	var res= this[0][1];
+	var res= this[0][1];//注意：this指向的不是全局。
 	res.end('OK');
 }
 var line = [
@@ -95,7 +96,6 @@ var line = [
 ];
 sas(line);
 ```
-注意：this指向的不是全局。
 - 基本元素若为其它类型而`opt`iterator不为true的话，会抛出一个错误。
 
 第二个参数 `opt` 是一个对象,可选：
