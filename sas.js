@@ -9,7 +9,7 @@ function sas(arr, opt) {
   opt = opt || {};
   var debug = opt.debug || sas.debug,
     C_stop = false;
-  //DEBUG 1 共五处 
+  //DEBUG 1 共六处 
   if (debug) {
     _color(1, '\n开始', 22);
     var C_START = Date.now(),
@@ -49,7 +49,7 @@ function sas(arr, opt) {
         ext.path.splice(0, 0, ps[0]);
         ps = ps[3];
       }
-      ext.parents = function(num) {
+/*      ext.parents = function(num) {
         if (num >= j) {
           return;
         }
@@ -58,7 +58,7 @@ function sas(arr, opt) {
           ps = ps[3];
         }
         return ps;
-      }
+      }*/
     }
     //DEBUG 2
     if (debug) {
@@ -114,6 +114,8 @@ function sas(arr, opt) {
 
         function _cb(result) {
           if (C_stop) {
+            //DEBUG 6
+            debug && _color(91, path + '\t' + a_or_sa_str + ':' + result);
             return;
           }
           if (result === '$STOP') {
