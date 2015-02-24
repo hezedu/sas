@@ -46,7 +46,7 @@ sas(plan);
 ## 详细说明
 
 ### sas(arr,opt)
-第一个参数 `arr` 是一个数组,包含三种元素:
+第一个参数 __arr__ 是一个数组,包含三种元素:
 
 - 数组Array:代表同步sync(因为有序)
 - 对象Object:代表异步async(因为有key,顺序乱了也没事)
@@ -112,7 +112,7 @@ sas(line);
 ```
 - 基本元素若为其它类型而`opt`iterator不为true的话，会抛出一个错误。
 
-第二个参数 `opt` 是一个对象,可选：
+第二个参数 __opt__ 是一个对象,可选：
 
 - `debug:bool` 强大的追踪。不管是异步还是同步都能追踪到，默认为false。
 前面的例子:
@@ -132,7 +132,7 @@ function test(opt){
   }
 }
 ```
-如果 `arr` 里的基本元素type不为function，iterator将会被调用。
+如果 __arr__ 里的基本元素type不为function，iterator将会被调用。
 前面的例子:
 ```javascript
 var plan = [
