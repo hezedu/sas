@@ -24,7 +24,50 @@ function sas(arr, opt) {
     if (C_stop) {
       return;
     }
+    var ext = {
+        index: i,
+        path: [i]
+      },
+      j = 0,
+      ps, isSP = false;
+    if (parents) {
+      ps = parents;
+      //ext.parent = parents[1];
+      while (ps) {
+        j++;
+        if (!isSP && typeof ps[0] === 'number') {
+          ext.Sparent = ps[1];
+          isSP = true;
+        }
+        ext.path.splice(0, 0, ps[0]);
+        ps = ps[3];
+      }
+      ext.parents = function(num) {
+        if (num >= j) {
+          return;
+        }
+        ps = parents;
+        for (var x = 0; x < num;) {
+          ps = ps[3];
+        }
+        return ps;
+      }
+    }
+    //DEBUG 2
+    if (debug) {
+      var _start = Date.now();
+      var path = ext.path.join('/');
+      var a_or_sa_c = 90,
+        a_or_sa_str = 'AS';
+      if (typeof i === 'number') {
+        a_or_sa_c = 37;
+        a_or_sa_str = 'S ';
+      }
+    }
     var ty = Object.prototype.toString.call(t[i]).slice(8, -1);
+    if (ty !== 'Function') {
+      _color(a_or_sa_c, a_or_sa_str + ':[' + count[0] + '/' + count[1] + ']\t' + path);
+    }
     switch (ty) {
       case 'Object':
         var _count = [0, 0];
@@ -38,46 +81,7 @@ function sas(arr, opt) {
         _dis(_count[1], t[i], _count, arguments);
         break;
       case 'Function':
-        var ext = {
-            index: i,
-            path: [i]
-          },
-          j = 0,
-          ps, isSP = false;
-        if (parents) {
-          ps = parents;
-          //ext.parent = parents[1];
-          while (ps) {
-            j++;
-            if (!isSP && typeof ps[0] === 'number') {
-              ext.Sparent = ps[1];
-              isSP = true;
-            }
-            ext.path.splice(0, 0, ps[0]);
-            ps = ps[3];
-          }
-          ext.parents = function(num) {
-            if (num >= j) {
-              return;
-            }
-            ps = parents;
-            for (var x = 0; x < num;) {
-              ps = ps[3];
-            }
-            return ps;
-          }
-        }
-        //DEBUG 2
-        if (debug) {
-          var _start = Date.now();
-          var path = ext.path.join('/');
-          var a_or_sa_c = 90,
-            a_or_sa_str = 'AS';
-          if (typeof i === 'number') {
-            a_or_sa_c = 37;
-            a_or_sa_str = 'S ';
-          }
-        }
+
         var args = arguments;
         t[i](_cb, ext);
 
