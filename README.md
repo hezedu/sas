@@ -57,4 +57,6 @@ sas(plan);
 
 - `debug:bool` 强大的追踪不管是异步还是同步都能追踪到，开启后会在console显示log，默认为false。
 前面的例子:
-`sas(plan)`
+```javascript
+sas(plan,{debug:true})
+```
