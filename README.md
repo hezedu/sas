@@ -52,6 +52,9 @@ __arr__
 
 - 数组Array:代表同步sync(因为有序)
 - 对象Object:代表异步async(因为有key,顺序乱了也没事)
+
+---------------------------------------
+
 - 函数Function:基本元素，结构为：
 ```javascript
 function(cb,ext){
