@@ -50,12 +50,23 @@ sas(plan);
 
 - 数组Array:代表同步sync(因为有序)
 - 对象Object:代表异步async(因为有key,顺序乱了也没事)
-- 函数Function:基本元素，处理回调callback
+- 函数Function:基本元素，结构为：
+```javascript
+function(cb,ext){
+}
+```
+  - cb(result)为回调，如果`arguments.length<=1`的话，当前元素会被替换为result。
+否则，当前元素会被替换为一个数组分别对应arguments。
+
+例：
+```javascript
+
+```
 - 基本元素若为其它类型而`opt`iterator不为true的话，会抛出一个错误。
 
 第二个参数 `opt` 是一个对象,可选：
 
-- `debug:bool` 强大的追踪不管是异步还是同步都能追踪到，开启后会在，默认为false。
+- `debug:bool` 强大的追踪。不管是异步还是同步都能追踪到，默认为false。
 前面的例子:
 ```javascript
 sas(plan,{debug:true});
