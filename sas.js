@@ -7,21 +7,20 @@ function sas(arr, opt) {
     _color(1, '开始', 22);
     var C_START = Date.now(),
       C_time = 0;
-function _color(c, str, b) {
-      b = b || 39;
-      if (typeof window !== 'undefined') {
-        console.log(str);
-      } else {
-        console.log('\u001b[' + c + 'm' + str + '\u001b[' + b + 'm');
+      
+  function _color(c, str, b) {
+        b = b || 39;
+        if (typeof window !== 'undefined') {
+          console.log(str);
+        } else {
+          console.log('\u001b[' + c + 'm' + str + '\u001b[' + b + 'm');
+        }
       }
     }
-  }
-
   var C_count = [arr.length, 0];
   _dis(C_count[1], arr, C_count);
 
   function _dis(i, t, count, parents) {
-
     if(C_stop){
       return;
     }
@@ -45,7 +44,6 @@ function _color(c, str, b) {
           },
           j = 0,
           ps,isSP=false;
-
         if (parents) {
           ps = parents;
           //ext.parent = parents[1];
@@ -119,7 +117,6 @@ function _color(c, str, b) {
             }
             t[i]= result_tmp;
           }
-          
           count[1] ++;
           //DEBUG 5
           if (debug) {
