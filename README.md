@@ -56,8 +56,26 @@ function(cb,ext){
 }
 ```
 `cb(result)` 为回调，如果`arguments.length<=1`的话，当前元素会被替换为result。
-否则，当前元素会被替换为一个数组分别对应arguments。
+```javascript
+var line;
 
+line = [
+  function(cb) {
+    setTimeout(function() {
+      cb('first');
+    }, 200);
+  },
+  function(cb) {
+    setTimeout(function() {
+      cb('last');
+      console.log(line);
+       // line =  ['first', 'last']
+    }, 200);
+  }
+]
+sas(line);
+```
+否则，当前元素会被替换为一个数组分别对应arguments。
 例：
 ```javascript
 var sas = require('../sas');
@@ -77,7 +95,7 @@ var line = [
 ];
 sas(line);
 ```
-注意：活用this.
+注意：this指向的不是全局。
 - 基本元素若为其它类型而`opt`iterator不为true的话，会抛出一个错误。
 
 第二个参数 `opt` 是一个对象,可选：
