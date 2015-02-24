@@ -46,7 +46,9 @@ sas(plan);
 ## 详细说明
 
 ### sas(arr,opt)
-第一个参数 __arr__ 是一个数组,包含三种元素:
+__arr__
+
+第一个参数是一个数组,包含三种元素:
 
 - 数组Array:代表同步sync(因为有序)
 - 对象Object:代表异步async(因为有key,顺序乱了也没事)
@@ -103,7 +105,7 @@ sas(line);
 `ext`是一个对象，可选。提供当前元素导航。目前有：
 
 * `index` 当前元素index;
-* `path` 是一个数组，包含所有当前元素到 `arr` 的key和index值。
+* `path` 是一个数组，包含所有当前元素到 __arr__ 的key和index值。
 * `Sparent` 是当前元素第一个数组父级。如前例：
 ```javascript
     if (ext.Sparent) {//用之前先判定有没有。
@@ -112,7 +114,9 @@ sas(line);
 ```
 - 基本元素若为其它类型而`opt`iterator不为true的话，会抛出一个错误。
 
-第二个参数 __opt__ 是一个对象,可选：
+__opt__
+
+第二个参数  是一个对象,可选：
 
 - `debug:bool` 强大的追踪。不管是异步还是同步都能追踪到，默认为false。
 前面的例子:
