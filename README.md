@@ -55,7 +55,9 @@ sas(plan);
 function(cb,ext){
 }
 ```
-`cb(result)` 为回调，如果`arguments.length<=1`的话，当前元素会被替换为result。
+__cb(result)__ 
+
+回调，如果`arguments.length<=1`的话，当前元素会被替换为result。
 ```javascript
 var line;
 
@@ -96,11 +98,24 @@ var line = [
 ];
 sas(line);
 ```
-__魔法回调__
+魔法字符串
 
-`cb('$STOP')` 停止。如果result==='$STOP'，同步会立刻停止，已执行的异步callback将不做处理直接retrun。
+如果想到中止程序的话，就`cb('$STOP')` 。同步会立刻停止，已执行的异步callback将不做处理直接retrun。
 - 基本元素若为其它类型而`opt`iterator不为true的话，会抛出一个错误。
 
+__ext__
+`ext`，是一个对象，可选。提供当前元素导航。
+
+目前有：
+
+* `index` 当前元素index;
+* `path` 是一个数组，包含所有当前元素到 `arr` 的key和index值。
+* `Sparent` 是当前元素第一个数组父级。如前例：
+```javascript
+    if (ext.Sparent) {//用之前先判定有没有。
+      path = ext.Sparent[0] + path;
+    }
+```
 第二个参数 `opt` 是一个对象,可选：
 
 - `debug:bool` 强大的追踪。不管是异步还是同步都能追踪到，默认为false。
