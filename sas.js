@@ -4,7 +4,7 @@ function sas(arr, opt) {
     C_stop = false;
   //DEBUG 1 共五处 
   if (debug) {
-    _color(1, '开始', 22);
+    _color(1, '\n开始', 22);
     var C_START = Date.now(),
       C_time = 0;
 
