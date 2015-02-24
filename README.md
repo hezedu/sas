@@ -1,246 +1,67 @@
 # Sas.js
 Sas 是一个可以递归的(同/异)步结合 的Function。
 S代表sync/同步 AS代表async/异步。
-可以用在[Node.js](http://nodejs.org) ,也可用用在前端。
+可以用在[Node.js](http://nodejs.org) `npm install sas`,也可用用在前端。
 
-- [Node]: `npm install sas`
-- [前端]: `<script src="$youpath/sas.js"></script>`
-
-
-Async provides around 20 functions that include the usual 'functional'
-suspects (`map`, `reduce`, `filter`, `each`…) as well as some common patterns
-for asynchronous control flow (`parallel`, `series`, `waterfall`…). All these
-functions assume you follow the Node.js convention of providing a single
-callback as the last argument of your `async` function.
-
-
-## Quick Examples
-
+## 例子Examples
+nodejs全部用异步方法`mkdir`创建目录树,先创建一个根目录,再在根目录下创建三子目录,再在三子目录下各创建三子目录.
 ```javascript
-async.map(['file1','file2','file3'], fs.stat, function(err, results){
-    // results is now an array of stats for each file
-});
+var sas = require('../sas');
+var fs = require('fs');
 
-async.filter(['file1','file2','file3'], fs.exists, function(results){
-    // results now equals an array of the existing files
-});
-
-async.parallel([
-    function(){ ... },
-    function(){ ... }
-], callback);
-
-async.series([
-    function(){ ... },
-    function(){ ... }
-]);
-```
-
-There are many more functions available so take a look at the docs below for a
-full list. This module aims to be comprehensive, so if you feel anything is
-missing please create a GitHub issue for it.
-
-## Common Pitfalls
-
-### Binding a context to an iterator
-
-This section is really about `bind`, not about `async`. If you are wondering how to
-make `async` execute your iterators in a given context, or are confused as to why
-a method of another library isn't working as an iterator, study this example:
-
-```js
-// Here is a simple object with an (unnecessarily roundabout) squaring method
-var AsyncSquaringLibrary = {
-  squareExponent: 2,
-  square: function(number, callback){ 
-    var result = Math.pow(number, this.squareExponent);
-    setTimeout(function(){
-      callback(null, result);
-    }, 200);
-  }
-};
-
-async.map([1, 2, 3], AsyncSquaringLibrary.square, function(err, result){
-  // result is [NaN, NaN, NaN]
-  // This fails because the `this.squareExponent` expression in the square
-  // function is not evaluated in the context of AsyncSquaringLibrary, and is
-  // therefore undefined.
-});
-
-async.map([1, 2, 3], AsyncSquaringLibrary.square.bind(AsyncSquaringLibrary), function(err, result){
-  // result is [1, 4, 9]
-  // With the help of bind we can attach a context to the iterator before
-  // passing it to async. Now the square function will be executed in its 
-  // 'home' AsyncSquaringLibrary context and the value of `this.squareExponent`
-  // will be as expected.
-});
-```
-
-## Download
-
-The source is available for download from
-[GitHub](http://github.com/caolan/async).
-Alternatively, you can install using Node Package Manager (`npm`):
-
-    npm install async
-
-__Development:__ [async.js](https://github.com/caolan/async/raw/master/lib/async.js) - 29.6kb Uncompressed
-
-## In the Browser
-
-So far it's been tested in IE6, IE7, IE8, FF3.6 and Chrome 5. 
-
-Usage:
-
-```html
-<script type="text/javascript" src="async.js"></script>
-<script type="text/javascript">
-
-    async.map(data, asyncProcess, function(err, results){
-        alert(results);
-    });
-
-</script>
-```
-
-## Documentation
-
-### Collections
-
-* [`each`](#each)
-* [`eachSeries`](#eachSeries)
-* [`eachLimit`](#eachLimit)
-* [`map`](#map)
-* [`mapSeries`](#mapSeries)
-* [`mapLimit`](#mapLimit)
-* [`filter`](#filter)
-* [`filterSeries`](#filterSeries)
-* [`reject`](#reject)
-* [`rejectSeries`](#rejectSeries)
-* [`reduce`](#reduce)
-* [`reduceRight`](#reduceRight)
-* [`detect`](#detect)
-* [`detectSeries`](#detectSeries)
-* [`sortBy`](#sortBy)
-* [`some`](#some)
-* [`every`](#every)
-* [`concat`](#concat)
-* [`concatSeries`](#concatSeries)
-
-### Control Flow
-
-* [`series`](#seriestasks-callback)
-* [`parallel`](#parallel)
-* [`parallelLimit`](#parallellimittasks-limit-callback)
-* [`whilst`](#whilst)
-* [`doWhilst`](#doWhilst)
-* [`until`](#until)
-* [`doUntil`](#doUntil)
-* [`forever`](#forever)
-* [`waterfall`](#waterfall)
-* [`compose`](#compose)
-* [`seq`](#seq)
-* [`applyEach`](#applyEach)
-* [`applyEachSeries`](#applyEachSeries)
-* [`queue`](#queue)
-* [`priorityQueue`](#priorityQueue)
-* [`cargo`](#cargo)
-* [`auto`](#auto)
-* [`retry`](#retry)
-* [`iterator`](#iterator)
-* [`apply`](#apply)
-* [`nextTick`](#nextTick)
-* [`times`](#times)
-* [`timesSeries`](#timesSeries)
-
-### Utils
-
-* [`memoize`](#memoize)
-* [`unmemoize`](#unmemoize)
-* [`log`](#log)
-* [`dir`](#dir)
-* [`noConflict`](#noConflict)
-
-
-## Collections
-
-<a name="forEach" />
-<a name="each" />
-### each(arr, iterator, callback)
-
-Applies the function `iterator` to each item in `arr`, in parallel.
-The `iterator` is called with an item from the list, and a callback for when it
-has finished. If the `iterator` passes an error to its `callback`, the main
-`callback` (for the `each` function) is immediately called with the error.
-
-Note, that since this function applies `iterator` to each item in parallel,
-there is no guarantee that the iterator functions will complete in order.
-
-__Arguments__
-
-* `arr` - An array to iterate over.
-* `iterator(item, callback)` - A function to apply to each item in `arr`.
-  The iterator is passed a `callback(err)` which must be called once it has 
-  completed. If no error has occurred, the `callback` should be run without 
-  arguments or with an explicit `null` argument.
-* `callback(err)` - A callback which is called when all `iterator` functions
-  have finished, or an error occurs.
-
-__Examples__
-
-
-```js
-// assuming openFiles is an array of file names and saveFile is a function
-// to save the modified contents of that file:
-
-async.each(openFiles, saveFile, function(err){
-    // if any of the saves produced an error, err would equal that error
-});
-```
-
-```js
-// assuming openFiles is an array of file names 
-
-async.each(openFiles, function(file, callback) {
-  
-  // Perform operation on file here.
-  console.log('Processing file ' + file);
-  
-  if( file.length > 32 ) {
-    console.log('This file name is too long');
-    callback('File name too long');
-  } else {
-    // Do work to process file here
-    console.log('File processed');
-    callback();
-  }
-}, function(err){
-    // if any of the file processing produced an error, err would equal that error
-    if( err ) {
-      // One of the iterations produced an error.
-      // All processing will now stop.
-      console.log('A file failed to process');
-    } else {
-      console.log('All files have been processed successfully');
+var mktree = function(path) {
+  return function(cb, ext) {
+    if (ext.Sparent) {
+      path = ext.Sparent[0] + path;
     }
-});
+    fs.mkdir(path, 777, function(err, result) {
+      if (err) {
+        return cb('$STOP');
+      }
+      cb(path);
+    });
+  }
+}
+var plan = [
+  mktree(__dirname + '/root' + Date.now()), {
+    '1': [mktree('/1'), {
+      '1-1': mktree('/1-1'),
+      '1-2': mktree('/1-2'),
+      '1-3': mktree('/1-3')
+    }],
+    '2': [mktree('/2'), {
+      '1-1': mktree('/2-1'),
+      '1-2': mktree('/2-2'),
+      '1-3': mktree('/2-3')
+    }],
+    '3': [mktree('/3'), {
+      '1-1': mktree('/3-1'),
+      '1-2': mktree('/3-2'),
+      '1-3': mktree('/3-3')
+    }]
+  }
+];
+sas(plan);
 ```
+## 详细说明
 
----------------------------------------
+### sas(arr,opt)
+第一个参数 `arr` 是一个数组,包含三种元素:
+-数组Array:代表同步sync(因为有序)
+-对象Object:代表异步async(因为有key,顺序乱了也没事)
+-函数Function:处理回调callback.
+-若为其它类型而`opt` 没有iterator 属性的话,会抛出一个错误.
 
-<a name="forEachSeries" />
-<a name="eachSeries" />
-### eachSeries(arr, iterator, callback)
+第二个参数 `opt` 是一个对象,可选:
+-`debug:bool` 强大的追踪器,不管是异步还是同步都能追踪到,开启后会在console显示log.
 
-The same as [`each`](#each), only `iterator` is applied to each item in `arr` in
-series. The next `iterator` is only called once the current one has completed. 
-This means the `iterator` functions will complete in order.
+前面的例子, 默认为false; 
 
 
----------------------------------------
 
-<a name="forEachLimit" />
-<a name="eachLimit" />
+
+
+
 ### eachLimit(arr, limit, iterator, callback)
 
 The same as [`each`](#each), only no more than `limit` `iterator`s will be simultaneously 

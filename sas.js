@@ -139,7 +139,8 @@ function sas(arr, opt) {
           t[i] = opt.iterator(t[i]);
           _dis.apply(null, arguments);
         } else {
-          count[1] ++;
+          throw new Error('The first parameter not contains the type for the '+ty+' element.');
+          //count[1] ++;
         }
     }
   }
