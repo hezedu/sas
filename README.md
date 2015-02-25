@@ -13,12 +13,12 @@ var fs = require('fs');
 
 var mktree = function(path) {
   return function(cb, ext) {
-    if (ext.Sparent) {//Sparent为this的第一个数组父级
+    if (ext.Sparent) {
       path = ext.Sparent[0] + path;
     }
     fs.mkdir(path, 777, function(err, result) {
       if (err) {
-        return cb('$STOP');//魔法字符串，会中止程序
+        return cb('$STOP');
       }
       cb(path);
     });
