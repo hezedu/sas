@@ -8,7 +8,7 @@ nodejs全部用异步方法`mkdir`创建目录树。
 
 先创建一个根目录，再在根目录下创建三子目录，再在三子目录下各创建三子目录。
 ```javascript
-var sas = require('../sas');
+var sas = require('sas');
 var fs = require('fs');
 
 var mktree = function(path) {
@@ -87,7 +87,7 @@ sas(line);
 如果arguments.length>1，当前元素会被替换为一个数组。
 例：
 ```javascript
-var sas = require('../sas');
+var sas = require('sas');
 var http = require('http');
 
 function httpCreate(cb) {
