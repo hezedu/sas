@@ -49,12 +49,12 @@ sas(plan);
 __arr__
 
 第一个参数是一个数组,包含三种元素:
-
 - 数组Array:代表同步sync(因为有序)
 - 对象Object:代表异步async(因为有key,顺序乱了也没事)
 - 函数Function:基本元素，结构为：
 ```javascript
 function(cb,ext){
+
 }
 ```
 `cb(result)`回调，如果arguments.length<=1的话，当前元素会被替换为result。例：
