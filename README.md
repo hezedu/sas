@@ -4,7 +4,9 @@ S代表sync/同步 AS代表async/异步。
 可以用在[Node.js](http://nodejs.org) `npm install sas`,也可用用在前端。
 
 ## 快速示例
-nodejs全部用异步方法`mkdir`创建目录树.先创建一个根目录,再在根目录下创建三子目录,再在三子目录下各创建三子目录.
+nodejs全部用异步方法`mkdir`创建目录树。
+
+先创建一个根目录，再在根目录下创建三子目录，再在三子目录下各创建三子目录。
 ```javascript
 var sas = require('../sas');
 var fs = require('fs');
