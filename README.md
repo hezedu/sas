@@ -80,7 +80,11 @@ line = [
 sas(line);
 // line =  ['first', 'last']
 ```
-否则，当前元素会被替换为一个数组分别对应arguments。
+魔法参数：
+
+如果想到中止程序的话，就`cb('$STOP')` 。同步会立刻停止，已执行的异步callback将直接retrun。
+
+如果arguments.length>1，当前元素会被替换为一个数组分别对应arguments。
 例：
 ```javascript
 var sas = require('../sas');
@@ -100,8 +104,6 @@ var line = [
 ];
 sas(line);
 ```
-如果想到中止程序的话，就`cb('$STOP')` 。同步会立刻停止，已执行的异步callback将不做处理直接retrun。
-
 `ext`是一个对象，可选。提供当前元素导航。目前有：
 
 	`index` 当前元素index;
