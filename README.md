@@ -73,12 +73,11 @@ line = [
     setTimeout(function() {
       cb('last');
       console.log(line);
-       
+      // line =  ['first', 'last']
     }, 200);
   }
 ]
 sas(line);
-// line =  ['first', 'last']
 ```
 魔法参数：
 
