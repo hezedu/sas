@@ -125,7 +125,7 @@ __opt__
 第二个参数是一个对象,可选：
 
 `debug:bool` 强大的追踪。不管是异步还是同步都能追踪到，默认为false。
-前面的例子:
+第一个的例子:
 ```javascript
 sas(plan,{debug:true});
 ```
@@ -144,7 +144,7 @@ function test(opt){
 }
 ```
 如果 __arr__ 里的基本元素type不为function，iterator将会被调用。
-前面的例子:
+第一个例子:
 ```javascript
 var plan = [
 	__dirname + '/root' + Date.now(), {
