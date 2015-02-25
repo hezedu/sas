@@ -83,7 +83,7 @@ sas(line);
 
 如果想到中止程序的话，就`cb('$STOP')` 。同步会立刻停止，已执行的异步callback将直接retrun。
 
-如果arguments.length>1，当前元素会被替换为一个数组分别对应arguments。
+如果arguments.length>1，当前元素会被替换为一个数组。
 例：
 ```javascript
 var sas = require('../sas');
