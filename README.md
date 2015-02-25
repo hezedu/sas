@@ -106,9 +106,7 @@ sas(line);
 `ext`是一个对象，可选。提供当前元素导航。目前有：
 
 	`index` 当前元素index;
-	
-	`path` 是一个数组，包含所有当前元素到 __arr__ 的key和index值。
-	
+	`path` 是一个数组，包含所有当前元素到root的key和index值。
 	`Sparent` 是当前元素第一个数组父级。如前例：
 ```javascript
     if (ext.Sparent) {//用之前先判定有没有。
