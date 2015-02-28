@@ -60,6 +60,7 @@ function sas(arr, opt) {
         return ps;
       }*/
     }
+    var ty = Object.prototype.toString.call(t[i]).slice(8, -1);
     //DEBUG 2
     if (debug) {
       var _start = Date.now();
@@ -70,10 +71,9 @@ function sas(arr, opt) {
         a_or_sa_c = 37;
         a_or_sa_str = 'S ';
       }
-    }
-    var ty = Object.prototype.toString.call(t[i]).slice(8, -1);
-    if (ty !== 'Function') {
-      _color(a_or_sa_c, a_or_sa_str + ':[' + count[0] + '/' + count[1] + ']\t' + path);
+      if (ty !== 'Function') {
+        _color(a_or_sa_c, a_or_sa_str + ':[' + count[0] + '/' + count[1] + ']\t' + path);
+      }
     }
     switch (ty) {
       case 'Object':
