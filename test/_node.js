@@ -27,8 +27,23 @@ line = [
   },
   test('同步end')
 ]
+var linend = [
+  test('同步start'),
+  test('同步1'), {
+    '2-1': test('异步2-1'),
+    '2-2': test('异步2-2'),
+    '2-3': test('异步2-3'),
+    '2-4': [
+      test('同步2-4-1'),
+      test('$END'),
+      test('同步2-4-3')
+    ],
+    '2-5': test('异步2-5')
+  },
+  test('同步end')
+]
 
-line2 = [
+var line2 = [
   test('同步start'), {
     '2-1': [test('异步2-1-1'), test('异步2-2-2'), test('异步2-3-3')],
     '2-3': [

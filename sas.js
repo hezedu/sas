@@ -99,7 +99,7 @@ function sas(arr, opt) {
               _next_tick.apply(null, parents);
             } else if (debug) { //DEBUG 3
               _color(1, '结束', 22);
-              _color(96, '统计：' + C_time + 'ms');
+              _color(96, '回调统计：' + C_time + 'ms');//所有回调的时间
               var time2 = Date.now() - C_START;
               _color(96, '实计用时：' + time2 + 'ms');
               time2 = C_time - time2;
@@ -118,11 +118,21 @@ function sas(arr, opt) {
             debug && _color(91, path + '\t' + a_or_sa_str + ':' + result);
             return;
           }
-          if (result === '$STOP') {
-            //DEBUG 4
-            debug && _color(91, path + '\t' + a_or_sa_str + ':' + result);
+          switch(result){//魔法字符串
+            case '$STOP'://中止整个程序
+            debug && _color(91, path + '\t' + a_or_sa_str + ':' + result);//DEBUG 4
             return C_stop = true;
+            break;
+            case '$END'://结束 this
+            count[1]=count[0];
+            break;
+            default:
+            count[1] ++;
           }
+/*          if (result === '$STOP') {
+            //DEBUG 4
+
+          }*/
           if (arguments.length < 2) {
             t[i] = result;
           } else {
@@ -132,7 +142,10 @@ function sas(arr, opt) {
             }
             t[i] = result_tmp;
           }
-          count[1] ++;
+/*          count[1] ++;
+          if(result === '$END'){
+            count[1]=count[0];
+          }*/
           //DEBUG 5
           if (debug) {
             var time = Date.now() - _start;
