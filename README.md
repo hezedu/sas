@@ -79,10 +79,9 @@ line = [
 ]
 sas(line);
 ```
-魔法参数$：
-
-如果想到中止程序的话，就`cb('$STOP')` 。同步会立刻停止，已执行的异步callback将直接retrun。
-
+魔法字$：
+`$STOP`: 中止程序
+`$END`: 中止this
 
 如果arguments.length>1，当前元素会被替换为一个数组。
 例：
@@ -107,12 +106,12 @@ sas(line);
 `ext`是一个对象，可选。提供当前元素导航。目前有：
 
 	`index` 当前元素index;
-	
 	`path` 是一个数组，包含所有当前元素到root的key和index值。
-	
-	`Sparent` 是当前元素第一个数组父级。如第一个例子：
+	`parent` 父元素
+	`pIndex` 父元素 index
+	`Sparent` 是当前元素第一个同步的父级。如第一个例子：
 ```javascript
-    if (ext.Sparent) {//用之前先判定有没有。
+    if (ext.Sparent) {
       path = ext.Sparent[0] + path;
     }
 ```
