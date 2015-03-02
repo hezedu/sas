@@ -56,7 +56,7 @@ sas(plan);
 #详细说明
 
 ## sas只有一个function: 
-#sas(arr,opt)
+#sas(arr,opt);
 ##arr
 
 第一个参数是一个数组,包含三种元素:
