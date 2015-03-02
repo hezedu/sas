@@ -55,6 +55,15 @@ var line2 = [
   test('同步end')
 ]
 
-sas(line, {
+var linetest = [
+  function(cb){
+    cb('1');
+  },
+  function(cb){
+    cb('2');
+  }
+]
+
+sas(linetest, {
   debug: true
 });

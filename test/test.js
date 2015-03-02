@@ -5,7 +5,4 @@ function test(cb){
 
   },200);
 }
-
-test(function(str){
-  console.log(str);
-});
+console.log()
