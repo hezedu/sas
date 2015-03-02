@@ -89,8 +89,9 @@ line = [
 ]
 sas(line);
 ```
-魔法字$：
+__魔法字$__：
 `$STOP`: 中止程序
+
 `$END`: 中止this
 
 如果arguments.length>1，当前元素会被替换为一个数组。
