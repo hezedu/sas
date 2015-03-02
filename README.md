@@ -68,7 +68,7 @@ function(cb,ext){
 
 }
 ```
-`cb(result)`回调，如果arguments.length<=1的话，当前元素会被替换为result。例：
+###cb 回调，如果arguments.length<=1的话，当前元素会被替换为result。例：
 ```javascript
 var line;
 
@@ -112,7 +112,7 @@ var line = [
 ];
 sas(line);
 ```
-`ext`是一个对象，可选。提供当前元素导航。目前有：
+###ext是一个对象，可选。提供当前元素导航。目前有：
 
 	`index` 当前元素index;
 	`path` 是一个数组，包含所有当前元素到root的key和index值。
