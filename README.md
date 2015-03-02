@@ -55,7 +55,7 @@ sas(plan);
 ```
 ## 详细说明
 
-### sas(arr,opt)
+### sas只有一个function: sas(arr,opt)
 __arr__
 
 第一个参数是一个数组,包含三种元素:
