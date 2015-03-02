@@ -68,7 +68,8 @@ function(cb,ext){
 
 }
 ```
-###cb 回调，如果arguments.length<=1的话，当前元素会被替换为result。例：
+###cb 
+回调，必须。如果arguments.length<=1的话，当前元素会被替换为result。例：
 ```javascript
 var line;
 
