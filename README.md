@@ -53,10 +53,10 @@ var plan = [
 ];
 sas(plan);
 ```
-## 详细说明
+#详细说明
 
-### sas只有一个function: sas(arr,opt)
-__arr__
+## sas只有一个function: sas(arr,opt)
+###arr
 
 第一个参数是一个数组,包含三种元素:
 - 数组Array:代表同步sync(因为有序)
