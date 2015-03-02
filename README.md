@@ -55,8 +55,9 @@ sas(plan);
 ```
 #详细说明
 
-## sas只有一个function: sas(arr,opt)
-###arr
+## sas只有一个function: 
+#sas(arr,opt)
+##arr
 
 第一个参数是一个数组,包含三种元素:
 - 数组Array:代表同步sync(因为有序)
@@ -126,9 +127,9 @@ sas(line);
 
 ---------------------------------------
 
-基本元素若为其它类型而__opt__属性iterator不为true的话，会抛出一个错误。
+基本元素若为其它类型而##opt属性iterator不为true的话，会抛出一个错误。
 
-__opt__
+##opt
 
 第二个参数是一个对象,可选：
 
@@ -151,7 +152,7 @@ function test(opt){
   }
 }
 ```
-如果 __arr__ 里的基本元素type不为function，iterator将会被调用。
+如果 ##arr 里的基本元素type不为function，iterator将会被调用。
 第一个例子:
 ```javascript
 var plan = [
@@ -176,5 +177,5 @@ var plan = [
 sas(plan,{iterator:mktree});
 ```
 将会得到相同的结果。
-## 其它
+#其它
 如果`sas.debug＝true`,则debug默认为true。
