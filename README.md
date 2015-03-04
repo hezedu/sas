@@ -96,25 +96,6 @@ __魔法字$__：
 `$END`: 中止this
 
 如果arguments.length>1，当前元素会被替换为一个数组。
-例：
-```javascript
-var sas = require('sas');
-var http = require('http');
-
-function httpCreate(cb) {
-	http.createServer(cb).listen(1337, '127.0.0.1');
-	console.log('Server running at http://127.0.0.1:1337/');
-}
-function OK(cb) {
-	var res= this[0][1];//注意：this指向的不是全局而是当前
-	res.end('OK');
-}
-var line = [
-	httpCreate,
-	OK
-];
-sas(line);
-```
 ###ext是一个对象，可选。提供当前元素导航。目前有：
 
 	`index` 当前元素index;
