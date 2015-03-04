@@ -99,7 +99,7 @@ function sas(arr, opt) {
               _next_tick.apply(null, parents);
             } else if (debug) { //DEBUG 3
               _color(1, '结束', 22);
-              _color(96, '回调统计：' + C_time + 'ms'); //所有回调的时间,有可能因为过快或其它元因统计失误
+              _color(96, '回调统计：' + C_time + 'ms'); //所有回调的时间,有可能因为过快或其它原因统计失误
               var time2 = Date.now() - C_START;
               _color(96, '实计用时：' + time2 + 'ms');
               time2 = C_time - time2;
