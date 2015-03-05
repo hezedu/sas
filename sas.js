@@ -30,16 +30,23 @@ function sas(arr, opt) {
     if (C_stop) {
       return;
     }
+
+//************ ext扩展结束**********************************
     var ext = {
         index: i,
         path: [i]
       },
+
       j = 0,
       ps, isSP = false;
     if (parents) {
       ps = parents;
       ext.parent = parents[1];
       ext.pIndex = parents[0];
+      ext.push=function(fn){
+        count[0]++;
+        ext.parent[ext.pIndex].push(fn);
+      }
       while (ps) {
         j++;
         if (!isSP && typeof ps[0] === 'number') {
@@ -60,6 +67,8 @@ function sas(arr, opt) {
               return ps;
             }*/
     }
+
+//************ ext扩展结束**********************************
     var ty = Object.prototype.toString.call(t[i]).slice(8, -1);
     //DEBUG 2
     if (debug) {
@@ -125,6 +134,7 @@ function sas(arr, opt) {
               break;
             case '$END': //结束 this
               count[1] = count[0];
+              debug && _color(91, path + '\t' + a_or_sa_str + ':' + result);
               break;
             default:
               count[1] ++;
