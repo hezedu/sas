@@ -11,7 +11,7 @@ var dir = __dirname + '/data';
 var initData = 'hello';
 
 function readFile(cb, t) {
-  var path = dir + t.pIndex + '.txt'; // t 就是 this 
+  var path = dir + t.pIndex + '.txt'; // t ＝ 超级 this
   fs.readFile(path, null, function(err, buffer) {
     if (err) {
       console.log('读取失败:' + err);

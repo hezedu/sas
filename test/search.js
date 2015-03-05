@@ -2,103 +2,72 @@ var fs = require('fs');
 var sas = require('../sas');
 
 /*
- * 搜索当前硬盘里 所有 *.avi 文件
- * 跟操作系统哪个快
- * 你猜？
+ * 搜索当前硬盘里 所有名为 sas.js 的文件
+ * 要求搜索全部，包括 '.' 开头的隐藏文件夹
  */
 
 sas.debug = true;
 
-function _search(fs_url) {
+var result = [],
+  find_name = 'sas.js',
+  from = '/';
 
+function _search(fs_url) {
+  console.log("fs_url==="+fs_url);
   return function _stat(cb, t) {
     fs.stat(fs_url, function(err, stat) {
-      if (stat.isDirectory()) {
-        t.parent[t.pIndex] = [readDir(fs_url)]; //替换当前为数组
-        t.reload();
-        cb();
+      try{
+      if(err){
+        console.log('_stat '+err);
+        return cb(fs_url);
       }
+      
+      if (stat.isDirectory()) {
+       
+       t.reload(readDir(fs_url)); //替换当前为数组,并重载当前任务。
+
+        return cb();
+      }
+    }catch(e){
+       cb(fs_url);
+      
+    }
+    cb(fs_url);
     });
   }
-
 }
 
-function readDir(path){
+function readDir(path) {
+
+
   return function(cb, t) {
     fs.readdir(path, function(err, files) {
       if (err) {
+        console.log("readDir "+err)
         cb('$STOP');
       } else {
         var obj = {};
         for (var i = 0, len = files.length; i < len; i++) {
-          obj[path] = files[i];
-        }
-      }
-      t.push(obj);
-      cb();
-    });
-  }
-}
+          var path_ = (path === '/' ) ? path : path+'/';
+          obj['_'+i] = path_+files[i];
 
-
-function init(path, opt) {
-  opt = opt || {};
-
-  return function(cb, t) {
-    fs.stat(path, function(err, stat) {
-      t.push
-      if (stat.isDirectory()) {
-        t.push([path])
-          /*        var As_files={
-                    ''
-                  };*/
-          //t.push()
-        fs.readdir(path, function(err, files) {
-          if (err) {
-            cb('$STOP'); //中止退出
-          } else {
-            for (var i = 0, len = files.length; i < len; i++) {
-              var pathName = path + files[i];
-              if (opt.all && files[i][0] !== '.') { //是否过滤掉系统 . 开头的文件夹。默认是。
-                this[t.index + 1][pathName] = i;
-              }
-            }
-            this[t.index] = []; //动态生成异步
-            cb();
+          if (files[i] === find_name) {
+            result.push(t.path.join('/'));
           }
-        });
-      } else {
+        }
+        console.log('path_= '+path_+files[i]);
+        t.push(obj);
         cb();
       }
     });
   }
 }
 
+var search = [readDir(from)];
 
-
-var searchAvi = [];
-
-fs.stat('/git', function(err, stat) {
-  console.log(JSON.stringify(stat));
-  if (stat.isDirectory()) {
-
-    //t.push()
-    fs.readdir('/git', function(err, files) {
-      if (err) {
-        cb('$STOP'); //中止退出
-      } else {
-        for (var i = 0, len = files.length; i < len; i++) {
-          console.log(files[i]);
-          /*              var pathName = path + files[i];
-                        if (opt.all && files[i][0] !== '.') { //是否过滤掉系统 . 开头的文件夹。默认是。
-                          this[t.index + 1][pathName] = i;
-                        }*/
-        }
-        //this[t.index] = []; //动态生成异步
-        //cb();
-      }
-    });
-  } else {
-    cb();
+sas(search, {
+  iterator:_search,
+  allEnd: function() { //allEnd 在程序完全结束后调用。
+    console.log(result.join('\n'));
   }
 });

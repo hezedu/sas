@@ -31,7 +31,7 @@ function sas(arr, opt) {
       return;
     }
 
-//************ ext扩展结束**********************************
+//************ ext扩展**********************************
     var ext = {
         index: i,
         path: [i]
@@ -43,10 +43,7 @@ function sas(arr, opt) {
       ps = parents;
       ext.parent = parents[1];
       ext.pIndex = parents[0];
-      ext.push=function(fn){
-        count[0]++;
-        ext.parent[ext.pIndex].push(fn);
-      }
+
       while (ps) {
         j++;
         if (!isSP && typeof ps[0] === 'number') {
@@ -67,6 +64,19 @@ function sas(arr, opt) {
               return ps;
             }*/
     }
+    ext.push=function(a){
+        count[0]++;
+        if(ext.parent){
+        ext.parent[ext.pIndex].push(a);
+      }else{
+        count[0]++;
+        arr.push(a);
+      }
+      }
+          ext.reload=function(a){
+        count[1]--;
+        t[i]=a;
+      }
 
 //************ ext扩展结束**********************************
     var ty = Object.prototype.toString.call(t[i]).slice(8, -1);
@@ -106,13 +116,18 @@ function sas(arr, opt) {
             if (parents) {
               parents[2][1] ++;
               _next_tick.apply(null, parents);
-            } else if (debug) { //DEBUG 3
+            } else{
+             if (debug) { //DEBUG 3
               _color(1, '结束', 22);
               _color(96, '回调统计：' + C_time + 'ms'); //所有回调的时间,有可能因为过快或其它原因统计失误
               var time2 = Date.now() - C_START;
               _color(96, '实计用时：' + time2 + 'ms');
               time2 = C_time - time2;
               _color(36, '节省：' + (time2 >= 0 ? time2 : '--') + 'ms');
+            }
+            if(opt.allEnd){
+              opt.allEnd();
+            }
             }
           } else {
             if (typeof i === 'number') {
@@ -134,7 +149,6 @@ function sas(arr, opt) {
               break;
             case '$END': //结束 this
               count[1] = count[0];
-              debug && _color(91, path + '\t' + a_or_sa_str + ':' + result);
               break;
             default:
               count[1] ++;
