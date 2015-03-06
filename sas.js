@@ -73,8 +73,8 @@ function sas(arr, opt) {
         arr.push(a);
       }
       }
-          ext.reload=function(a){
-        count[1]--;
+    ext.reload=function(a){
+        //count[1]--;
         t[i]=a;
       }
 
@@ -149,6 +149,10 @@ function sas(arr, opt) {
               break;
             case '$END': //结束 this
               count[1] = count[0];
+              break;
+            case '$RELOAD': //结束 this
+            _next_tick.apply(null, args);
+              //count[1] = count[0];
               break;
             default:
               count[1] ++;
