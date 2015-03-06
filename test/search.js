@@ -34,13 +34,30 @@ function _fspath(arr,dir) {
 }
 
 
+
+/*
+    if(fspath.substr(0,3)==='///'){
+      fspath=fspath.substr(2);
+    }*/
+
+
 function read_dir(cb, t) {
 
     var fspath =_fspath(t.path,from);
+      if(process.platform ==='linux'){
+
+         if(fspath==='///proc' || fspath==='///dev'){
+           console.log('略过  '+fspath);
+          return cb(fspath);
+
+         }
+        
+    }
 
     fs.readdir(fspath, function(err, files) {
       if (err) {  //一些奇怪的文件夹
         console.log('read_dir Err= ' + err);
+        
         return cb();
       }
       var obj = {};
@@ -68,7 +85,8 @@ function _stat(path) {
     fs.stat(path, function(err, stat) {
       if (err) {//一些奇怪的文件
         console.log('_stat Err= ' + err);
-        return cb();
+        console.log('fspath= ' + path);
+        return cb();  
       }
 
       try {  //一些

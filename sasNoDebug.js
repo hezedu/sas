@@ -7,22 +7,8 @@
  */
 function sas(arr, opt) {
   opt = opt || {};
-  var debug = opt.debug || sas.debug,
-    C_stop = false;
-  //DEBUG 1 共六处 
-  if (debug) {
-    _color(1, '\n开始', 22);
-    var C_START = Date.now(),
-      C_time = 0;
-    function _color(c, str, b) {
-      b = b || 39;
-      if (typeof window !== 'undefined') {
-        console.log(str);
-      } else {
-        console.log('\u001b[' + c + 'm' + str + '\u001b[' + b + 'm');
-      }
-    }
-  }
+  //var debug = opt.debug || sas.debug,
+   var C_stop = false;
   var C_count = [arr.length, 0];
   _dis(C_count[1], arr, C_count);
 
@@ -31,7 +17,27 @@ function sas(arr, opt) {
       return;
     }
 
-//************ ext扩展**********************************
+
+    var ty = Object.prototype.toString.call(t[i]).slice(8, -1);
+
+    switch (ty) {
+      case 'Object':
+        var keys=Object.keys(t[i]), keys_len=keys.length, _count = [keys_len, 0];
+        for (var o =0;o<keys_len; o++) {
+          //_count[0] ++;
+          _dis(keys[o], t[i], _count, arguments);
+        }
+        break;
+      case 'Array':
+        var _count = [t[i].length, 0];
+        _dis(_count[1], t[i], _count, arguments);
+        break;
+      case 'Function':
+
+        var args = arguments;
+
+  //************ ext扩展**********************************
+  if(t[i].length>1){
     var ext = {
         index: i,
         path: [i]
@@ -81,39 +87,17 @@ function sas(arr, opt) {
         //count[1]--;
         t[i]=a;
       }
-
+      t[i](_cb, ext);
+  }else{
+    t[i](_cb);
+  }
 //************ ext扩展结束**********************************
-    var ty = Object.prototype.toString.call(t[i]).slice(8, -1);
-    //DEBUG 2
-    if (debug) {
-      var _start = Date.now();
-      var path = ext.path.join('/');
-      var a_or_sa_c = 90,
-        a_or_sa_str = 'AS';
-      if (typeof i === 'number') {
-        a_or_sa_c = 37;
-        a_or_sa_str = 'S ';
-      }
-      if (ty !== 'Function') {
-        _color(a_or_sa_c, a_or_sa_str + ':[' + count[0] + '/' + count[1] + ']\t' + path);
-      }
-    }
-    switch (ty) {
-      case 'Object':
-        var keys=Object.keys(t[i]), keys_len=keys.length, _count = [keys_len, 0];
-        for (var o =0;o<keys_len; o++) {
-          //_count[0] ++;
-          _dis(keys[o], t[i], _count, arguments);
-        }
-        break;
-      case 'Array':
-        var _count = [t[i].length, 0];
-        _dis(_count[1], t[i], _count, arguments);
-        break;
-      case 'Function':
 
-        var args = arguments;
-        t[i](_cb, ext);
+
+
+
+
+        
 
         function _next_tick(i, t, count, parents) {
           if (count[0] === count[1]) {
@@ -121,14 +105,7 @@ function sas(arr, opt) {
               parents[2][1] ++;
               _next_tick.apply(null, parents);
             } else{
-             if (debug) { //DEBUG 3
-              _color(1, '结束', 22);
-              _color(96, '回调统计：' + C_time + 'ms'); //所有回调的时间,有可能因为过快或其它原因统计失误
-              var time2 = Date.now() - C_START;
-              _color(96, '实计用时：' + time2 + 'ms');
-              time2 = C_time - time2;
-              _color(36, '节省：' + (time2 >= 0 ? time2 : '--') + 'ms');
-            }
+
             if(opt.allEnd){
               opt.allEnd();
             }
@@ -142,24 +119,17 @@ function sas(arr, opt) {
 
         function _cb(result,pream) {
           if (C_stop) {
-            //DEBUG 6
-            debug && _color(91, path + '\t' + a_or_sa_str + ':' + result);
             return;
           }
           switch (result) { //魔法字符串
             case '$STOP': //中止整个程序
-              debug && _color(91, path + '\t' + a_or_sa_str + ':' + result); //DEBUG 4
               return C_stop = true;
               break;
             case '$END': //结束 this
               count[1] = count[0];
               break;
             case '$RELOAD': //结束 this
-            //_next_tick.apply(null, args);
-              //count[1] = count[0];
-              //console.log('args1='+args1)
               t[i]= pream;
-              //console.log('arguments='+JSON.stringify(arguments))
               return _dis.apply(null, args);
               break;
             default:
@@ -173,12 +143,6 @@ function sas(arr, opt) {
                 }
                 t[i] = result_tmp;
               }
-          }
-          //DEBUG 5
-          if (debug) {
-            var time = Date.now() - _start;
-            C_time += time;
-            _color(a_or_sa_c, a_or_sa_str + ':[' + count[0] + '/' + count[1] + ']\t' + path + '\t' + time + 'ms');
           }
           _next_tick.apply(null, args);
         }
