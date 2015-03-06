@@ -6,85 +6,89 @@ var sas = require('../sas');
  * 要求搜索全部，包括 '.' 开头的隐藏文件夹
  */
 
-sas.debug = true;
+//sas.debug = true;
 
 var result = [],
   find_name = 'sas.js',
-  from = '/';
+  from = 'D:/WWW/rockmongo';
+
+function _fspath(arr) {
+  var strtmp = '',
+    arr_len = arr.length;
+  for (var i = 0; i < arr_len; i++) {
+    if (typeof arr[i] === 'string') {
+      strtmp += arr[i];
+    }
+  }
+  return strtmp;
+}
 
 
-/*function stat_(files) {
+function read_dir(path) {
   return function(cb, t) {
 
-    fs.stat(files, function(err, stat) {
-      try{
-        if(files.isDirectory()){
-          t.reload()
-        }
+    var fspath =_fspath(t.path);
+   //console.log('\n\nstrtmp' +fspath)
+/*    if (t.Sparent) {
+      var ts0 = t.Sparent[0];
+      ts0 = ts0 === '/' ? '' : ts0;
+      path = ts0 + path;
+    }*/
+    //var _path = (path === '/') ? path : path + '/';
+    fspath= fspath || '/';
+    fs.readdir(fspath, function(err, files) {
+      if (err) {
+        console.log('read_dir Err= ' + err);
+        return cb('$end');
       }
+      var obj = {};
+
+      for (var i = 0, len = files.length; i < len; i++) {
+        var file = files[i];
+        if (file === find_name) {
+          result.push[fspath +'/'+ file];
+        }
+        obj['/' + file] = fspath +'/'+ file;
+      }
+
+      t.push(obj);
+      cb(fspath);
     });
   }
+}
 
-}*/
-
-
-
-function _search(fs_url) {
- 
-  return function _stat(cb, t) {
-    fs.stat(fs_url, function(err, stat) {
+function _stat(path) {
+  return function(cb, t) {
+    fs.stat(path, function(err, stat) {
+      if (err) {
+        console.log('read_dir Err= ' + err);
+        return cb('$end');
+      }
+      console.log('path=='+path);
       try {
-        if (err) {
-          console.log('_stat ' + err);
-          return cb(fs_url);
-        }
-
         if (stat.isDirectory()) {
-           console.log("fs_url===" + fs_url);
-          //t.reload([readDir(fs_url)]); //替换当前为数组,并重载当前任务。
+          /*          t.reload([read_dir(path)]); //替换当前为数组,并重载当前任务。
 
-          return cb('$RELOAD');
+                    return cb('$RELOAD');*/
+          //t.reload([read_dir(path)]); //替换当前为数组,并重载当前任务。
+
+          return cb('$RELOAD', [read_dir(path)]);
         }
       } catch (e) {
-        cb(fs_url);
+        console.log('catch err =' + e.stack);
 
       }
-      cb(fs_url);
+      cb(path);
+
     });
   }
 }
 
-function readDir(path) {
-
-
-  return function(cb, t) {
-    fs.readdir(path, function(err, files) {
-      if (err) {
-        console.log("readDir " + err)
-        cb('$STOP');
-      } else {
-        var obj = {};
-        for (var i = 0, len = files.length; i < len; i++) {
-          var path_ = (path === '/') ? path : path + '/';
-          obj['_' + i] = path_ + files[i];
-
-          if (files[i] === find_name) {
-            result.push(t.path.join('/'));
-          }
-        }
-        console.log('path_= ' + path_ + files[i]);
-        t.push(obj);
-        cb();
-      }
-    });
+//read_dir(from)(function(){},{})
+var plan = [read_dir(from)];
+sas(plan, {
+  iterator: _stat,
+  allEnd:function(){
+    console.log('\n '+result);
   }
-}
-
-var search = [readDir(from)];
-
-sas(search, {
-  iterator: _search,
-  allEnd: function() { //allEnd 在程序完全结束后调用。
-    console.log('result='+result.join('\n'));
-  }
-});
+})
