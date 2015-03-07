@@ -9,7 +9,23 @@ function sas(arr, opt) {
   opt = opt || {};
   var C_stop = false;
 
-  
+  //<DWDEBUG#######################################
+  var debug = opt.debug || sas.debug;
+  if (debug) {
+    _color(1, '\n开始', 22);
+    var C_START = Date.now(),
+      C_time = 0;
+
+    function _color(c, str, b) {
+      b = b || 39;
+      if (typeof window !== 'undefined') {
+        console.log(str);
+      } else {
+        console.log('\u001b[' + c + 'm' + str + '\u001b[' + b + 'm');
+      }
+    }
+  }
+  //########################################DWDEBUG>
 
   var C_count = [arr.length, 0];
   _dis(C_count[1], arr, C_count);
@@ -96,7 +112,30 @@ function sas(arr, opt) {
         }
         //************ ext扩展结束**********************************
 
-        
+        //<DWDEBUG#######################################
+        if (debug) {
+          if (typeof ext === 'undefined') {
+            var ext = {},
+              ps;
+            ext.path = [i];
+            if (parents) {
+              ps = parents;
+              while (ps) {
+                ext.path.splice(0, 0, ps[0]);
+                ps = ps[3];
+              }
+            }
+          }
+          var _start = Date.now();
+          var path = ext.path.join('/');
+          var a_or_sa_c = 90,
+            a_or_sa_str = 'AS';
+          if (typeof i === 'number') {
+            a_or_sa_c = 37;
+            a_or_sa_str = 'S ';
+          }
+        }
+        //########################################DWDEBUG>
 
 
 
@@ -107,7 +146,16 @@ function sas(arr, opt) {
               _next_tick.apply(null, parents);
             } else { //完结
 
-              
+              //<DWDEBUG#######################################
+              if (debug) { //DEBUG 3
+                _color(1, '结束', 22);
+                _color(96, '回调统计：' + C_time + 'ms'); //所有回调的时间,有可能因为过快或其它原因统计失误
+                var time2 = Date.now() - C_START;
+                _color(96, '实计用时：' + time2 + 'ms');
+                time2 = C_time - time2;
+                _color(36, '节省：' + (time2 >= 0 ? time2 : '--') + 'ms');
+              }
+              //########################################DWDEBUG>
 
               if (opt.allEnd) {
                 opt.allEnd();
@@ -148,7 +196,13 @@ function sas(arr, opt) {
               }
           }
 
-          
+          //<DWDEBUG#######################################
+          if (debug) {
+            var time = Date.now() - _start;
+            C_time += time;
+            _color(a_or_sa_c, a_or_sa_str + ':[' + count[0] + '/' + count[1] + ']\t' + path + '\t' + time + 'ms');
+          }
+          //########################################DWDEBUG>
 
           _next_tick.apply(null, args);
         }

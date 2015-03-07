@@ -1,7 +1,7 @@
 var fs = require('fs');
-var sas = require('../sasNoDebug'); //去掉了debug，win8 d盘测试，比不去掉节省近1秒
+var sas = require('../sas'); //去掉了debug，win8 d盘测试，比不去掉节省近1秒
 
-/*var sas = require('../sas');
+/*var sas = require('../sas-debug');
 sas.debug = true; */
 
 /*
