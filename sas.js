@@ -1,10 +1,9 @@
 /*!
- * author:hezedu,
- * Released: jQuery.Released,
- * Date: 2015-02-25,
- * site: 北京,
- *home:http://godmod.cn
- */
+ *version:0.0.11,
+ *author:hezedu,
+ *Released: jQuery.Released,
+ *Date:2015-2-8
+*/
 function sas(arr, opt) {
   opt = opt || {};
   var C_stop = false;
