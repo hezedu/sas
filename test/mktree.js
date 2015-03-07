@@ -1,58 +1,51 @@
-var sas = require('../sas');
+var sas = require('../sas-debug');
 var fs = require('fs');
 
-var mktree = function(path) {
-  return function(cb, ext) {
-    if (ext.Sparent) {
-      path = ext.Sparent[0] + path;
+var dir = __dirname + '/root' + Date.now();
+
+function _mkTree(data) {
+  return function(cb, t) {
+    var fspath = dir + '/' + t.fspath().join('');
+    if (t.index === 0) { //根据this 的index 判定是否为目录
+      fs.mkdir(fspath, 777, function(err, result) {
+        if (err) {
+          return cb('$STOP');
+        }
+        cb();
+      });
+    } else { //创建文件并写入。
+      fs.writeFile(fspath, data, function(err) {
+        if (err) {
+          return cb('$STOP');
+        }
+        cb();
+      });
     }
-    fs.mkdir(path, 777, function(err, result) {
-      if (err) {
-        return cb('$STOP');
-      }
-      cb(path);
-    });
   }
 }
+
+
+
 var plan = [
-  mktree(__dirname + '/root' + Date.now()), {
-    '1': [mktree('/1'), {
-      '1-1': mktree('/1-1'),
-      '1-2': mktree('/1-2'),
-      '1-3': mktree('/1-3')
+  null, {
+    '/1': [null, {
+      '/1-1': 'hello!1-1',
+      '/1-2': 'hello!1-2',
+      '/1-3': 'hello!1-3'
     }],
-    '2': [mktree('/2'), {
-      '2-1': mktree('/2-1'),
-      '2-2': mktree('/2-2'),
-      '2-3': mktree('/2-3')
+    '/2': [null, {
+      '/2-1': 'hello!2-1',
+      '/2-2': 'hello!2-2',
+      '/2-3': 'hello!2-3'
     }],
-    '3': [mktree('/3'), {
-      '3-1': mktree('/3-1'),
-      '3-2': mktree('/3-2'),
-      '3-3': mktree('/3-3')
+    '/3': [null, {
+      '/3-1': 'hello!3-1',
+      '/3-2': 'hello!3-2',
+      '/3-3': 'hello!3-3'
     }]
   }
 ];
 
-var plan2 = [
-  __dirname + '/root' + Date.now(), {
-    '1': ['/1', {
-      '1': '/1-1',
-      '1-2': '/1-2',
-      '1-3': '/1-3'
-    }],
-    '2': ['/2', {
-      '2-1': '/2-1',
-      '2-2': '/2-2',
-      '2-3': '/2-3'
-    }],
-    '3': ['/3', {
-      '3-1': '/3-1',
-      '3-2': '/3-2',
-      '3-3': '/3-3'
-    }]
-  }
-];
 sas(plan, {
-  debug: true,iterator:mktree
+  iterator: _mkTree
 });

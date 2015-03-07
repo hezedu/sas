@@ -1,4 +1,4 @@
-var sas = require('../sas');
+var sas = require('../sas-debug');
 
 
 var r_t = function() {
@@ -64,6 +64,6 @@ var linetest = [
   }
 ]
 
-sas(linetest, {
+sas(line2, {
   debug: true
 });

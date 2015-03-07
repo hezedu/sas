@@ -1,5 +1,5 @@
 /*!
- *version:0.0.11,
+ *version:0.0.12,
  *author:hezedu,
  *Released: jQuery.Released,
  *Date:2015-2-8
@@ -8,7 +8,7 @@ function sas(arr, opt) {
   opt = opt || {};
   var C_stop = false;
 
-    
+  
   var C_count = [arr.length, 0];
   _dis(C_count[1], arr, C_count);
 
@@ -34,11 +34,12 @@ function sas(arr, opt) {
         break;
       case 'Function':
 
+        
         var args = arguments;
 
-
-        //************ ext扩展**********************************
         if (t[i].length > 1) {
+
+          //************ ext扩展**********************************
           var ext = {
               index: i,
               path: [i]
@@ -84,17 +85,29 @@ function sas(arr, opt) {
               //console.log('arrlength='+arr.length)
             }
           }
-          ext.reload = function(a) {
-            //count[1]--;
-            t[i] = a;
+          ext.fspath = function(dir) {
+            var fspath_arr = [],
+              path_arr = this.path;
+            for (var path_i = 0, path_len = path_arr.length; path_i < path_len; path_i++) {
+              if (typeof path_arr[path_i] === 'string') {
+                fspath_arr.push(path_arr[path_i]);
+              }
+            }
+             return fspath_arr;
           }
+
+          //************ ext扩展结束**********************************
+
+          
           t[i](_cb, ext);
         } else {
+
+          
           t[i](_cb);
         }
-        //************ ext扩展结束**********************************
 
-        
+
+
         function _next_tick(i, t, count, parents) {
           if (count[0] === count[1]) {
             if (parents) {

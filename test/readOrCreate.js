@@ -1,17 +1,17 @@
 var fs = require('fs');
-var sas = require('../sas');
+var sas = require('../sas-debug');
 
 /*
  * Read or Create 常见的场景
  *同时读取三个文件，如没有就创建一个新的,并写入一些初始数据。
  */
 
-sas.debug = true;
-var dir = __dirname + '/data';
-var initData = 'hello';
+var dir = __dirname + '/data';//要读取的目录
+var initData = 'hello';//初始化的数据。
+
 
 function readFile(cb, t) {
-  var path = dir + t.pIndex + '.txt'; // 
+  var path = dir + t.pIndex;
   fs.readFile(path, null, function(err, buffer) {
     if (err) {
       console.log('读取失败:' + err);
@@ -38,16 +38,17 @@ function createFile(cb, t) {
   });
 }
 var readOrCreate = [{
-    '/readOrCreate1': [readFile],
-    '/readOrCreate2': [readFile],
-    '/readOrCreate3': [readFile]
+    '/readOrCreate1.txt': [readFile],
+    '/readOrCreate2.txt': [readFile],
+    '/readOrCreate3.txt': [readFile]
   },
   function(cb) {
-    console.log(this[0]);
+    console.log('获取成功。');
+    console.log(this);
     cb();
+    
   }
 ];
 
-//对比log,第一次和之后是不同的。
 
 sas(readOrCreate);

@@ -3,7 +3,7 @@ function sas(arr, opt) {
   var C_stop = false;
 
   //<DWDEBUG#######################################
-  var debug = opt.debug || sas.debug;
+  var debug = opt.debug || sas.debug || true;
   if (debug) {
     _color(1, '\n开始', 22);
     var C_START = Date.now(),
@@ -19,7 +19,7 @@ function sas(arr, opt) {
     }
   }
   //########################################DWDEBUG>
-  
+
   var C_count = [arr.length, 0];
   _dis(C_count[1], arr, C_count);
 
@@ -45,11 +45,36 @@ function sas(arr, opt) {
         break;
       case 'Function':
 
+        //<DWDEBUG#######################################
+        if (debug) {
+          if (typeof ext === 'undefined') {
+            var ext = {},
+              ps;
+            ext.path = [i];
+            if (parents) {
+              ps = parents;
+              while (ps) {
+                ext.path.splice(0, 0, ps[0]);
+                ps = ps[3];
+              }
+            }
+          }
+          var path = ext.path.join('/');
+          var _start = Date.now();
+          var a_or_sa_c = 90,
+            a_or_sa_str = 'AS';
+          if (typeof i === 'number') {
+            a_or_sa_c = 37;
+            a_or_sa_str = 'S ';
+          }
+        }
+        //########################################DWDEBUG>
+
         var args = arguments;
 
-
-        //************ ext扩展**********************************
         if (t[i].length > 1) {
+
+          //************ ext扩展**********************************
           var ext = {
               index: i,
               path: [i]
@@ -95,40 +120,50 @@ function sas(arr, opt) {
               //console.log('arrlength='+arr.length)
             }
           }
-          ext.reload = function(a) {
-            //count[1]--;
-            t[i] = a;
-          }
-          t[i](_cb, ext);
-        } else {
-          t[i](_cb);
-        }
-        //************ ext扩展结束**********************************
-
-        //<DWDEBUG#######################################
-        if (debug) {
-          if (typeof ext === 'undefined') {
-            var ext = {},
-              ps;
-            ext.path = [i];
-            if (parents) {
-              ps = parents;
-              while (ps) {
-                ext.path.splice(0, 0, ps[0]);
-                ps = ps[3];
+          ext.fspath = function(dir) {
+            var fspath_arr = [],
+              path_arr = this.path;
+            for (var path_i = 0, path_len = path_arr.length; path_i < path_len; path_i++) {
+              if (typeof path_arr[path_i] === 'string') {
+                fspath_arr.push(path_arr[path_i]);
               }
             }
+             return fspath_arr;
           }
-          var _start = Date.now();
-          var path = ext.path.join('/');
-          var a_or_sa_c = 90,
-            a_or_sa_str = 'AS';
-          if (typeof i === 'number') {
-            a_or_sa_c = 37;
-            a_or_sa_str = 'S ';
+
+          //************ ext扩展结束**********************************
+
+          //<DWDEBUG#######################################
+          if (debug) {
+            var path = ext.path.join('/');
           }
+          //########################################DWDEBUG>
+
+          t[i](_cb, ext);
+        } else {
+
+          //<DWDEBUG#######################################
+          if (debug) {
+            if (typeof ext === 'undefined') {
+              var ext = {},
+                ps;
+              ext.path = [i];
+              if (parents) {
+                ps = parents;
+                while (ps) {
+                  ext.path.splice(0, 0, ps[0]);
+                  ps = ps[3];
+                }
+              }
+            }
+            var path = ext.path.join('/');
+          }
+          //########################################DWDEBUG>
+
+          t[i](_cb);
         }
-        //########################################DWDEBUG>
+
+
 
         function _next_tick(i, t, count, parents) {
           if (count[0] === count[1]) {

@@ -1,9 +1,9 @@
 var fs = require('fs');
-var sas = require('../sas'); //去掉了debug，win8 d盘测试，比不去掉节省近1秒
-
-/*var sas = require('../sas-debug');
-sas.debug = true; */
-
+var sas = require('../sas'); 
+/*
+var sas = require('../sas-debug');
+sas.debug=false;
+ */
 /*
  * 搜索当前硬盘里 所有名为 sas.js 的文件
  * 要求搜索全部，包括 '.' 开头的隐藏文件夹
@@ -12,8 +12,9 @@ sas.debug = true; */
 
 
 
+
 var find_name = 'sas.js', //顺带搜索的目标
-  from = '/'; //从哪个目录开始
+  from = '/'; //从哪个目录开始,默认是当前整个硬盘。
 //from = 'D:/git/sas'; 
 
 var result = []; //搜索结果
@@ -22,28 +23,11 @@ var files_c2 = 0; //文件夹统计
 var index2 = {}; //索引存放处
 
 
-
-function _fspath(arr, dir) {
-  var strtmp = '',
-    arr_len = arr.length;
-  for (var i = 0; i < arr_len; i++) {
-    if (typeof arr[i] === 'string') {
-      strtmp += arr[i];
-    }
-  }
-  return dir + '/' + strtmp;
-}
-
-
-
 function read_dir(cb, t) {
-
-  var fspath = _fspath(t.path, from);
-
+  var fspath = from+'/'+t.fspath().join(''); //t.fspath() 返回过滤掉t.path里数字的一个新数组。
   fs.readdir(fspath, function(err, files) {
     if (err) { //一些奇怪的文件夹
       console.log('read_dir Err= ' + err);
-
       return cb();
     }
     var obj = {};
@@ -165,3 +149,15 @@ function research2() {//在建立索引的情况下搜索
     process.stdin.resume();
   });
 }
+
+
+/*function _fspath(arr, dir) {
+  var strtmp = '',
+    arr_len = arr.length;
+  for (var i = 0; i < arr_len; i++) {
+    if (typeof arr[i] === 'string') {
+      strtmp += arr[i];
+    }
+  }
+  return dir + '/' + strtmp;
+}*/
