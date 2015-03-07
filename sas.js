@@ -8,8 +8,7 @@ function sas(arr, opt) {
   opt = opt || {};
   var C_stop = false;
 
-  
-
+    
   var C_count = [arr.length, 0];
   _dis(C_count[1], arr, C_count);
 
@@ -96,9 +95,6 @@ function sas(arr, opt) {
         //************ ext扩展结束**********************************
 
         
-
-
-
         function _next_tick(i, t, count, parents) {
           if (count[0] === count[1]) {
             if (parents) {
@@ -107,7 +103,6 @@ function sas(arr, opt) {
             } else { //完结
 
               
-
               if (opt.allEnd) {
                 opt.allEnd();
               }
@@ -148,7 +143,6 @@ function sas(arr, opt) {
           }
 
           
-
           _next_tick.apply(null, args);
         }
         break;

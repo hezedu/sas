@@ -19,7 +19,7 @@ function sas(arr, opt) {
     }
   }
   //########################################DWDEBUG>
-
+  
   var C_count = [arr.length, 0];
   _dis(C_count[1], arr, C_count);
 
@@ -129,8 +129,6 @@ function sas(arr, opt) {
           }
         }
         //########################################DWDEBUG>
-
-
 
         function _next_tick(i, t, count, parents) {
           if (count[0] === count[1]) {
