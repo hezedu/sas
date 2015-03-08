@@ -105,7 +105,7 @@ function(cb,t){
 ```
 `cb`回调,任务完成后必须返回.
 
-`t`可选参数,智能对象,像this但又不是this,所以叫t,用不着的话就不要选,会有一些性能开销,这个后面再详解.
+`t`可选参数,智能对象,用不着的话就不要选,会有一些性能开销,这个后面再详解.
 
 ---------------------------------------
 
@@ -212,7 +212,7 @@ sas(plan,{iterator:hello});
 ##`cb`
 整个程序运行起来就像导火索一样,自动将当前任务替换为cb的值.
 ```javascript
-//后面一直用到
+////////////后面一直用到的
 var sas = require('../sas-debug');
 var rdom = function() { //随机time
   return Math.random() * 1000;
@@ -224,12 +224,13 @@ var test = function(param){
     },rdom());
   }
 }
-
 var end = function(cb){
     cb('end');
     console.log(this);
   }
-////////////后面一直用到 end
+/////////////////////////////////
+
+
 sas([
   test(123),
   function(cb) {
@@ -323,6 +324,237 @@ sas([{
 [ { key1: '我直接存到this里拉!', key2: [ 'aaa', 'bbb' ] }, 'end' ]
 //好处是少了一层嵌套,用起来方便.
 ```
+最后别忘了一定要cb哦.
+---------------------------------------
+
+##`t`
+t是一个智能对象.像this但又不是this,所以叫t.
+
+不用它的时候不要选,选了它一定要用.
+
+`t.index`: 返回当前任务的index;
+
+`t.parent` 返回`this`的父级
+
+`t.pIndex`: 返回`this`的父级的index
+
+`t.Sparent` 返回`this`的第一个Sync父级
+
+`t.path`: 返回当前任务到根的索引数组.
+
+`t.fspath()`: 返回一个去掉数字索引的数组,像文件路径,所以叫fspath
+
+`t.push(tasks)`: 将一些元素添加到`this`里,以继续运行.只能数组元素用.
+
+```javascript
+var push_ = {
+  push1:test('push1'),
+  push2:test('push2')
+}
+
+sas([{
+    key1: test('bbb'),
+    key2: [test('ddd'), {
+      test: [
+        test('qqq'),
+        function(cb, t) {
+          console.log('t.fspath=='+t.fspath());
+          console.log('t=');
+          console.log(t);
+          t.push(push_);
+          console.log('push过后t.parent=');
+          console.log(t.parent);
+          cb();
+        }
+      ]
+    }]
+  },
+  end
+]);
+
+
+//////////////////////////
+//log结果
+t.fspath==key2,test
+t=
+{ index: 1,
+  path: [ 0, 'key2', 1, 'test', 1 ],
+  parent: { test: [ 'qqq', [Function] ] },
+  pIndex: 'test',
+  Sparent: [ 'ddd', { test: [Object] } ],
+  push: [Function],
+  fspath: [Function] }
+push过后t.parent=
+{ test: [ 'qqq', [Function], { push1: [Function], push2: [Function] } ] }
+
+```
+
+---------------------------------------
+
+最后,我们再来说一下###`opt`另外属性:
+
+`opt.allEnd`
+
+只在返回cb('$STOP') 或程序完全结束时触发.
+```javascript
+opt.allEnd(err,result){ //国际惯例,第一个err,第二个结果
+
+};
+```
+
+第一个参数`err`:只有cb('$STOP')才会有值,否则一直都是null;
+
+第二个参数`result`:只有程序完全结束才会有值,值为完成后的`arr`.
+```javascript
+sas([
+  test('aaa'), {
+    key1: test('ccc'),
+    key2: test('ddd')
+  },
+  test('bbb')
+], {
+  allEnd: function(err, result) {
+    //不可能err,因为我程序里没有cb('$STOP').
+    console.log(result);
+  }
+});
+
+
+//////////////////////////
+//log结果
+[ 'aaa', { key1: 'ccc', key2: 'ddd' }, 'bbb' ]
+```
+`opt.process`
+
+返回程序进度:
+```javascript
+opt.process= function(count1,count2){
+  //count1 已轮询的计数
+  //count2 已回调的计数.
+}
+```
+异步进度条的实现详见demo process.html
+
+注:如果回调很多的话,可能会有影响性能.
+
+`opt.debug`
+
+只有sas-debug.js里有这个属性,默认是`true`.
+
+将会显示如下追踪:
+
+![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/saslog.png?raw=true)
+
+其中白色为Sync,灰色为Async.
+
+在回调很多的情况下,log过多会造成严重阻塞.
+
+想要关闭掉也可以这样:
+
+`sas.debug = false`
+
+---------------------------------------
+
+#磁盘最深处
+想知道你磁盘里最深的地方在哪吗?
+
+最后来运行一个demo来告诉你吧.(第一次运行可能会慢)
+```javascript
+var fs = require('fs');
+var sas = require('../sas');
+
+/*
+ * 找出磁盘最深的地方
+ */
+
+var from = '/'; //根目录.
+var file_c1 = 0; //文件统计
+var files_c2 = 0; //文件夹统计
+var deep = 0; //深处
+var deepstr = ''; //最深处路径
+
+function read_dir(cb, t) {
+  var t_fspath = t.fspath(); //t.fspath()=返回过滤掉t.path里数字的一个新数组。
+  var fspath = t_fspath.join('') ||  from;
+
+  if (t_fspath.length > deep) {
+    deep = t_fspath.length; //记录最深点
+    deepstr = fspath + '/';
+  }
+
+  fs.readdir(fspath, function(err, files) {
+    if (err) { //一些奇怪的文件夹
+      console.log('read_dir Err= ' + err);
+      return cb();
+    }
+    var obj = {};
+    var len = files.length;
+    if (!len) {
+      return cb(); //空文件夹
+    }
+    for (var i = 0; i < len; i++) {
+      var file = files[i];
+      obj['/' + file] = fspath + '/' + file; //防止跟保留字冲突，前面加 '/';
+    }
+    t.push(obj);//添加任务
+    cb();
+  });
+}
+
+function _stat(path) { //iterator
+  return function(cb) {
+    fs.lstat(path, function(err, stat) {
+      if (err) { //一些奇怪的文件
+        return cb();
+      }
+      if (stat.isSymbolicLink()) { //linux 软链接
+        return cb();
+      }
+      if (stat.isDirectory()) {
+        files_c2++;
+        return cb('$RELOAD', [read_dir]);
+      } else {
+        file_c1++;
+      }
+      cb();
+
+    });
+  }
+}
+console.log('\n\u001b[93m正在查找磁盘最深的地方请稍等……\u001b[39m');
+console.log('\u001b[36m包括所有隐藏文件夹\u001b[39m');
+console.time('\u001b[91m用时\u001b[39m');
+
+sas([read_dir], { //////核心
+  iterator: _stat,
+  allEnd: function(err, plan) {
+    //这里err 肯定是null，因此不用判断了。
+    console.timeEnd('\u001b[91m用时\u001b[39m');
+    console.log('\n文件夹： \u001b[96m' + files_c2 + '\u001b[39m个');
+    console.log('文件： \u001b[96m' + file_c1 + '\u001b[39m个');
+    console.log('共： \u001b[96m' + (file_c1 + files_c2) + '\u001b[39m个');
+    console.log('最深处： \u001b[96m' + (deep + 1) + '\u001b[39m层 (相对于：\u001b[93m' + from + '\u001b[39m)');
+    console.log('位于： \u001b[96m' + deepstr + '\u001b[39m');
+  }
+});
+```
+本机结果:
+
+![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/saslogdeep.png?raw=true)
+
+更多demo更在demo目录下.
+
+欢迎指教.
+
+
+
+
+
+
+
+
+
+
 
 
 
