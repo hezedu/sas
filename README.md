@@ -6,26 +6,180 @@ Sas 是一个javascript程序，用以处理(同/异)步，它最大的特点是
 [Node.js](http://nodejs.org)： `npm install sas`
 
 浏览器直接src,不支持IE8.
+#项目说明
+项目目录下:
+
+sas.js 主要的.
+
+sas-debug.js debug版,默认会生成log,影响性能.用于开发和示例.
+
+sas-min.js 压缩好的,前端用.
+
+demo 示例文件夹.本文所引用示例均出自此.
+
+#快速示例#1
+
+异步创建文档树 (demo文件夹下mktree.js):
+```javascript
+var sas = require('../sas-debug');
+var fs = require('fs');
+var dir = __dirname + '/root' + Date.now();//根目录名字: root+当前时间
+
+function _mkTree(data) { //iterator
+  return function(cb, t) {
+    var fspath = dir + '/' + t.fspath().join('');
+    if (t.index === 0) { //根据this 的index 判定是否为目录
+      fs.mkdir(fspath, 777, function(err, result) {
+        if (err) {
+          return cb('$STOP');
+        }
+        cb();
+      });
+    } else { //创建文件并写入。
+      fs.writeFile(fspath, data, function(err) {
+        if (err) {
+          return cb('$STOP');
+        }
+        cb();
+      });
+    }
+  }
+}
+
+var tree = [
+  null, {
+    '/1': [null, {
+      '/1-1': 'hello!1-1',
+      '/1-2': 'hello!1-2',
+      '/1-3': 'hello!1-3'
+    }],
+    '/2': [null, {
+      '/2-1': 'hello!2-1',
+      '/2-2': 'hello!2-2',
+      '/2-3': 'hello!2-3'
+    }],
+    '/3': [null, {
+      '/3-1': 'hello!3-1',
+      '/3-2': 'hello!3-2',
+      '/3-3': 'hello!3-3'
+    }]
+  }
+];
+
+sas(tree, {
+  iterator: _mkTree
+});
+```
+结果:将会在当前目录创建一个root开头的文件夹,里面有1,2,3三个文件夹,三个文件下各有三个文件,文件内容是hello! 加上文件名字.
+
 #使用说明
-sas只有一个function:
+用法很简单,sas只有一个function:
 
 ###sas(arr,opt);
 
-`arr`:数组,包含三种元素:
+##`arr`:数组,包含三种元素:
 
-对象:代表异步.
+对象Object:代表异步.
+```javascript
+{ //异步同时执行
+  'key1': task1,
+  'key2': task2,
+  'key3': task3
+}
+```
+数组Array:代表同步.
+```javascript
+[//同步挨个执行
+   task1,
+   task2,
+   task3
+] 
+```
+函数Function:基础单位,代表任务.
+```javascript
+function(cb,t){
+  cb();
+}
+```
+`cb`回调,任务完成后必须返回.
+`t`可选参数,智能对象,像this但又不是this,所以叫t,用不着的话就不要选,会有一些性能开销,这个后面再详解.
+---------------------------------------
 
-数组:代表同步.
+支持无限嵌套,但是要注意一些风格问题:
+```javascript
+{
+  'attr1': task1,
+  {//异步内嵌套异步,毫无意义.
+    'key1': task2,
+    'key2': task3
+  }
+}
+```
+```javascript
+[
+  task1, [ //同步内嵌套同步,多此一举.
+    task2,
+    task3
+  ]
+]
+```
+以上都不会出错,但是都是些冗余的嵌套,因此不推荐.
 
-函数:代表任务.
+正确有效率的示例:
+
+同步内异步
+```javascript
+[
+  {
+    'key1': task1,
+    'key2': task2
+  }, 
+  {
+    'key1': task3,
+    'key2': task4
+  }
+]
+```
+异步内同步
+```javascript
+{
+  'key1': [
+    task1,
+    task2
+  ],
+  'key2': [
+    task1,
+    task2
+  ]
+}
+```
+[多重嵌套看例#1](#快速示例#1)的tree.
+
+---------------------------------------
+##`opt`可选
+opt.iterator 用来替换每一个`arr`不是function的基础单位.
+
+```javascript
+var rdom = function() {
+  return Math.random() * 1000;
+}
+var plan = [
+{
+
+}
+]
 
 
+```
+
+如果基础单位不是函数而又没用opt.iterator的话,sas就会抛出一个错误.
 
 
+###示例:
+```javascript
 
 
-
-##示例:
+```
 
 
 
