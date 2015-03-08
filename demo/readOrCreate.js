@@ -18,8 +18,7 @@ function readFile(cb, t) {
       t.push(createFile); // 贪吃蛇模式，如果出错会增加下一步 创建.
       cb(path);
     } else {
-      t.parent[t.pIndex] = buffer.toString(); //通过调用父元素直接替换 this;
-      cb();
+      cb('$THIS=',buffer.toString());//$THIS=  直接替换this.
     }
   });
 }
@@ -32,11 +31,11 @@ function createFile(cb, t) {
       cb('$STOP'); //错误就中止sas
     } else {
       console.log('创建文件：'+path);
-      t.parent[t.pIndex] = initData; //成功就返回数据。
-      cb();
+      cb('$THIS=',initData);
     }
   });
 }
+
 var readOrCreate = [{
     '/readOrCreate1.txt': [readFile],
     '/readOrCreate2.txt': [readFile],

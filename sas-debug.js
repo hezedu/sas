@@ -1,9 +1,12 @@
 function sas(arr, opt) {
   opt = opt || {};
   var C_stop = false;
-
+var task_count=0,task_count_cb=0;//任务计数。
   //<DWDEBUG#######################################
-  var debug = opt.debug || sas.debug || true;
+  var debug =true;
+  if(typeof  opt.debug !=='undefined'){
+    debug=opt.debug;
+  }
   if (debug) {
     _color(1, '\n开始', 22);
     var C_START = Date.now(),
@@ -24,6 +27,7 @@ function sas(arr, opt) {
   _dis(C_count[1], arr, C_count);
 
   function _dis(i, t, count, parents) {
+    
     if (C_stop) {
       return;
     }
@@ -44,7 +48,7 @@ function sas(arr, opt) {
         _dis(_count[1], t[i], _count, arguments);
         break;
       case 'Function':
-
+        task_count++;
         //<DWDEBUG#######################################
         if (debug) {
           if (typeof ext === 'undefined') {
@@ -108,16 +112,11 @@ function sas(arr, opt) {
                   }*/
           }
           ext.push = function(a) {
-
             count[0] ++;
             if (ext.parent) {
               ext.parent[ext.pIndex].push(a);
-
-            } else {
-              //count[0]++;
-
+            } else { //没有父级，就是到顶了。
               arr.push(a);
-              //console.log('arrlength='+arr.length)
             }
           }
           ext.fspath = function(dir) {
@@ -128,7 +127,7 @@ function sas(arr, opt) {
                 fspath_arr.push(path_arr[path_i]);
               }
             }
-             return fspath_arr;
+            return fspath_arr;
           }
 
           //************ ext扩展结束**********************************
@@ -163,19 +162,17 @@ function sas(arr, opt) {
           t[i](_cb);
         }
 
-
-
         function _next_tick(i, t, count, parents) {
           if (count[0] === count[1]) {
             if (parents) {
               parents[2][1] ++;
               _next_tick.apply(null, parents);
             } else { //完结
-
               //<DWDEBUG#######################################
               if (debug) { //DEBUG 3
                 _color(1, '结束', 22);
                 _color(96, '回调统计：' + C_time + 'ms'); //所有回调的时间,有可能因为过快或其它原因统计失误
+                _color(96, '回调个数：' + task_count + '/'+ task_count_cb); //所有回调的时间,有可能因为过快或其它原因统计失误
                 var time2 = Date.now() - C_START;
                 _color(96, '实计用时：' + time2 + 'ms');
                 time2 = C_time - time2;
@@ -184,7 +181,7 @@ function sas(arr, opt) {
               //########################################DWDEBUG>
 
               if (opt.allEnd) {
-                opt.allEnd();
+                opt.allEnd(null, arr); //国际惯例
               }
             }
           } else {
@@ -195,31 +192,48 @@ function sas(arr, opt) {
         }
 
         function _cb(result, pream) {
+          task_count_cb++;
           if (C_stop) {
             return;
           }
-          switch (result) { //魔法字符串
+          switch (result) {
+
+            //==================魔法字==================
             case '$STOP': //中止整个程序
+              if (opt.allEnd) {
+                opt.allEnd('$STOP'); //国际惯例，第一个参数err.
+              }
               return C_stop = true;
+              break;
+            case '$THIS=': //替换掉 this
+              if (parents) {
+                parents[1][parents[0]] = pream;
+              }
+              count[1] = count[0];
               break;
             case '$END': //结束 this
               count[1] = count[0];
               break;
-            case '$RELOAD': //结束 this
+            case '$RELOAD': //重载当前任务
               t[i] = pream;
               return _dis.apply(null, args);
               break;
+              //==================魔法字结束==================
+
             default:
               count[1] ++;
               if (arguments.length < 2) {
                 t[i] = result;
-              } else {
+              } else { //如果大于2的话，把arguments变成正常数组，保存
                 var result_tmp = [];
                 for (var r_i = 0, len = arguments.length; r_i < len; r_i++) {
                   result_tmp.push(arguments[r_i]);
                 }
                 t[i] = result_tmp;
               }
+          }
+          if(opt.process){
+            opt.process(task_count,task_count_cb);
           }
 
           //<DWDEBUG#######################################
@@ -238,7 +252,7 @@ function sas(arr, opt) {
           t[i] = opt.iterator(t[i]);
           _dis.apply(null, arguments);
         } else {
-          throw new Error('The first parameter not contains the type for the ' + ty + ' element.');
+          throw new Error('SAS:类型错误:'+ty+'。 任务必须是一个function。');
           //count[1] ++;
         }
     }

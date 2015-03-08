@@ -37,7 +37,7 @@ var writePro = function(cb, t) {//生成主文件
     if (err) {
       return console.log('write err:' + err);
     }
-    console.log('sas.js制作完成');
+    console.log('sas.js制作完成.版本：'+version);
     cb();
   });
 }
@@ -51,7 +51,7 @@ var writeMin = function(cb, t) {//生成压缩min.js，前端使用
     if (err) {
       return console.log('write err:' + err);
     }
-    console.log('sas-min.js压缩完成');
+    console.log('sas-min.js压缩完成.版本：'+version);
     cb();
   });
 }

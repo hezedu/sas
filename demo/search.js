@@ -1,5 +1,5 @@
 var fs = require('fs');
-var sas = require('../sas'); 
+var sas = require('../sas');
 /*
 var sas = require('../sas-debug');
 sas.debug=false;
@@ -10,21 +10,30 @@ sas.debug=false;
  * 检测sas性能。
  */
 
-
-
-
 var find_name = 'sas.js', //顺带搜索的目标
   from = '/'; //从哪个目录开始,默认是当前整个硬盘。
-//from = 'D:/git/sas'; 
+//from = 'D:/git/sas';
+
+var from2 = (from[from.length - 1] === '/') ? from.substr(0, from.length - 1) : from; //trim掉后面的/;
+
 
 var result = []; //搜索结果
 var file_c1 = 0; //文件统计
 var files_c2 = 0; //文件夹统计
 var index2 = {}; //索引存放处
-
+var deep = 0;//深处
+var deepstr = '';//最深处
 
 function read_dir(cb, t) {
-  var fspath = from+'/'+t.fspath().join(''); //t.fspath() 返回过滤掉t.path里数字的一个新数组。
+  var t_fspath = t.fspath();
+
+  var fspath = from2 + t_fspath.join('') || from2 || from; //t.fspath()=返回过滤掉t.path里数字的一个新数组。
+
+      if(t_fspath.length>deep){
+        deep = t_fspath.length;
+        deepstr = fspath+'/';
+      }
+
   fs.readdir(fspath, function(err, files) {
     if (err) { //一些奇怪的文件夹
       console.log('read_dir Err= ' + err);
@@ -58,7 +67,7 @@ function _stat(path) {
         //console.log('_stat Err= ' + err);
         return cb();
       }
-      if (stat.isSymbolicLink()) { //linux坑 软链接
+      if (stat.isSymbolicLink()) { //linux 软链接
         return cb();
       }
       //try {  //一些
@@ -87,12 +96,16 @@ console.time('\u001b[91m用时\u001b[39m');
 
 sas(plan, { //////核心
   iterator: _stat,
-  allEnd: function() {
+  allEnd: function(err, plan) {
+
+    //这里err 肯定是null，因此不用判断了。
 
     console.timeEnd('\u001b[91m用时\u001b[39m');
     console.log('\n文件夹： \u001b[96m' + files_c2 + '\u001b[39m个');
     console.log('文件： \u001b[96m' + file_c1 + '\u001b[39m个');
     console.log('共： \u001b[96m' + (file_c1 + files_c2) + '\u001b[39m个');
+    console.log('最深处： \u001b[96m' + (deep+1) + '\u001b[39m层 (相对于：\u001b[93m'+from+'\u001b[39m)');
+    console.log('位于： \u001b[96m' + deepstr + '\u001b[39m');
     console.log('\n=======================');
     console.log('搜索结果：' + result.length + '个\n' + result.join('\n'));
     console.log('=======================\n');
@@ -114,7 +127,7 @@ sas(plan, { //////核心
   }
 });
 
-function research2() {//在建立索引的情况下搜索
+function research2() { //在建立索引的情况下搜索
 
   process.stdin.read();
 
