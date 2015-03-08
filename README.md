@@ -205,6 +205,59 @@ sas(plan,{iterator:hello});
 如果基础单位不是函数而又没用opt.iterator的话,sas就会抛出一个错误.
 
 ---------------------------------------
+`opt`还有两个属性,这个放最后说,我们先来看一下重点:任务function的两个参数:
+
+##`cb`
+整个程序运行起来就像导火索一样,自动将当前任务替换为cb的值.
+```javascript
+cb(123);//当前任务变成123
+cb(123,222);//参数大于1的话,当前任务会变一个数组 [123,222]
+cb();//什么都不传,当前任务变为null
+```
+他有一些魔法字参数:
+
+`cb('$STOP')`
+
+中止当前程序.同步的会立刻停住,异步的返回结果不做任何处理.
+```javascript
+var sas = require('../sas-debug');
+var rdom = function() { //随机time
+  return Math.random() * 1000;
+}
+var test = function(param){//后面会用到
+  return function(cb){
+    setTimeout(function(){
+    	cb(param);
+    },rdom());
+  }
+}
+
+sas([
+  test('aaa'),
+  test('$STOP'),
+  test('不会被执行')
+]);
+```
+
+`cb('$END')`
+
+中止 `this`
+```javascript
+sas([{
+    key1: [test('aaa'), test('$END'), test('bbb')], //test('bbb')将不会执行.
+    key2: [test('$END'), test('aaa'), test('bbb')],
+  },
+  function(cb) {
+    cb();
+    console.log(this);
+  }
+]);
+//////////////////////////////////////
+log结果:
+[ { key1: [ 'aaa', [Function], [Function] ],
+    key2: [ [Function], [Function], [Function] ] },
+  [Function] ]
+```
 
 
 
