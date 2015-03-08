@@ -205,15 +205,41 @@ sas(plan,{iterator:hello});
 如果基础单位不是函数而又没用opt.iterator的话,sas就会抛出一个错误.
 
 `opt`还有两个属性,这个放最后说
+
 ---------------------------------------
-我们先来看一下重点:任务function的两个参数:
+我们先来看一下重点,任务function的两个参数:
 
 ##`cb`
 整个程序运行起来就像导火索一样,自动将当前任务替换为cb的值.
 ```javascript
-cb(123);//当前任务变成123
-cb(123,222);//参数大于1的话,当前任务会变一个数组 [123,222]
-cb();//什么都不传,当前任务变为null
+var sas = require('../sas-debug');
+var rdom = function() { //随机time
+  return Math.random() * 1000;
+}
+var test = function(param){//记住,后面一直用这个函数.
+  return function(cb){
+    setTimeout(function(){
+    	cb(param);
+    },rdom());
+  }
+}
+sas([
+  test(123),
+  
+  function(cb){
+  cb('参数大于1的话 ' , '会生成一个数组')
+  },
+  test(),//什么都没有 undefined
+  function(cb){
+    cb('end');
+    console.log(this);
+  }
+]);
+
+//////////////////////////////////////
+log结果:
+[ 123, [ '参数大于1的话 ', '会生成一个数组' ], undefined, 'end' ]
+//
 ```
 他有一些魔法字参数:
 
@@ -221,17 +247,7 @@ cb();//什么都不传,当前任务变为null
 
 中止当前程序.同步的会立刻停住,异步的返回结果不做任何处理.
 ```javascript
-var sas = require('../sas-debug');
-var rdom = function() { //随机time
-  return Math.random() * 1000;
-}
-var test = function(param){//后面会用到
-  return function(cb){
-    setTimeout(function(){
-    	cb(param);
-    },rdom());
-  }
-}
+
 
 sas([
   test('aaa'),
@@ -253,12 +269,41 @@ sas([{
     console.log(this);
   }
 ]);
+
+
 //////////////////////////////////////
 log结果:
 [ { key1: [ 'aaa', [Function], [Function] ],
     key2: [ [Function], [Function], [Function] ] },
-  [Function] ]
+  undefined ]
 ```
+`cb('$RELOAD',param)`
+
+会重载当前任务为param
+```javascript
+var test = {
+key1:test('key1'),
+key2:test('key2')
+}
+
+
+sas([
+  function(cb) {
+    cb('$RELOAD',test);
+  },
+  function(cb) {
+    cb();
+    console.log(this);
+  }
+]);
+
+
+//////////////////////////////////////
+//log结果
+[ { key1: 'key1', key2: 'key2' }, undefined ]
+
+```
+
 
 
 
