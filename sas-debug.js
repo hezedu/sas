@@ -1,11 +1,15 @@
 function sas(arr, opt) {
   opt = opt || {};
   var C_stop = false;
-var task_count=0,task_count_cb=0;//任务计数。
+  var task_count = 0,
+    task_count_cb = 0; //任务计数。
   //<DWDEBUG#######################################
-  var debug =true;
-  if(typeof  opt.debug !=='undefined'){
-    debug=opt.debug;
+  var debug = true;
+  if (typeof sas.debug !== 'undefined') {
+    debug = sas.debug;
+  }
+  if (typeof opt.debug !== 'undefined') {
+    debug = opt.debug;
   }
   if (debug) {
     _color(1, '\n开始', 22);
@@ -27,7 +31,7 @@ var task_count=0,task_count_cb=0;//任务计数。
   _dis(C_count[1], arr, C_count);
 
   function _dis(i, t, count, parents) {
-    
+
     if (C_stop) {
       return;
     }
@@ -172,7 +176,7 @@ var task_count=0,task_count_cb=0;//任务计数。
               if (debug) { //DEBUG 3
                 _color(1, '结束', 22);
                 _color(96, '回调统计：' + C_time + 'ms'); //所有回调的时间,有可能因为过快或其它原因统计失误
-                _color(96, '回调个数：' + task_count + '/'+ task_count_cb); //所有回调的时间,有可能因为过快或其它原因统计失误
+                _color(96, '回调个数：' + task_count + '/' + task_count_cb); //所有回调的时间,有可能因为过快或其它原因统计失误
                 var time2 = Date.now() - C_START;
                 _color(96, '实计用时：' + time2 + 'ms');
                 time2 = C_time - time2;
@@ -232,8 +236,16 @@ var task_count=0,task_count_cb=0;//任务计数。
                 t[i] = result_tmp;
               }
           }
-          if(opt.process){
-            opt.process(task_count,task_count_cb);
+          if (opt.process) {
+            if (typeof setImmediate !== 'undefined') {
+              setImmediate(function() {
+                opt.process(task_count, task_count_cb);
+              });
+            } else {
+              setTimeout(function() {
+                opt.process(task_count, task_count_cb);
+              }, 0);
+            }
           }
 
           //<DWDEBUG#######################################
@@ -252,7 +264,7 @@ var task_count=0,task_count_cb=0;//任务计数。
           t[i] = opt.iterator(t[i]);
           _dis.apply(null, arguments);
         } else {
-          throw new Error('SAS:类型错误:'+ty+'。 任务必须是一个function。');
+          throw new Error('SAS:类型错误:' + ty + '。 任务必须是一个function。');
           //count[1] ++;
         }
     }

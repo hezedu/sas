@@ -30,7 +30,6 @@ var rdom = function() {
 
 var line;
 
-
 line = [1, {
     '2': [2, 3, {
       '4': 4,
@@ -67,10 +66,6 @@ var processTest = function(str) {
 }
 
 
-
-
-
-//document.write(start);
 sas(line, {
   iterator: processTest,
   process:function(a,b){
@@ -78,9 +73,6 @@ sas(line, {
       process.style.width = process100+'%';
       process.innerHTML= b+' / '+a;
       detail.innerHTML=JSON.stringify(line);
-  },
-  allEnd:function(){
-    //process.style.width='100%';
   }
 });
 </script>

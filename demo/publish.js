@@ -1,7 +1,7 @@
 var fs = require('fs');
 var sas = require('../sas-debug.js');
 var uglify = require('uglify-js');
-
+sas.debug=false;
 /*
  *去掉sas-debug.js里  //<DWDEBUG 到 DWDEBUG> 之间的内容
  * 添加一些注释。生成sas.js ， 利用 uglify 压缩sas-min.js文件。

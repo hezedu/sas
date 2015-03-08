@@ -1,5 +1,5 @@
 /*!
- *version:0.1.12,
+ *version:0.1.15,
  *author:hezedu,
  *Released: jQuery.Released,
  *Date:2015-2-8
@@ -7,13 +7,14 @@
 function sas(arr, opt) {
   opt = opt || {};
   var C_stop = false;
-var task_count=0,task_count_cb=0;//任务计数。
+  var task_count = 0,
+    task_count_cb = 0; //任务计数。
   
   var C_count = [arr.length, 0];
   _dis(C_count[1], arr, C_count);
 
   function _dis(i, t, count, parents) {
-    
+
     if (C_stop) {
       return;
     }
@@ -161,8 +162,16 @@ var task_count=0,task_count_cb=0;//任务计数。
                 t[i] = result_tmp;
               }
           }
-          if(opt.process){
-            opt.process(task_count,task_count_cb);
+          if (opt.process) {
+            if (typeof setImmediate !== 'undefined') {
+              setImmediate(function() {
+                opt.process(task_count, task_count_cb);
+              });
+            } else {
+              setTimeout(function() {
+                opt.process(task_count, task_count_cb);
+              }, 0);
+            }
           }
 
           
@@ -174,7 +183,7 @@ var task_count=0,task_count_cb=0;//任务计数。
           t[i] = opt.iterator(t[i]);
           _dis.apply(null, arguments);
         } else {
-          throw new Error('SAS:类型错误:'+ty+'。 任务必须是一个function。');
+          throw new Error('SAS:类型错误:' + ty + '。 任务必须是一个function。');
           //count[1] ++;
         }
     }
