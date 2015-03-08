@@ -1,8 +1,8 @@
 /*!
- *version:0.1.15,
+ *version:0.1.17,
  *author:hezedu,
  *Released: jQuery.Released,
- *Date:2015-2-8
+ *Date:2015-2-9
 */
 function sas(arr, opt) {
   opt = opt || {};

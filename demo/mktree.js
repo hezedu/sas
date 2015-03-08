@@ -1,9 +1,8 @@
 var sas = require('../sas-debug');
 var fs = require('fs');
+var dir = __dirname + '/root' + Date.now();//根目录名字: root+当前时间
 
-var dir = __dirname + '/root' + Date.now();
-
-function _mkTree(data) {
+function _mkTree(data) { //iterator
   return function(cb, t) {
     var fspath = dir + '/' + t.fspath().join('');
     if (t.index === 0) { //根据this 的index 判定是否为目录
@@ -23,8 +22,6 @@ function _mkTree(data) {
     }
   }
 }
-
-
 
 var plan = [
   null, {
