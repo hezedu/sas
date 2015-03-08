@@ -4,6 +4,8 @@ S代表sync AS代表async。
 Sas 是一个javascript程序，用以处理(同/异)步，它最大的特点是可递归的。
 #安装
 [Node.js](http://nodejs.org)： `npm install sas`
+
+浏览器直接src,不支持IE8.
 #使用说明
 sas只有一个function:
 
