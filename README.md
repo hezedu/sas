@@ -257,7 +257,7 @@ sas([
   test('不会被执行')
 ]);
 ```
-`cb('$END')`
+###`cb('$END')`
 
 中止 `this`
 ```javascript
@@ -389,7 +389,7 @@ push过后t.parent=
 
 ---------------------------------------
 
-最后,我们再来说一下###`opt`另外属性:
+最后,我们再来说一下`opt`另外属性:
 
 `opt.allEnd`
 
@@ -540,7 +540,7 @@ sas([read_dir], { //////核心
 
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/saslogdeep.png?raw=true)
 
-更多demo更在demo目录下.
+更多demo尽demo目录下.
 
 欢迎指教.
 
