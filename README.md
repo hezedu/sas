@@ -166,16 +166,19 @@ opt.iterator=function(opt){
 ```
 ###示例:
 ```javascript
+var sas = require('../sas-debug');
 var rdom = function() { //随机time
   return Math.random() * 1000;
 }
-var hello = function(opt){
+
+var hello = function(opt){//iterator
   return function(cb){
     setTimeout(function(){
     	cb('hello'+opt);
     },rdom());
   }
 }
+
 var end = function(cb) {
   setTimeout(function() {
     cb('我是一个原生的task');
@@ -188,19 +191,13 @@ var plan = [
   hello(' world'),
   end
 ]
-sas(plan);
+sas(plan,{iterator:hello});
 
 ```
 结果为 `[ 'hello你好!', 'hello world', '我是一个原生的task' ]`
 
 如果基础单位不是函数而又没用opt.iterator的话,sas就会抛出一个错误.
 
-
-###示例:
-```javascript
-
-
-```
 
 
 
