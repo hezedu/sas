@@ -17,7 +17,7 @@ sas-min.js 压缩好的,前端用.
 
 demo 示例文件夹.本文所引用示例均出自此.
 
-#快速示例#1
+#快速示例
 
 异步创建文档树 (demo文件夹下mktree.js):
 ```javascript
@@ -109,18 +109,19 @@ function(cb,t){
 
 支持无限嵌套,但是要注意一些风格问题:
 ```javascript
+//异步内嵌套异步,毫无意义.
 {
   'attr1': task1,
-  {//异步内嵌套异步,毫无意义.
+  {
     'key1': task2,
     'key2': task3
   }
 }
 ////////////////
+//同步内嵌套同步,多此一举.
 [
-  task1, [ //同步内嵌套同步,多此一举.
-    task2,
-    task3
+  task1, [
+  task2, task3
   ]
 ]
 ```
@@ -131,27 +132,18 @@ function(cb,t){
 ###有效率的正确示例:
 ```javascript
 //同步内异步
-[
-  {
-    'key1': task1,
-    'key2': task2
-  }, 
-  {
-    'key1': task3,
-    'key2': task4
-  }
-]
+[{
+  'key1': task1,
+  'key2': task2
+}, {
+  'key1': task3,
+  'key2': task4
+}]
 
 //异步内同步
 {
-  'key1': [
-    task1,
-    task2
-  ],
-  'key2': [
-    task1,
-    task2
-  ]
+  'key1': [task1, task2],
+  'key2': [task1, task2]
 }
 ```
 [多重嵌套](#快速示例)见示例1的tree,跟文件系统结构是一样的,是不是很直观.
