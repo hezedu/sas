@@ -212,11 +212,12 @@ sas(plan,{iterator:hello});
 ##`cb`
 整个程序运行起来就像导火索一样,自动将当前任务替换为cb的值.
 ```javascript
+//后面一直用到
 var sas = require('../sas-debug');
 var rdom = function() { //随机time
   return Math.random() * 1000;
 }
-var test = function(param){//记住,后面一直用这个函数.
+var test = function(param){
   return function(cb){
     setTimeout(function(){
     	cb(param);
@@ -228,7 +229,7 @@ var end = function(cb){
     cb('end');
     console.log(this);
   }
-
+////////////后面一直用到 end
 sas([
   test(123),
   function(cb) {
