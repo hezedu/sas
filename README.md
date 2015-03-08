@@ -245,7 +245,7 @@ log结果:
 ```
 他有一些实用的魔法字参数:
 
-`cb('$STOP')`
+###`cb('$STOP')`
 
 中止当前程序.同步的会立刻停住,异步的返回结果不做任何处理.
 ```javascript
@@ -275,7 +275,7 @@ log结果:
     key2: [ [Function], [Function], [Function] ] },
   undefined ]
 ```
-`cb('$RELOAD',param)`
+###`cb('$RELOAD',param)`
 
 会重载当前任务为param
 ```javascript
@@ -298,7 +298,7 @@ sas([
 [ { key1: 'key1', key2: 'key2' }, undefined ]
 
 ```
-`cb('$THIS=',result)`
+###`cb('$THIS=',result)`
 
 将结果直接保存到 `this`里!
 ```javascript
@@ -323,10 +323,11 @@ sas([{
 //好处是少了一层嵌套,用起来方便.
 ```
 最后别忘了一定要cb哦.
+
 ---------------------------------------
 
 ##`t`
-t是一个智能对象.像this但又不是this,所以叫t.
+###t是一个智能对象.像this但又不是this,所以叫t.
 
 不用它的时候不要选,选了它一定要用.
 
@@ -389,7 +390,7 @@ push过后t.parent=
 
 ---------------------------------------
 
-最后,我们再来说一下`opt`另外属性:
+最后,我们再来说一下###`opt`另外属性:
 
 `opt.allEnd`
 
