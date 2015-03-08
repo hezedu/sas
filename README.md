@@ -160,7 +160,7 @@ opt.iterator 用来替换每一个`arr`不是function的基础单位.
 
 结构为:
 ```javascript
-opt.iterator=function(opt){
+opt.iterator=function(param){
   return function(cb,t){//return一个task.
     cb();
   }
@@ -173,10 +173,10 @@ var rdom = function() { //随机time
   return Math.random() * 1000;
 }
 
-var hello = function(opt){//iterator
+var hello = function(param){//iterator
   return function(cb){
     setTimeout(function(){
-    	cb('hello'+opt);
+    	cb('hello'+param);
     },rdom());
   }
 }
