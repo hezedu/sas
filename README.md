@@ -1,7 +1,7 @@
 # sas
 S代表sync AS代表async。
 
-Sas 是一个javascript程序，用以处理(同/异)步，它最大的特点是可以递归的.
+Sas 是一个javascript程序，用以处理(同/异)步，它最大的特点是可以递归.
 
 它的目地就是破解callback hell;
 #安装
@@ -156,18 +156,42 @@ function(cb,t){
 ##`opt`可选
 opt.iterator 用来替换每一个`arr`不是function的基础单位.
 
+结构为:
 ```javascript
-var rdom = function() {
+opt.iterator=function(opt){
+ return function(cb,t){//return一个task.
+  cb();
+ }
+}
+```
+###示例:
+```javascript
+var rdom = function() { //随机time
   return Math.random() * 1000;
 }
-var plan = [
-{
-
+var hello = function(opt){
+  return function(cb){
+    setTimeout(function(){
+    	cb('hello'+opt);
+    },rdom());
+  }
 }
-]
+var end = function(cb) {
+  setTimeout(function() {
+    cb('我是一个原生的task');
+    console.log(plan);
+  }, rdom());
+}
 
+var plan = [
+  '你好!',
+  hello(' world'),
+  end
+]
+sas(plan);
 
 ```
+结果为 `[ 'hello你好!', 'hello world', '我是一个原生的task' ]`
 
 如果基础单位不是函数而又没用opt.iterator的话,sas就会抛出一个错误.
 
