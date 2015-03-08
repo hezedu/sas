@@ -263,7 +263,7 @@ sas([
 ```javascript
 sas([{
     key1: [test('aaa'), test('$END'), test('bbb')], //test('bbb')将不会执行.
-    key2: [test('$END'), test('aaa'), test('bbb')]
+    key2: [test('$END'), test('aaa'), test('bbb')]//后面两都不会执行
   },
   end
 ]);
