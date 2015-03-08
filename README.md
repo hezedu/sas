@@ -156,7 +156,7 @@ function(cb,t){
 
 ---------------------------------------
 ##`opt`可选
-opt.iterator 用来替换每一个`arr`不是function的基础单位.
+opt.iterator 用来替换每一个`arr`中不是function的基础单位.
 
 结构为:
 ```javascript
