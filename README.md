@@ -12,9 +12,9 @@ Sas 是一个javascript程序，用以处理(同/异)步，它最大的特点是
 <script src='sas.min.js'></script>
 sas(...);
 ```
-#如何使用
-##很简单,sas只有一个function:
-#sas(arr,opt);
+#使用说明
+很简单,sas只有一个function:
+###sas(arr,opt);
 
 
 ## 很简单,只要记住:
