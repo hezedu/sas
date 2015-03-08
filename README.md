@@ -223,17 +223,19 @@ var test = function(param){//记住,后面一直用这个函数.
     },rdom());
   }
 }
-sas([
-  test(123),
-  
-  function(cb){
-  cb('参数大于1的话 ' , '会生成一个数组')
-  },
-  test(),//什么都没有 undefined
-  function(cb){
+
+var end = function(cb){
     cb('end');
     console.log(this);
   }
+
+sas([
+  test(123),
+  function(cb) {
+    cb('参数大于1的话 ', '会生成一个数组');
+  },
+  test(), //什么都没有 undefined
+  end
 ]);
 
 //////////////////////////////////////
@@ -241,7 +243,7 @@ log结果:
 [ 123, [ '参数大于1的话 ', '会生成一个数组' ], undefined, 'end' ]
 //
 ```
-他有一些魔法字参数:
+他有一些实用的魔法字参数:
 
 `cb('$STOP')`
 
@@ -255,19 +257,15 @@ sas([
   test('不会被执行')
 ]);
 ```
-
 `cb('$END')`
 
 中止 `this`
 ```javascript
 sas([{
     key1: [test('aaa'), test('$END'), test('bbb')], //test('bbb')将不会执行.
-    key2: [test('$END'), test('aaa'), test('bbb')],
+    key2: [test('$END'), test('aaa'), test('bbb')]
   },
-  function(cb) {
-    cb();
-    console.log(this);
-  }
+  end
 ]);
 
 
@@ -291,10 +289,7 @@ sas([
   function(cb) {
     cb('$RELOAD',test);
   },
-  function(cb) {
-    cb();
-    console.log(this);
-  }
+  end
 ]);
 
 
@@ -303,6 +298,35 @@ sas([
 [ { key1: 'key1', key2: 'key2' }, undefined ]
 
 ```
+`cb('$THIS=',result)`
+
+将结果直接保存到 `this`里!
+```javascript
+
+sas([{
+    key1: [test('aaa'),
+
+      function(cb) {
+        cb('$THIS=', '我直接存到this里拉!');
+      },
+
+      test('bbb')
+    ],
+    key2: [test('aaa'), test('bbb')]
+  },
+  end
+]);
+
+//////////////////////////////////////
+//log结果
+[ { key1: '我直接存到this里拉!', key2: [ 'aaa', 'bbb' ] }, 'end' ]
+//好处是少了一层嵌套,用起来方便.
+```
+
+
+
+
+
 
 
 
