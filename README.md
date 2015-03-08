@@ -1,12 +1,17 @@
 # sas
-Sas 是一个javascript处理(同/异)步的库，他与其它同类型库不同的是，它是可递归的。
+Sas 是一个javascript程序，用以处理(同/异)步，它最大的特点是可递归的。
+
 名字中的S代表sync AS代表async。
 
-可以用在[Node.js](http://nodejs.org) 
+#安装
 
-`npm install sas`
+[Node.js](http://nodejs.org)： `npm install sas`
 
-也可用用在前端,仅支持IE8以上的浏览器.
+浏览器(仅支持IE8以上的浏览器.)
+```javascript
+<script src='sas.min.js'></script>
+sas(...);
+```
 #如何使用
 ## 很简单,只要记住:
 #对象是异步、数组是同步、函数是任务
