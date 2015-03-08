@@ -161,9 +161,9 @@ opt.iterator 用来替换每一个`arr`不是function的基础单位.
 结构为:
 ```javascript
 opt.iterator=function(opt){
- return function(cb,t){//return一个task.
-  cb();
- }
+  return function(cb,t){//return一个task.
+    cb();
+  }
 }
 ```
 ###示例:
