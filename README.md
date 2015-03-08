@@ -3,7 +3,7 @@ S代表sync AS代表async。
 
 Sas 是一个javascript程序，用以处理(同/异)步，它最大的特点是可以递归.
 
-它的目地就是破解callback hell;
+它的目地就是破解callback hell.
 #安装
 [Node.js](http://nodejs.org)： `npm install sas`
 
@@ -209,99 +209,3 @@ sas(plan,{iterator:hello});
 
 
 
-
-
-回调，必须。如果arguments.length<=1的话，当前元素会被替换为result。例：
-```javascript
-var line;
-
-line = [
-  function(cb) {
-    setTimeout(function() {
-      cb('first');
-    }, 200);
-  },
-  function(cb) {
-    setTimeout(function() {
-      cb('last');
-      console.log(line);
-      // line =  ['first', 'last']
-    }, 200);
-  }
-]
-sas(line);
-```
-__魔法字$__：
-
-`$STOP`: 中止程序
-
-`$END`: 中止this
-
-如果arguments.length>1，当前元素会被替换为一个数组。
-###ext是一个对象，可选。提供当前元素导航。目前有：
-
-	`index` 当前元素index;
-	`path` 是一个数组，包含所有当前元素到root的key和index值。
-	`parent` 父元素
-	`pIndex` 父元素 index
-	`Sparent` 是当前元素第一个同步的父级。如第一个例子：
-```javascript
-    if (ext.Sparent) {
-      path = ext.Sparent[0] + path;
-    }
-```
-
----------------------------------------
-
-基本元素若为其它类型而##opt属性iterator不为true的话，会抛出一个错误。
-
-##opt
-
-第二个参数是一个对象,可选：
-
-`debug:bool` 强大的追踪。不管是异步还是同步都能追踪到，默认为false。
-第一个的例子:
-```javascript
-sas(plan,{debug:true});
-```
-console将会显示log：
-
-![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/saslog.png?raw=true)
-
-其中灰色代表异步，白色代表同步。
-
-`iterator:Function` 返回一个function.结构为：
-```javascript
-function test(opt){
-  return function(cb,ext){
-  
-  }
-}
-```
-如果 ##arr 里的基本元素type不为function，iterator将会被调用。
-第一个例子:
-```javascript
-var plan = [
-	__dirname + '/root' + Date.now(), {
-		'1': ['/1', {
-			'1-1': '/1-1',
-			'1-2': '/1-2',
-			'1-3': '/1-3'
-		}],
-		'2': ['/2', {
-			'2-1': '/2-1',
-			'2-2': '/2-2',
-			'2-3': '/2-3'
-		}],
-		'3': ['/3', {
-			'3-1': '/3-1',
-			'3-2': '/3-2',
-			'3-3': '/3-3'
-		}]
-	}
-];
-sas(plan,{iterator:mktree});
-```
-将会得到相同的结果。
-#其它
-如果`sas.debug＝true`,则debug默认为true。
