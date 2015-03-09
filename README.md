@@ -526,8 +526,7 @@ console.time('\u001b[91m用时\u001b[39m');
 
 sas([read_dir], { //////核心
   iterator: _stat,
-  allEnd: function(err, plan) {
-    //这里err 肯定是null，因此不用判断了。
+  allEnd: function() {
     console.timeEnd('\u001b[91m用时\u001b[39m');
     console.log('\n文件夹： \u001b[96m' + files_c2 + '\u001b[39m个');
     console.log('文件： \u001b[96m' + file_c1 + '\u001b[39m个');
