@@ -459,9 +459,11 @@ opt.process= function(count1,count2){
 
 我已在在 [demo/deep.js](https://github.com/hezedu/sas/blob/master/demo/deep.js) 里实现了。
 
-能否找到另外更好更快的方法？
+
 
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/saslogdeep.png?raw=true)
+
+你能否找到另外更好更快的方法？
 
 ---------------------------------------
 
