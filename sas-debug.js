@@ -206,7 +206,7 @@ function sas(arr, opt) {
             //==================魔法字==================
             case '$STOP': //中止整个程序
               if (opt.allEnd) {
-                opt.allEnd('$STOP'); //国际惯例，第一个参数err.
+                opt.allEnd(pream); //国际惯例，第一个参数err.
               }
               return C_stop = true;
               break;

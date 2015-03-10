@@ -1,8 +1,8 @@
 /*!
- *version:0.1.17,
+ *version:0.1.18,
  *author:hezedu,
  *Released: jQuery.Released,
- *Date:2015-2-9
+ *Date:2015-2-10
 */
 function sas(arr, opt) {
   opt = opt || {};
@@ -131,7 +131,7 @@ function sas(arr, opt) {
             //==================魔法字==================
             case '$STOP': //中止整个程序
               if (opt.allEnd) {
-                opt.allEnd('$STOP'); //国际惯例，第一个参数err.
+                opt.allEnd(pream); //国际惯例，第一个参数err.
               }
               return C_stop = true;
               break;
