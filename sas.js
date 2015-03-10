@@ -1,8 +1,8 @@
 /*!
- *version:0.1.18,
+ *version:0.1.19,
  *author:hezedu,
  *Released: jQuery.Released,
- *Date:2015-2-10
+ *Date:2015-2-11
 */
 function sas(arr, opt) {
   opt = opt || {};
@@ -10,6 +10,7 @@ function sas(arr, opt) {
   var task_count = 0,
     task_count_cb = 0; //任务计数。
   
+
   var C_count = [arr.length, 0];
   _dis(C_count[1], arr, C_count);
 
@@ -37,6 +38,7 @@ function sas(arr, opt) {
       case 'Function':
         task_count++;
         
+
         var args = arguments;
 
         if (t[i].length > 1) {
@@ -96,10 +98,12 @@ function sas(arr, opt) {
           //************ ext扩展结束**********************************
 
           
+
           t[i](_cb, ext);
         } else {
 
           
+
           t[i](_cb);
         }
 
@@ -110,6 +114,7 @@ function sas(arr, opt) {
               _next_tick.apply(null, parents);
             } else { //完结
               
+
               if (opt.allEnd) {
                 opt.allEnd(null, arr); //国际惯例
               }
@@ -145,7 +150,7 @@ function sas(arr, opt) {
               count[1] = count[0];
               break;
             case '$RELOAD': //重载当前任务
-              t[i] = pream;
+              t[i] = pream || t[i];
               return _dis.apply(null, args);
               break;
               //==================魔法字结束==================
@@ -175,6 +180,7 @@ function sas(arr, opt) {
           }
 
           
+
           _next_tick.apply(null, args);
         }
         break;

@@ -220,7 +220,7 @@ function sas(arr, opt) {
               count[1] = count[0];
               break;
             case '$RELOAD': //重载当前任务
-              t[i] = pream;
+              t[i] = pream || t[i];
               return _dis.apply(null, args);
               break;
               //==================魔法字结束==================

@@ -23,7 +23,7 @@ var read = function(cb) { //读取 sas-debug.js
     if (err) {
       return console.log('ERR:' + err);
     }
-    buffer = buffer.replace(/\/\/\<DWDEBUG([\s\S ]*?)DWDEBUG\>\n/g, '');
+    buffer = buffer.replace(/\/\/\<DWDEBUG([\s\S ]*?)DWDEBUG\>/g, '');
     cb(buffer);//将结果保存到this。
   })
 }
