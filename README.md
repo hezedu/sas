@@ -279,7 +279,7 @@ log结果:
 ```
 ###`cb('$RELOAD',param)`
 
-会重载当前任务为param
+会重载当前任务为 param || 它自身.
 ```javascript
 var test = {
 key1:test('key1'),
