@@ -36,7 +36,7 @@ function read_dir(cb, t) {
 
   fs.readdir(fspath, function(err, files) {
     if (err) { //一些奇怪的文件夹
-      console.log('read_dir Err= ' + err);
+      //console.log('read_dir Err= ' + err);
       return cb();
     }
     var obj = {};
@@ -92,6 +92,9 @@ var plan = [read_dir];
 console.log('\n在 \u001b[93m' + from + '\u001b[39m 目录下开始查找所有的 \u001b[91m' + find_name + '\u001b[39m');
 console.log('\u001b[36m包括所有隐藏文件夹\u001b[39m');
 console.log('\u001b[91m正在建立索引\u001b[39m，正在查找，请稍等……');
+if(process.platform.substr(0,3)==='win'){
+  console.log('\u001b[90m如果程序初次运行会比较慢，第二次就快了。\u001b[39m\n');
+}
 console.time('\u001b[91m用时\u001b[39m');
 
 sas(plan, { //////核心

@@ -22,7 +22,7 @@ function read_dir(cb, t) {
 
   fs.readdir(fspath, function(err, files) {
     if (err) { //一些奇怪的文件夹
-      console.log('read_dir Err= ' + err);
+      //console.log('read_dir Err= ' + err);
       return cb();
     }
     var obj = {};
@@ -49,10 +49,10 @@ function _stat(path) { //iterator
         return cb();
       }
       if (stat.isDirectory()) {
-        files_c2++;
+        //files_c2++;
         return cb('$RELOAD', [read_dir]);
       } else {
-        file_c1++;
+        //file_c1++;
       }
       cb();
 
@@ -61,16 +61,20 @@ function _stat(path) { //iterator
 }
 console.log('\n\u001b[93m正在查找磁盘最深的地方请稍等……\u001b[39m');
 console.log('\u001b[36m包括所有隐藏文件夹\u001b[39m');
+if(process.platform.substr(0,3)==='win'){
+  console.log('\u001b[90m如果程序初次运行会比较慢，第二次就快了。\u001b[39m\n');
+}
 console.time('\u001b[91m用时\u001b[39m');
 
 sas([read_dir], { //////核心
   iterator: _stat,
   allEnd: function(err, plan) {
     //这里err 肯定是null，因此不用判断了。
+    console.log('完成');
     console.timeEnd('\u001b[91m用时\u001b[39m');
-    console.log('\n文件夹： \u001b[96m' + files_c2 + '\u001b[39m个');
-    console.log('文件： \u001b[96m' + file_c1 + '\u001b[39m个');
-    console.log('共： \u001b[96m' + (file_c1 + files_c2) + '\u001b[39m个');
+    //console.log('\n文件夹： \u001b[96m' + files_c2 + '\u001b[39m个');
+    //console.log('文件： \u001b[96m' + file_c1 + '\u001b[39m个');
+    //console.log('共： \u001b[96m' + (file_c1 + files_c2) + '\u001b[39m个');
     console.log('最深处： \u001b[96m' + (deep + 1) + '\u001b[39m层 (相对于：\u001b[93m' + from + '\u001b[39m)');
     console.log('位于： \u001b[96m' + deepstr + '\u001b[39m');
   }
