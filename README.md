@@ -1,7 +1,7 @@
 # sas
 S代表sync,AS代表async。
 
-Sas 是一个javascript处理(同/异)步___引擎___，它最大的特点是 可递归.
+Sas 是一个javascript处理(同/异)步引擎，它最大的特点是 可递归.
 
 它的目地是为了破解 callback hell.
 #安装
@@ -245,9 +245,11 @@ log结果:
 ```
 他有一些实用的魔法字参数:
 
-###`cb('$STOP')`
+###`cb('$STOP',err)`
 
 中止当前程序.同步的会立刻停住,异步的返回结果不做任何处理.
+
+err将会传给opt.allEnd（如果有的话） ,作为第一个参数。
 ```javascript
 
 
