@@ -249,7 +249,7 @@ log结果:
 
 中止当前程序.同步的会立刻停住,异步的返回结果不做任何处理.
 
-err将会传给opt.allEnd（如果有的话） ,作为第一个参数。
+err将会传给`opt.allEnd`（如果有的话） ,作为第一个参数。opt.allEnd本文见最后。
 ```javascript
 
 
