@@ -49,10 +49,10 @@ function _stat(path) { //iterator
         return cb();
       }
       if (stat.isDirectory()) {
-        //files_c2++;
+        files_c2++;
         return cb('$RELOAD', [read_dir]);
       } else {
-        //file_c1++;
+        file_c1++;
       }
       cb();
 
@@ -68,13 +68,11 @@ console.time('\u001b[91m用时\u001b[39m');
 
 sas([read_dir], { //////核心
   iterator: _stat,
-  allEnd: function(err, plan) {
-    //这里err 肯定是null，因此不用判断了。
-    console.log('完成');
+  allEnd: function() {
     console.timeEnd('\u001b[91m用时\u001b[39m');
-    //console.log('\n文件夹： \u001b[96m' + files_c2 + '\u001b[39m个');
-    //console.log('文件： \u001b[96m' + file_c1 + '\u001b[39m个');
-    //console.log('共： \u001b[96m' + (file_c1 + files_c2) + '\u001b[39m个');
+    console.log('\n文件夹： \u001b[96m' + files_c2 + '\u001b[39m个');
+    console.log('文件： \u001b[96m' + file_c1 + '\u001b[39m个');
+    console.log('共： \u001b[96m' + (file_c1 + files_c2) + '\u001b[39m个');
     console.log('最深处： \u001b[96m' + (deep + 1) + '\u001b[39m层 (相对于：\u001b[93m' + from + '\u001b[39m)');
     console.log('位于： \u001b[96m' + deepstr + '\u001b[39m');
   }
