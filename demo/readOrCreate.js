@@ -15,7 +15,7 @@ function readFile(cb, t) {
   fs.readFile(path, null, function(err, buffer) {
     if (err) {
       console.log('读取失败:' + err);
-      t.push(createFile); // 贪吃蛇模式，如果出错会增加下一步 创建.
+      //t.push(createFile); 
       cb(path);
     } else {
       cb('$THIS=',buffer.toString());//$THIS=  直接替换this.
@@ -37,9 +37,9 @@ function createFile(cb, t) {
 }
 
 var readOrCreate = [{
-    '/readOrCreate1.txt': [readFile],
-    '/readOrCreate2.txt': [readFile],
-    '/readOrCreate3.txt': [readFile]
+    '/readOrCreate1.txt': [readFile,createFile],
+    '/readOrCreate2.txt': [readFile,createFile],
+    '/readOrCreate3.txt': [readFile,createFile]
   },
   function(cb) {
     console.log('获取成功。');
