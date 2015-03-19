@@ -1,7 +1,7 @@
 # sas
 S代表sync,AS代表async。
 
-Sas 是一个javascript处理(同/异)步引擎，它最大的特点是 可递归.
+Sas 是一个javascript处理(同/异)步控制库，它最大的特点是 可递归.
 
 它的目地是为了破解 callback hell.
 #安装
