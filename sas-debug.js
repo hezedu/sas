@@ -219,6 +219,9 @@ function sas(arr, opt) {
             case '$END': //结束 this
               count[1] = count[0];
               break;
+            case '$HOLD': // 新加功能：2015-3-23 保持原来的。
+              count[1] ++;
+              break;
             case '$RELOAD': //重载当前任务
               t[i] = pream || t[i];
               return _dis.apply(null, args);
