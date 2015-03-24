@@ -1,8 +1,8 @@
 /*!
- *version:0.1.19,
+ *version:0.1.20,
  *author:hezedu,
  *Released: jQuery.Released,
- *Date:2015-2-11
+ *Date:2015-2-24
 */
 function sas(arr, opt) {
   opt = opt || {};
@@ -37,6 +37,7 @@ function sas(arr, opt) {
         break;
       case 'Function':
         task_count++;
+
         
 
         var args = arguments;
@@ -60,6 +61,7 @@ function sas(arr, opt) {
               j++;
               if (!isSP && typeof ps[0] === 'number') {
                 ext.Sparent = ps[1];
+                ext.SpIndex = ps[0];
                 isSP = true;
               }
               ext.path.splice(0, 0, ps[0]);
@@ -148,6 +150,9 @@ function sas(arr, opt) {
               break;
             case '$END': //结束 this
               count[1] = count[0];
+              break;
+            case '$HOLD': // 新加功能：2015-3-23 保持原来的。
+              count[1] ++;
               break;
             case '$RELOAD': //重载当前任务
               t[i] = pream || t[i];

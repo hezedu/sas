@@ -53,6 +53,7 @@ function sas(arr, opt) {
         break;
       case 'Function':
         task_count++;
+
         //<DWDEBUG#######################################
         if (debug) {
           if (typeof ext === 'undefined') {
@@ -99,6 +100,7 @@ function sas(arr, opt) {
               j++;
               if (!isSP && typeof ps[0] === 'number') {
                 ext.Sparent = ps[1];
+                ext.SpIndex = ps[0];
                 isSP = true;
               }
               ext.path.splice(0, 0, ps[0]);
