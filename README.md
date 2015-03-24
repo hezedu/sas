@@ -72,7 +72,7 @@ sas(tree, {
   iterator: _mkTree
 });
 ```
-结果:将会在当前目录创建一个root开头的文件夹,里面有1,2,3三个文件夹,三个文件下各有三个文件,文件内容是hello! 加上文件名字.
+###结果:###将会在当前目录创建一个root开头的文件夹,里面有1,2,3三个文件夹,三个文件下各有三个文件,文件内容是hello! 加上文件名字.
 
 #使用说明
 用法很简单,sas只有一个function
@@ -245,7 +245,7 @@ log结果:
 ```
 他有一些实用的魔法字参数:
 
-###`cb('$STOP',err)`
+`cb('$STOP',err)`
 
 中止当前程序.同步的会立刻停住,异步的返回结果不做任何处理.
 
@@ -259,7 +259,7 @@ sas([
   test('不会被执行')
 ]);
 ```
-###`cb('$END')`
+`cb('$END')`
 
 中止 `this`
 ```javascript
@@ -277,7 +277,7 @@ log结果:
     key2: [ [Function], [Function], [Function] ] },
   undefined ]
 ```
-###`cb('$RELOAD',param)`
+`cb('$RELOAD',param)`
 
 会重载当前任务为 param || 它自身.
 ```javascript
@@ -300,7 +300,7 @@ sas([
 [ { key1: 'key1', key2: 'key2' }, undefined ]
 
 ```
-###`cb('$THIS=',result)`
+`cb('$THIS=',result)`
 
 将结果直接保存到 `this`里!
 ```javascript
@@ -324,7 +324,7 @@ sas([{
 [ { key1: '我直接存到this里拉!', key2: [ 'aaa', 'bbb' ] }, 'end' ]
 //好处是少了一层嵌套,用起来方便.
 ```
-###`cb('$HOLD')`
+`cb('$HOLD')`
 
 保持原来数据。
 
