@@ -341,54 +341,13 @@ sas([{
 
 `t.Sparent` 返回`this`的第一个Sync父级
 
+`t.SpIndex` 返回`this`的第一个Sync父级index
+
 `t.path`: 返回当前任务到根的索引数组.
 
 `t.fspath()`: 返回一个去掉数字索引的数组,像文件路径,所以叫fspath
 
 `t.push(tasks)`: 将一些元素添加到`this`里,以继续运行.只能数组元素用.
-
-```javascript
-var push_ = {
-  push1:test('push1'),
-  push2:test('push2')
-}
-
-sas([{
-    key1: test('bbb'),
-    key2: [test('ddd'), {
-      test: [
-        test('qqq'),
-        function(cb, t) {
-          console.log('t.fspath=='+t.fspath());
-          console.log('t=');
-          console.log(t);
-          t.push(push_);
-          console.log('push过后t.parent=');
-          console.log(t.parent);
-          cb();
-        }
-      ]
-    }]
-  },
-  end
-]);
-
-
-//////////////////////////
-//log结果
-t.fspath==key2,test
-t=
-{ index: 1,
-  path: [ 0, 'key2', 1, 'test', 1 ],
-  parent: { test: [ 'qqq', [Function] ] },
-  pIndex: 'test',
-  Sparent: [ 'ddd', { test: [Object] } ],
-  push: [Function],
-  fspath: [Function] }
-push过后t.parent=
-{ test: [ 'qqq', [Function], { push1: [Function], push2: [Function] } ] }
-
-```
 
 ---------------------------------------
 
