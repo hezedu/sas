@@ -3,9 +3,15 @@ dw
 2015.05.07 
 北京
 */
+
+function sas(tasks,opt,allEnd){
+  var ite;
+  
+}
+
 function sas(tasks, opt, allEnd) {
   var iterator;
-  
+
   //根据参数个数 判定函数的 api样式
   if (typeof opt !== 'object') {
     switch (arguments.length) {
@@ -21,14 +27,34 @@ function sas(tasks, opt, allEnd) {
   } else {
     iterator = opt.iterator;
   }
+  var count = 0,
+    count_cb = 0, //任务计数
+    Stop = false,
+    indexs;
 
-  var ty = Object.prototype.toString.call(tasks).slice(8, -1);
-
+  function _run(tasks) {
+    var ty = Object.prototype.toString.call(tasks).slice(8, -1);
+    switch (ty) {
+      case 'Array':
+      var len = tasks.length;
+      
+        break;
+      case 'Object':
+        break;
+      case 'Function':
+        count += 1;
+        break;
+    }
+  }
 
 
 
 }
 
+
+sas.run = function(){
+
+}
 
 
 function sas(arr, opt) {
