@@ -1,16 +1,12 @@
 /*
-dw
-2015.05.07 
-北京
+作者:hezedu
+https://github.com/hezedu/sas
 */
 
-function sas(tasks,opt,allEnd){
-  var ite;
-  
-}
+
 
 function sas(tasks, opt, allEnd) {
-  var iterator;
+  var ite;
 
   //根据参数个数 判定函数的 api样式
   if (typeof opt !== 'object') {
@@ -19,13 +15,13 @@ function sas(tasks, opt, allEnd) {
         allEnd = opt;
         break;
       case 3:
-        iterator = opt;
+        ite = opt;
         break;
       default:
         opt = {};
     }
   } else {
-    iterator = opt.iterator;
+    ite = opt.ite;
   }
   var count = 0,
     count_cb = 0, //任务计数
@@ -50,7 +46,6 @@ function sas(tasks, opt, allEnd) {
 
 
 }
-
 
 sas.run = function(){
 
@@ -325,8 +320,8 @@ function sas(arr, opt) {
         }
         break;
       default:
-        if (opt.iterator) {
-          t[i] = opt.iterator(t[i]);
+        if (opt.ite) {
+          t[i] = opt.ite(t[i]);
           _dis.apply(null, arguments);
         } else {
           throw new Error('SAS:类型错误:' + ty + '。 任务必须是一个function。');
