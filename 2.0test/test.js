@@ -1,42 +1,43 @@
 var test = function() {
-  var c = false;
+  this.a = false;
+  //this.b = true;
+  this.c = Date.now();
 
-  function t2(i) {
-    if (c) {
-      return;
-    }
-    //console.log(i);
-    if (i === 9999) {
-      c = true;
-
-    }
-    t2(++i);
-  }
-  t2(0);
 }
+
+test.prototype.b = true;
+//test.prototype.b ='dd';
+
+function t2() {
+  //test.call(this);
+  this.d = 'd'
+}
+
+function c() {}
+c.prototype = test.prototype;
+t2.prototype = new c;
+
 
 
 var test2 = function() {
-  this.c = false;
-  this.t2(0);
+  this.a = false;
+  this.b = true;
+  this.c = Date.now();
 
 }
-test2.prototype.t2 = function(i) {
-  if (this.c) {
-    return;
-  }
-  //console.log(i);
-  if (i === 9999) {
-    this.c = true;
-  }
-  this.t2(++i);
+
+function t3() {
+  test2.call(this);
+  this.d = 'd'
 }
-//test();
-//new test2()
+
 
 var time = Date.now();
-for (var i = 0; i < 9999; i++) {
-  new test2();
+for (var i = 0; i < 99999999; i++) {
+  if (!new t3().b) {
+    console.log('err');
+  }
+  // test(task)
 }
 
 console.log(Date.now() - time);

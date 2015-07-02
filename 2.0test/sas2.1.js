@@ -3,47 +3,63 @@
 https://github.com/hezedu/sas
 */
 //主
-function sas(tasks, opt, end) {
 
+//*******************************************************************************************************************
+function sas(tasks, opt, end) {
   //参数样式: 根据参数个数 判定函数的 api样式
   var ite;
   if (typeof opt !== 'object') {
     switch (arguments.length) {
       case 2:
-      opt = {
-        end:opt
-      }
+        end = opt;
         break;
       case 3:
-      opt = {
-        ite:opt,
-        end:end
-      }
+        ite = opt;
         break;
       default:
         opt = {};
     }
   } else {
-    opt.end = opt.end || end;
+    ite = opt.ite;
+    end = end || opt.end;
   }
-
   //参数样式完
-
-  opt.stop = false;
-  opt.error = null;
-  opt.tasksCount = 0;
-  opt.tasksCountCb = 0;
-  tasks = opt.copy ? sas.copy(tasks) : tasks;
-
-
-  return new sas.min(tasks,opt);
+  sas.min.prototype
+  
+  new sas.min(tasks, ite, end, opt);
 }
-//主end
+//主enddddd
 
 //主静态方法
 sas.typeArr = ['[object,Function]', '[object,Object]', '[object,Array]'];
 sas.typeFn = Object.prototype.toString;
-//主静态方法完
+sas.copy = function(t) {
+  var c = [];
+  sas._copy([t], 0, c);
+  return c[0];
+}
+sas._copy = function(t, i, c) {
+    ty = sas.typeFn.call(t[i]);
+    switch (ty) {
+      case sas.typeArr[1]: //obj
+        c[i] = {};
+        for (var j in t[i]) {
+          _copy(t[i], j, c[i]);
+        }
+        break;
+      case sas.typeArr[2]: //arr
+        c[i] = [], len = t[i].length;
+        for (var j = 0; j < len; j++) {
+          _copy(t[i], j, c[i]);
+        }
+        break;
+      default:
+        c[i] = t[i];
+    }
+  }
+  //主静态方法完
+
+
 
 //min
 sas.min = function(tasks, ite, end, opt) {
@@ -61,98 +77,110 @@ sas.min = function(tasks, ite, end, opt) {
   //##############################DWDEBUG>
   this.init();
 }
+
 //min 完
 
 //min 初始化
 sas.min.prototype.init = function() {
-  var ty = sas.typeFn.call(this.plan);
-  switch (ty) {
-    case sas.typeArr[1]: //Object
-      var keys = Object.keys(this.plan),
-        keys_len = keys.length,
-        _count = [keys_len, 0];
-      for (var o = 0; o < keys_len; o++) {
-        this.dis(keys[o], this.plan, _count, arguments);
-      }
-      break;
-
-    case sas.typeArr[2]: //Array
-      var _count = [this.plan.length, 0];
-      this.dis(_count[1], this.plan, _count, arguments);
-      break;
-    default:
-      return;
+    var ty = sas.typeFn.call(this.plan);
+    switch (ty) {
+      case sas.typeArr[1]: //Object
+        var keys = Object.keys(this.plan),
+          keys_len = keys.length,
+          _count = [keys_len, 0];
+        for (var o = 0; o < keys_len; o++) {
+          this.dis(keys[o], this.plan, _count, arguments);
+        }
+        break;
+      case sas.typeArr[2]: //Array
+        var _count = [this.plan.length, 0];
+        this.dis(_count[1], this.plan, _count, arguments);
+        break;
+      default:
+        return;
+    }
   }
-  /*  var count = [0, 1];
-    this.dis(count[0], [this.plan], count);*/
-}
-//min 初始化完
+  //min 初始化完
 
-//min 递归
-sas.min.prototype.dis = function(i, t, count, parents) {
-  if (this.STOP) {
-    return;
-  }
-  var ty = sas.typeFn.call(t[i]);
-
-  switch (ty) {
-
-    case sas.typeArr[0]: //function
-      this.tasks_count++;
-      var args = arguments;
-      if (t[i].length > 1) {
-        t[i](this.cb, new.sas.index(args));
-      } else {
-        t[i](this.cb);
-      }
-
-
-
-      break;
-    case sas.typeArr[1]: //Object
-
-      var keys = Object.keys(t[i]),
-        keys_len = keys.length,
-        _count = [keys_len, 0];
-      for (var o = 0; o < keys_len; o++) {
-        //_count[0] ++;
-        this.dis(keys[o], t[i], _count, arguments);
-      }
-      break;
-
-    case sas.typeArr[2]: //Array
-      var _count = [t[i].length, 0];
-      this.dis(_count[1], t[i], _count, arguments);
-      break;
-
-    default:
-  }
-}
-//min 递归完
 
 //进度条
 sas.min.prototype._process = function() { //over
-  if (this.process) {
-    this._t = setInterval(function() {
-      this.process(this.tasks_count, this.tasks_count_cb);
-    }, this.process_interval);
-  }
-}
-//进度条完
-sas.min.prototype._end = function() { //over
-  if (this.process) {
-    clearInterval(this._t);
-    this.process(this.tasks_count, this.tasks_count_cb);
-    if (this.end) {
-      this.end(this.error, this.plan); //国际惯例
+    if (this.process) {
+      this._t = setInterval(function() {
+        this.process(this.tasks_count, this.tasks_count_cb);
+      }, this.process_interval);
     }
   }
+  //进度条完
+sas.min.prototype._end = function() { //over
+    if (this.process) {
+      clearInterval(this._t);
+      this.process(this.tasks_count, this.tasks_count_cb);
+      if (this.end) {
+        this.end(this.error, this.plan); //国际惯例
+      }
+    }
+  }
+//*******************************************************************************************************************
+
+//递归
+sas.min.prototype.dis = function(i, t, count, parents) {
+    if (this.STOP) {
+      return;
+    }
+    switch (sas.typeFn.call(t[i])) {
+
+      //Function Ctrl
+      case sas.typeArr[0]:
+      //=========================================
+
+        this.tasks_count++;
+        var args = arguments;
+        if (t[i].length > 1) {
+          t[i](this.cb, new.sas.index(arguments));
+        } else {
+          t[i](this.cb);
+        }
+
+      //=========================================
+        break;
+
+
+
+        //Object Ctrl
+      case sas.typeArr[1]:
+        var keys = Object.keys(t[i]),
+          keys_len = keys.length,
+          _count = [keys_len, 0];
+        for (var o = 0; o < keys_len; o++) {
+          //_count[0] ++;
+          this.dis(keys[o], t[i], _count, arguments);
+        }
+        break;
+
+        //Array Ctrl
+      case sas.typeArr[2]:
+        var _count = [t[i].length, 0];
+        this.dis(_count[1], t[i], _count, arguments);
+        break;
+
+
+
+      default:
+        //other Ctrl:
+
+
+    }
+  }
+  //递归完
+
+
+
+sas.min.prototype.cb = function(i, t, count, parents) {
+
 }
+sas.cbi = function(i, t, count, parents,th) {
 
-
-
-sas.min.prototype.cbi = function(i, t, count, parents) {
-  
 }
 sas.cbi.prototype.cb = function(mag_str, parem) {
   if (typeof mag_str === 'string') {
@@ -208,30 +236,7 @@ sas.index.prototype.fspath = function() {
 sas.index.prototype.parent = function() {
   return new sas.index(parents);
 }
-sas.copy = function(t) {
-  var c = [];
-  sas._copy([t], 0, c);
-  return c[0];
-}
-sas._copy = function(t, i, c) {
-  ty = sas.typeFn.call(t[i]);
-  switch (ty) {
-    case sas.typeArr[1]: //obj
-      c[i] = {};
-      for (var j in t[i]) {
-        _copy(t[i], j, c[i]);
-      }
-      break;
-    case sas.typeArr[2]: //arr
-      c[i] = [], len = t[i].length;
-      for (var j = 0; j < len; j++) {
-        _copy(t[i], j, c[i]);
-      }
-      break;
-    default:
-      c[i] = t[i];
-  }
-}
+
 
 //<DWDEBUG##############################
 sas.min.prototype.debug = {

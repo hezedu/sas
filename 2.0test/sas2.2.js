@@ -92,11 +92,14 @@ sas._dis = function(i, t, count, parents) {
       case sas.typeArr[0]: //function
         this.tasks_count++;
         var args = arguments;
+        var cbi = new sas.cbi(i, t, count, parents, this);
+
         if (t[i].length > 1) {
-          t[i](this.cb, new.sas.index(args));
+          t[i](cbi.cb, cbi.i());
         } else {
-          t[i](this.cb);
+          t[i](cbi.cb);
         }
+
         break;
 
 
@@ -229,19 +232,31 @@ sas.min.prototype._end = function() { //over
 
 
 
-sas.min.prototype.cbi = function(i, t, count, parents) {
+sas.min.prototype.cbi = function(i, t, count, p, dis) {
+  this.i = i;
+  this.t = t;
+  this.count = count;
+  this.p = p;
+  this.dis = dis;
 
 }
 sas.cbi.prototype.cb = function(mag_str, parem) {
+  this.dis.tasks_count_cb++;
+  if (this.dis.stop) {
+    return;
+  }
   if (typeof mag_str === 'string') {
     switch (mag_str) {
       case '$STOP':
-        if (this.end) {
-          this.end(pream);
+        if (this.dis.stop) {
+          this.dis.end(pream);
         }
-        return C_stop = true;
+        return this.dis.stop = true;
         break;
       case '$THIS=':
+       if (parents) {
+          parents[1][parents[0]] = pream;
+        }
 
 
     }
