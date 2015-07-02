@@ -82,48 +82,7 @@ sas._copy = function(t, i, c) {
 
 
 
-sas._dis = function(i, t, count, parents) {
-    if (this.STOP) {
-      return;
-    }
-    var ty = sas.type.call(t[i]);
-
-    switch (ty) {
-      case sas.typeArr[0]: //function
-        this.tasks_count++;
-        var args = arguments;
-        var cbi = new sas.cbi(i, t, count, parents, this);
-
-        if (t[i].length > 1) {
-          t[i](cbi.cb, cbi.i());
-        } else {
-          t[i](cbi.cb);
-        }
-
-        break;
-
-
-
-      case sas.typeArr[1]: //Object
-        var keys = Object.keys(t[i]),
-          keys_len = keys.length,
-          _count = [keys_len, 0];
-        for (var o = 0; o < keys_len; o++) {
-          this.dis(keys[o], t[i], _count, arguments);
-        }
-        break;
-
-
-      case sas.typeArr[2]: //Array
-        var _count = [t[i].length, 0];
-        this.dis(_count[1], t[i], _count, arguments);
-        break;
-
-
-      default:
-    }
-  }
-  //sas static end
+//sas static end
 
 
 //min
@@ -180,11 +139,12 @@ sas.min.prototype.dis = function(i, t, count, parents) {
 
       case sas.typeArr[0]: //function
         this.tasks_count++;
-        var args = arguments;
+        var cbi = new sas.cbi(i, t, count, parents, this);
+
         if (t[i].length > 1) {
-          t[i](this.cb, new.sas.index(args));
+          t[i](cbi.cb, cbi.index());
         } else {
-          t[i](this.cb);
+          t[i](cbi.cb);
         }
 
 
@@ -240,25 +200,114 @@ sas.min.prototype.cbi = function(i, t, count, p, dis) {
   this.dis = dis;
 
 }
+sas.cbi.prototype.index = function() {
+  var ext = {
+      index: this.i,
+      path: [this.i]
+    },
+
+    j = 0,
+    ps, isSP = false;
+  if (parents) {
+    ps = parents;
+    ext.parent = parents[1];
+    ext.pIndex = parents[0];
+
+    while (ps) {
+      j++;
+      if (!isSP && typeof ps[0] === 'number') {
+        ext.Sparent = ps[1];
+        ext.SpIndex = ps[0];
+        isSP = true;
+      }
+      ext.path.splice(0, 0, ps[0]);
+      ps = ps[3];
+    }
+    /*      ext.parents = function(num) {
+            if (num >= j) {
+              return;
+            }
+            ps = parents;
+            for (var x = 0; x < num;) {
+              ps = ps[3];
+            }
+            return ps;
+          }*/
+  }
+  ext.push = function(a) {
+    count[0]++;
+    if (ext.parent) {
+      ext.parent[ext.pIndex].push(a);
+    } else { //没有父级，就是到顶了。
+      arr.push(a);
+    }
+  }
+  ext.fspath = function(dir) {
+    var fspath_arr = [],
+      path_arr = this.path;
+    for (var path_i = 0, path_len = path_arr.length; path_i < path_len; path_i++) {
+      if (typeof path_arr[path_i] === 'string') {
+        fspath_arr.push(path_arr[path_i]);
+      }
+    }
+    return fspath_arr;
+  }
+}
+sas.cbi.prototype.nextTick = function(i, t, count, parents) {
+  if (count[0] === count[1]) {
+    if (parents) {
+      parents[2][1]++;
+      this.next_tick.apply(null, parents);
+    } else { //完结
+
+      if (this.dis.end) {
+        this.dis.end(null, arr); //国际惯例
+      }
+    }
+  } else {
+    if (typeof i === 'number') {
+      this.dis.dis(count[1], t, count, parents);
+    }
+  }
+}
 sas.cbi.prototype.cb = function(mag_str, parem) {
-  this.dis.tasks_count_cb++;
-  if (this.dis.stop) {
+  var dis = this.dis;
+  dis.tasks_count_cb++;
+  if (dis.stop) {
     return;
   }
   if (typeof mag_str === 'string') {
     switch (mag_str) {
       case '$STOP':
-        if (this.dis.stop) {
-          this.dis.end(pream);
+        if (dis.end) {
+          dis.end(pream);
         }
-        return this.dis.stop = true;
+        return dis.stop = true;
         break;
       case '$THIS=':
-       if (parents) {
-          parents[1][parents[0]] = pream;
+        if (this.p) {
+          this.p[1][this.p[0]] = pream;
         }
-
-
+        this.count[1] = this.count[0];
+        break;
+      case '$END': //结束 this
+        this.count[1] = this.count[0];
+        break;
+        /*            case '$HOLD': // 新加功能：2015-3-23 保持原来的。
+                      count[1] ++;
+                      break;*/
+      case '$RELOAD': //重载当前任务
+        this.t[this.i] = pream || this.t[this.i];
+        return dis.dis(this.i, this.t, this.count, this.p);
+        break;
+      default:
+        this.count[1]++;
+        if (arguments.length < 2) {
+          this.t[this.i] = mag_str;
+        } else {
+          this.t[this.i] = arguments;
+        }
+        this.nextTick(this.i, this.t, this.count, this.p);
     }
 
   }
