@@ -281,15 +281,21 @@ sas.min.prototype._end = function() { //over
       }
     }
   }
+
+
+
+
+
+
   //*******************************************************************************************************************
 
-/*
-sas.cbi = function(i, t, count, parents, dis) {
-  this.i = i;
-  this.t = t;
+
+/*sas.cbi = function(i, t, count, parents, dis) {
+  this.index = i;
   this.count = count;
-  this.parents = parents;
-  this.dis = dis;
+  this._t = t;
+  this._parents = parents;
+  this._dis = dis;
 }
 
 sas.cbi.prototype.cb = function(result, pream) {
@@ -297,14 +303,14 @@ sas.cbi.prototype.cb = function(result, pream) {
   switch (result) {
     //==================魔法字==================
     case '$STOP': //中止整个程序
-      if (this.dis.end) {
-        this.dis.end(pream); //国际惯例，第一个参数err.
+      if (this._dis.end) {
+        this._dis.end(pream); //国际惯例，第一个参数err.
       }
-      return this.dis.STOP = true;
+      return this._dis.STOP = true;
       break;
     case '$THIS=': //替换掉 this
-      if (this.parents) {
-        this.parents[1][this.parents[0]] = pream;
+      if (this._parents) {
+        this._parents[1][this._parents[0]] = pream;
       }
       this.count[1] = this.count[0];
       break;
@@ -315,20 +321,20 @@ sas.cbi.prototype.cb = function(result, pream) {
       this.count[1]++;
       break;
     case '$RELOAD': //重载当前任务
-      this.t[this.i] = pream || this.t[this.i];
-      this.dis.dis(this.i, this.t, this.count, this.parents);
+      this._t[this.index] = pream || this._t[this.index];
+      this._dis.dis(this.index, this._t, this.count, this._parents);
       break;
       //==================魔法字结束==================
     default:
       this.count[1]++;
       if (arguments.length < 2) {
-        this.t[this.i] = result;
+        this._t[this.index] = result;
       } else { //如果大于2的话，把arguments变成正常数组，保存
         var result_tmp = [];
         for (var r_i = 0, len = arguments.length; r_i < len; r_i++) {
           result_tmp.push(arguments[r_i]);
         }
-        this.t[this.i] = result_tmp;
+        this._t[this.index] = result_tmp;
       }
       this.next_tick();
   }
@@ -337,21 +343,29 @@ sas.cbi.prototype.cb = function(result, pream) {
 
 sas.cbi.prototype.next_tick = function() {
   if (this.count[0] === this.count[1]) {
-    if (this.parents) {
-      this.parents[2][1]++;
-      this.next_tick.apply(null, this.parents);
+    if (this._parents) {
+      this._parents[2][1]++;
+      this.next_tick.apply(null, this._parents);
     } else { //完结
 
-      if (this.dis.end) {
-        this.dis.end(null, this.dis.plan); //国际惯例
+      if (this._dis.end) {
+        this._dis.end(null, this._dis.plan); //国际惯例
       }
     }
   } else {
-    if (typeof this.i === 'number') {
-      this.dis.dis(this.count[1], this.t, this.count, this.parents);
+    if (typeof this.index === 'number') {
+      this._dis.dis(this.count[1], this._t, this.count, this._parents);
     }
   }
 }*/
+
+
+
+ //*******************************************************************************************************************
+
+
+
+
 
 
 
