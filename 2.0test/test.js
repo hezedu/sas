@@ -38,6 +38,7 @@ function task(cb){
 }
 
 var t2 = {
+  ff:'aa',
   a:task,
   b:{
     c:task,
@@ -191,19 +192,35 @@ var tarr = [t2];
 for(var i =0;i<99;i++){
 tarr.push(sasnew.copy(t2));
 }
+var task = sasnew.copy(tarr);
+ite = function(a){
+  return function(cb){
+    cb('222')
+  }
+}
+
+for(var i = 0;i<2;i++){
+
+
+sasnew(task,function(err,result){
+    console.log(result);
+})
+
+}
+
 
 //console.log(tarr);
 
-var time = Date.now();
-for (var i = 0; i < 999; i++) {
+/*var time = Date.now();
+for (var i = 0; i < 1; i++) {
   //test(i);
 
-sas(sasnew.copy(tarr),{
-  allEnd:function(err,result){
-    //console.log(JSON.stringify(result));
-  }
+sasnew(sasnew.copy(tarr),function(err,result){
+
+    console.log(result);
+
 })
 
 
 }
-console.log(Date.now() - time);
+console.log(Date.now() - time);*/

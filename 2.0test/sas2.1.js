@@ -100,11 +100,7 @@ sas.min = function(tasks, ite, end, opt) {
 
 //min 初始化
 sas.min.prototype.init = function() {
-
-var ty = sas.typeFn.call(this.plan)
-
-
-    switch (ty) {
+    switch (sas.typeFn.call(this.plan)) {
 
       
 
@@ -123,7 +119,6 @@ var ty = sas.typeFn.call(this.plan)
         this.dis(_count[1], this.plan, _count);
         break;
       default:
-      console.error('ty'+ty);
         return;
     }
   }
@@ -177,9 +172,10 @@ sas.min.prototype.dis = function(i, t, count, parents) {
 
       default:
         //other Ctrl:
+        this.tasks_count++;
         if (this.ite) {
           t[i] = this.ite(t[i]);
-          this.tasks_count++;
+          
 
           if (t[i].length > 1) {
             t[i](this.cb(i, t, count, parents), new sas.index(i, t, count, parents, this));
@@ -187,6 +183,9 @@ sas.min.prototype.dis = function(i, t, count, parents) {
             t[i](this.cb(i, t, count, parents));
           }
 
+        }else{
+          count[1]++;
+          this.next_tick(i, t, count, parents);
         }
 
 
