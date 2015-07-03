@@ -20,37 +20,54 @@ function sas(tasks, opt, end) {
         opt = {};
     }
   } else {
-    ite = opt.ite;
-    end = end || opt.end;
+    ite = opt.iterator;
+    end = end || opt.allEnd;
   }
   //参数样式完
-  sas.min.prototype
-  
   new sas.min(tasks, ite, end, opt);
 }
-//主enddddd
+//主end
+//*******************************************************************************************************************
+
 
 //主静态方法
-sas.typeArr = ['[object,Function]', '[object,Object]', '[object,Array]'];
+sas.typeArr = ['[object Function]', '[object Object]', '[object Array]'];
 sas.typeFn = Object.prototype.toString;
+
 sas.copy = function(t) {
-  var c = [];
-  sas._copy([t], 0, c);
-  return c[0];
+  var c;
+  var ty = sas.typeFn.call(t);
+  switch (ty) {
+    case sas.typeArr[1]: //obj
+      c = {};
+      for (var i in t) {
+        sas._copy(t, i, c);
+      }
+      break;
+    case sas.typeArr[2]: //arr
+      c = [], len = t.length;
+      for (var i = 0; i < len; i++) {
+        sas._copy(t, i, c);
+      }
+      break;
+    default:
+      c = t;
+  }
+  return c;
 }
 sas._copy = function(t, i, c) {
-    ty = sas.typeFn.call(t[i]);
+    var ty = sas.typeFn.call(t[i]);
     switch (ty) {
       case sas.typeArr[1]: //obj
         c[i] = {};
         for (var j in t[i]) {
-          _copy(t[i], j, c[i]);
+          sas._copy(t[i], j, c[i]);
         }
         break;
       case sas.typeArr[2]: //arr
         c[i] = [], len = t[i].length;
         for (var j = 0; j < len; j++) {
-          _copy(t[i], j, c[i]);
+          sas._copy(t[i], j, c[i]);
         }
         break;
       default:
@@ -58,7 +75,7 @@ sas._copy = function(t, i, c) {
     }
   }
   //主静态方法完
-
+  //*******************************************************************************************************************
 
 
 //min
@@ -73,76 +90,69 @@ sas.min = function(tasks, ite, end, opt) {
   this.process_interval = opt.process_interval || 1000;
   this.plan = opt.copy ? sas.copy(tasks) : tasks;
   //<DWDEBUG##############################
-  this.debug._color(1, '\n开始', 22);
+  //this.debug._color(1, '\n开始', 22);
   //##############################DWDEBUG>
   this.init();
+
 }
 
-//min 完
+//min end
 
 //min 初始化
 sas.min.prototype.init = function() {
-    var ty = sas.typeFn.call(this.plan);
+
+var ty = sas.typeFn.call(this.plan)
+
+
     switch (ty) {
+
+      
+
       case sas.typeArr[1]: //Object
+
         var keys = Object.keys(this.plan),
           keys_len = keys.length,
           _count = [keys_len, 0];
         for (var o = 0; o < keys_len; o++) {
-          this.dis(keys[o], this.plan, _count, arguments);
+          this.dis(keys[o], this.plan, _count);
         }
         break;
       case sas.typeArr[2]: //Array
+
         var _count = [this.plan.length, 0];
-        this.dis(_count[1], this.plan, _count, arguments);
+        this.dis(_count[1], this.plan, _count);
         break;
       default:
+      console.error('ty'+ty);
         return;
     }
   }
   //min 初始化完
+  //*******************************************************************************************************************
 
 
-//进度条
-sas.min.prototype._process = function() { //over
-    if (this.process) {
-      this._t = setInterval(function() {
-        this.process(this.tasks_count, this.tasks_count_cb);
-      }, this.process_interval);
-    }
-  }
-  //进度条完
-sas.min.prototype._end = function() { //over
-    if (this.process) {
-      clearInterval(this._t);
-      this.process(this.tasks_count, this.tasks_count_cb);
-      if (this.end) {
-        this.end(this.error, this.plan); //国际惯例
-      }
-    }
-  }
-//*******************************************************************************************************************
 
 //递归
 sas.min.prototype.dis = function(i, t, count, parents) {
+
     if (this.STOP) {
       return;
     }
+
     switch (sas.typeFn.call(t[i])) {
 
       //Function Ctrl
       case sas.typeArr[0]:
-      //=========================================
-
+        //=========================================
         this.tasks_count++;
-        var args = arguments;
+
         if (t[i].length > 1) {
-          t[i](this.cb, new.sas.index(arguments));
+          t[i](this.cb(i, t, count, parents), new sas.index(i, t, count, parents, this));
         } else {
-          t[i](this.cb);
+          t[i](this.cb(i, t, count, parents));
         }
 
-      //=========================================
+        //=========================================
         break;
 
 
@@ -165,81 +175,258 @@ sas.min.prototype.dis = function(i, t, count, parents) {
         break;
 
 
-
       default:
         //other Ctrl:
+        if (this.ite) {
+          t[i] = this.ite(t[i]);
+          this.tasks_count++;
+
+          if (t[i].length > 1) {
+            t[i](this.cb(i, t, count, parents), new sas.index(i, t, count, parents, this));
+          } else {
+            t[i](this.cb(i, t, count, parents));
+          }
+
+        }
 
 
     }
   }
   //递归完
-
-
+  //*******************************************************************************************************************
 
 sas.min.prototype.cb = function(i, t, count, parents) {
-
-}
-sas.cbi = function(i, t, count, parents,th) {
-
-}
-sas.cbi.prototype.cb = function(mag_str, parem) {
-  if (typeof mag_str === 'string') {
-    switch (mag_str) {
-      case '$STOP':
-        if (this.end) {
-          this.end(pream);
+  var self = this;
+  return function(result, pream) {
+    
+      //if (typeof result === 'string') {
+    switch (result) {
+      //==================魔法字==================
+      case '$STOP': //中止整个程序
+        if (self.end) {
+          self.end(pream); //国际惯例，第一个参数err.
         }
-        return C_stop = true;
+        return self.STOP = true;
         break;
-      case '$THIS=':
-
-
+      case '$THIS=': //替换掉 this
+        if (parents) {
+          parents[1][parents[0]] = pream;
+        }
+        count[1] = count[0];
+        break;
+      case '$END': //结束 this
+        count[1] = count[0];
+        break;
+      case '$HOLD': // 新加功能：2015-3-23 保持原来的。
+        count[1]++;
+        break;
+      case '$RELOAD': //重载当前任务
+        t[i] = pream || t[i];
+        self.dis(i, t, count, parents);
+        break;
+        //==================魔法字结束==================
+      default:
+        count[1]++;
+        if (arguments.length < 2) {
+          t[i] = result;
+        } else { //如果大于2的话，把arguments变成正常数组，保存
+          var result_tmp = [];
+          for (var r_i = 0, len = arguments.length; r_i < len; r_i++) {
+            result_tmp.push(arguments[r_i]);
+          }
+          t[i] = result_tmp;
+        }
+        self.next_tick(i, t, count, parents);
     }
-
+    //}
   }
-
-
-}
-
-sas.cbi.prototype.index = function() {
-
 }
 
 
+sas.min.prototype.next_tick = function(i, t, count, parents) {
 
-sas.index = function(task, i, key, parents) {
+  if (count[0] === count[1]) {
+    if (parents) {
+      parents[2][1]++;
+      this.next_tick.apply(this, parents);
+    } else { //完结
+
+      if (this.end) {
+        this.end(null, this.plan); //国际惯例
+      }
+    }
+  } else {
+    if (typeof i === 'number') {
+      this.dis(count[1], t, count, parents);
+    }
+  }
+}
+
+
+
+//进度条
+sas.min.prototype._process = function() { //over
+    if (this.process) {
+      this._t = setInterval(function() {
+        this.process(this.tasks_count, this.tasks_count_cb);
+      }, this.process_interval);
+    }
+  }
+  //进度条完
+sas.min.prototype._end = function() { //over
+    if (this.process) {
+      clearInterval(this._t);
+      this.process(this.tasks_count, this.tasks_count_cb);
+      if (this.end) {
+        this.end(this.error, this.plan); //国际惯例
+      }
+    }
+  }
+  //*******************************************************************************************************************
+
+/*
+sas.cbi = function(i, t, count, parents, dis) {
+  this.i = i;
+  this.t = t;
+  this.count = count;
+  this.parents = parents;
+  this.dis = dis;
+}
+
+sas.cbi.prototype.cb = function(result, pream) {
+  //if (typeof result === 'string') {
+  switch (result) {
+    //==================魔法字==================
+    case '$STOP': //中止整个程序
+      if (this.dis.end) {
+        this.dis.end(pream); //国际惯例，第一个参数err.
+      }
+      return this.dis.STOP = true;
+      break;
+    case '$THIS=': //替换掉 this
+      if (this.parents) {
+        this.parents[1][this.parents[0]] = pream;
+      }
+      this.count[1] = this.count[0];
+      break;
+    case '$END': //结束 this
+      this.count[1] = this.count[0];
+      break;
+    case '$HOLD': // 新加功能：2015-3-23 保持原来的。
+      this.count[1]++;
+      break;
+    case '$RELOAD': //重载当前任务
+      this.t[this.i] = pream || this.t[this.i];
+      this.dis.dis(this.i, this.t, this.count, this.parents);
+      break;
+      //==================魔法字结束==================
+    default:
+      this.count[1]++;
+      if (arguments.length < 2) {
+        this.t[this.i] = result;
+      } else { //如果大于2的话，把arguments变成正常数组，保存
+        var result_tmp = [];
+        for (var r_i = 0, len = arguments.length; r_i < len; r_i++) {
+          result_tmp.push(arguments[r_i]);
+        }
+        this.t[this.i] = result_tmp;
+      }
+      this.next_tick();
+  }
+  //}
+}
+
+sas.cbi.prototype.next_tick = function() {
+  if (this.count[0] === this.count[1]) {
+    if (this.parents) {
+      this.parents[2][1]++;
+      this.next_tick.apply(null, this.parents);
+    } else { //完结
+
+      if (this.dis.end) {
+        this.dis.end(null, this.dis.plan); //国际惯例
+      }
+    }
+  } else {
+    if (typeof this.i === 'number') {
+      this.dis.dis(this.count[1], this.t, this.count, this.parents);
+    }
+  }
+}*/
+
+
+
+sas.index = function(i, t, count, parents, dis) {
   this.index = i;
-  this.count = opt.count;
-  this._init = false;
-  this._path = null;
-  this._fspath = null;
+  this.path = [i];
+  this.count = count;
+  this.dis = dis;
 
-}
-sas.index.prototype.path = function() {
-    if (!this._path) {
+  var j = 0,
+    ps, isSP = false;
 
+  if (parents) {
+    ps = parents;
+    this.parent = parents[1];
+    this.pIndex = parents[0];
+
+    while (ps) {
+      j++;
+      if (!isSP && typeof ps[0] === 'number') {
+        this.Sparent = ps[1];
+        this.SpIndex = ps[0];
+        isSP = true;
+      }
+      this.path.splice(0, 0, ps[0]);
+      ps = ps[3];
     }
-    return this._path;
+    /*      this.parents = function(num) {
+            if (num >= j) {
+              return;
+            }
+            ps = parents;
+            for (var x = 0; x < num;) {
+              ps = ps[3];
+            }
+            return ps;
+          }*/
   }
-  /*sas.index.prototype.init = function(){
+}
 
-  }*/
+
+
+/*sas.index.prototype.path = function() {
+  if (!this._init) {
+    this.init();
+  }
+  return this._path;
+}*/
+
 sas.index.prototype.fspath = function() {
-  if (!this._fspath) {
-    if (!this._path) {
-      this.path();
+  var fspath_arr = [],
+    path_arr = this.path;
+  for (var path_i = 0, path_len = path_arr.length; path_i < path_len; path_i++) {
+    if (typeof path_arr[path_i] === 'string') {
+      fspath_arr.push(path_arr[path_i]);
     }
   }
-  return this._fspath;
+  return fspath_arr;
 }
 
-sas.index.prototype.parent = function() {
-  return new sas.index(parents);
+sas.index.prototype.push = function(a) {
+  this.count[0]++;
+  if (this.parent) {
+    this.parent[this.pIndex].push(a);
+  } else { //没有父级，就是到顶了。
+    this.dis.plan.push(a);
+  }
 }
 
-
+if (typeof module === 'object' && typeof module.exports === 'object') {
+  module.exports = sas;
+}
 //<DWDEBUG##############################
-sas.min.prototype.debug = {
+/*sas.min.prototype.debug = {
     C_START: Date.now(),
     C_time: 0,
     _color: function(c, str, b) {
@@ -250,5 +437,5 @@ sas.min.prototype.debug = {
         console.log('\u001b[' + c + 'm' + str + '\u001b[' + b + 'm');
       }
     }
-  }
-  //##############################DWDEBUG>
+  }*/
+//##############################DWDEBUG>

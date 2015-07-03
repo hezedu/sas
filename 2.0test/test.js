@@ -1,63 +1,209 @@
-var sas = {}
-sas.typeArr = ['[object,Function]', '[object,Object]', '[object,Array]'];
-sas.typeFn = Object.prototype.toString;
-sas.copy = function(t) {
-  var c = [];
-  sas._copy([t], 0, c);
-  //c = c[0]
-  return c[0];
-}
+var sasnew = require('./sas2.1.js');
 
-/*sas._copy = function(t, i, c) {
-  var ty = sas.typeFn.call(t[i]);
-  switch (ty) {
-    case sas.typeArr[1]: //obj
-      c[i] = {};
-      for (var j in t[i]) {
-        sas._copy(t[i], j, c[i]);
-      }
-      break;
-    case sas.typeArr[2]: //arr
-      c[i] = [], len = t[i].length;
-      for (var j = 0; j < len; j++) {
-        sas._copy(t[i], j, c[i]);
-      }
-      break;
-    default:
-      c[i] = t[i];
+var sas = require('../sas.js');
+
+
+var plan = [
+  null, {
+    '/1': [null, {
+      '/1-1': 'hello!1-1',
+      '/1-2': 'hello!1-2',
+      '/1-3': 'hello!1-3'
+    }],
+    '/2': [null, {
+      '/2-1': 'hello!2-1',
+      '/2-2': 'hello!2-2',
+      '/2-3': 'hello!2-3'
+    }],
+    '/3': [null, {
+      '/3-1': 'hello!3-1',
+      '/3-2': 'hello!3-2',
+      '/3-3': 'hello!3-3'
+    }]
   }
+];
+/*var test = [];
+for (var i = 0; i < 9999; i++) {
+  test.push(plan);
 }*/
-sas.oo = 'object'
-sas._copy = function(t, i, c) {
-  if (typeof t[i] === sas.oo) {
-    if (Array.isArray(t[i])) {
-      c[i] = [], len = t[i].length;
-      for (var j = 0; j < len; j++) {
-        sas._copy(t[i], j, c[i]);
-      }
-    } else {
-      c[i] = {};
-      for (var j in t[i]) {
-        sas._copy(t[i], j, c[i]);
-      }
-    }
-  } else {
-    c[i] = t[i];
+
+var ite = function(a) {
+  return function(cb) {
+    cb(a);
   }
 }
 
-var test = {
-  a: 'a',
-  b: [1, 2, 3],
-  c: {
-    d: [1, 2, 3]
+function task(cb){
+  cb(1);
+}
+
+var t2 = {
+  a:task,
+  b:{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task
+      ]
+    }
+  },
+  c:{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task,{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task,{
+  a:task,
+  b:{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task
+      ]
+    }
+  },
+  c:{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task,{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task
+      ]
+    }
+  }
+      ]
+    }
+  },
+  d:{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task,{
+  a:task,
+  b:{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task
+      ]
+    }
+  },
+  c:{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task,{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task
+      ]
+    }
+  }
+      ]
+    }
+  },
+  d:{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task,{
+  a:task,
+  b:{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task
+      ]
+    }
+  },
+  c:{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task,{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task
+      ]
+    }
+  }
+      ]
+    }
+  },
+  d:{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task
+      ]
+    }
   }
 }
-console.log(sas.copy(test));
+      ]
+    }
+  }
+}
+      ]
+    }
+  }
+}
+      ]
+    }
+  }
+      ]
+    }
+  },
+  d:{
+    c:task,
+    d:{
+      e:task,
+      f:[
+      task,task,task
+      ]
+    }
+  }
+}
+
+var tarr = [t2];
+for(var i =0;i<99;i++){
+tarr.push(sasnew.copy(t2));
+}
+
+//console.log(tarr);
 
 var time = Date.now();
-for (var i = 0; i < 9999999; i++) {
-sas.copy(test)
-}
+for (var i = 0; i < 999; i++) {
+  //test(i);
 
+sas(sasnew.copy(tarr),{
+  allEnd:function(err,result){
+    //console.log(JSON.stringify(result));
+  }
+})
+
+
+}
 console.log(Date.now() - time);
