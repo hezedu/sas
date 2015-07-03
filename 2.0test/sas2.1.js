@@ -36,8 +36,7 @@ sas.typeFn = Object.prototype.toString;
 
 sas.copy = function(t) {
   var c;
-  var ty = sas.typeFn.call(t);
-  switch (ty) {
+  switch (sas.typeFn.call(t)) {
     case sas.typeArr[1]: //obj
       c = {};
       for (var i in t) {
@@ -56,8 +55,7 @@ sas.copy = function(t) {
   return c;
 }
 sas._copy = function(t, i, c) {
-    var ty = sas.typeFn.call(t[i]);
-    switch (ty) {
+    switch (sas.typeFn.call(t[i])) {
       case sas.typeArr[1]: //obj
         c[i] = {};
         for (var j in t[i]) {
@@ -77,7 +75,6 @@ sas._copy = function(t, i, c) {
   //主静态方法完
   //*******************************************************************************************************************
 
-
 //min
 sas.min = function(tasks, ite, end, opt) {
   this.tasks_count = 0;
@@ -93,7 +90,6 @@ sas.min = function(tasks, ite, end, opt) {
   //this.debug._color(1, '\n开始', 22);
   //##############################DWDEBUG>
   this.init();
-
 }
 
 //min end
@@ -101,9 +97,6 @@ sas.min = function(tasks, ite, end, opt) {
 //min 初始化
 sas.min.prototype.init = function() {
     switch (sas.typeFn.call(this.plan)) {
-
-      
-
       case sas.typeArr[1]: //Object
 
         var keys = Object.keys(this.plan),
@@ -123,34 +116,23 @@ sas.min.prototype.init = function() {
     }
   }
   //min 初始化完
-  //*******************************************************************************************************************
-
-
 
 //递归
 sas.min.prototype.dis = function(i, t, count, parents) {
-
     if (this.STOP) {
       return;
     }
-
     switch (sas.typeFn.call(t[i])) {
 
       //Function Ctrl
       case sas.typeArr[0]:
-        //=========================================
         this.tasks_count++;
-
         if (t[i].length > 1) {
           t[i](this.cb(i, t, count, parents), new sas.index(i, t, count, parents, this));
         } else {
           t[i](this.cb(i, t, count, parents));
         }
-
-        //=========================================
         break;
-
-
 
         //Object Ctrl
       case sas.typeArr[1]:
@@ -169,26 +151,20 @@ sas.min.prototype.dis = function(i, t, count, parents) {
         this.dis(_count[1], t[i], _count, arguments);
         break;
 
-
       default:
         //other Ctrl:
         this.tasks_count++;
         if (this.ite) {
           t[i] = this.ite(t[i]);
-          
-
           if (t[i].length > 1) {
             t[i](this.cb(i, t, count, parents), new sas.index(i, t, count, parents, this));
           } else {
             t[i](this.cb(i, t, count, parents));
           }
-
-        }else{
+        } else {
           count[1]++;
           this.next_tick(i, t, count, parents);
         }
-
-
     }
   }
   //递归完
@@ -197,8 +173,8 @@ sas.min.prototype.dis = function(i, t, count, parents) {
 sas.min.prototype.cb = function(i, t, count, parents) {
   var self = this;
   return function(result, pream) {
-    
-      //if (typeof result === 'string') {
+
+    //if (typeof result === 'string') {
     switch (result) {
       //==================魔法字==================
       case '$STOP': //中止整个程序
@@ -273,102 +249,16 @@ sas.min.prototype._process = function() { //over
   }
   //进度条完
 sas.min.prototype._end = function() { //over
-    if (this.process) {
-      clearInterval(this._t);
-      this.process(this.tasks_count, this.tasks_count_cb);
-      if (this.end) {
-        this.end(this.error, this.plan); //国际惯例
-      }
+  if (this.process) {
+    clearInterval(this._t);
+    this.process(this.tasks_count, this.tasks_count_cb);
+    if (this.end) {
+      this.end(this.error, this.plan); //国际惯例
     }
   }
-
-
-
-
-
-
-  //*******************************************************************************************************************
-
-
-/*sas.cbi = function(i, t, count, parents, dis) {
-  this.index = i;
-  this.count = count;
-  this._t = t;
-  this._parents = parents;
-  this._dis = dis;
 }
 
-sas.cbi.prototype.cb = function(result, pream) {
-  //if (typeof result === 'string') {
-  switch (result) {
-    //==================魔法字==================
-    case '$STOP': //中止整个程序
-      if (this._dis.end) {
-        this._dis.end(pream); //国际惯例，第一个参数err.
-      }
-      return this._dis.STOP = true;
-      break;
-    case '$THIS=': //替换掉 this
-      if (this._parents) {
-        this._parents[1][this._parents[0]] = pream;
-      }
-      this.count[1] = this.count[0];
-      break;
-    case '$END': //结束 this
-      this.count[1] = this.count[0];
-      break;
-    case '$HOLD': // 新加功能：2015-3-23 保持原来的。
-      this.count[1]++;
-      break;
-    case '$RELOAD': //重载当前任务
-      this._t[this.index] = pream || this._t[this.index];
-      this._dis.dis(this.index, this._t, this.count, this._parents);
-      break;
-      //==================魔法字结束==================
-    default:
-      this.count[1]++;
-      if (arguments.length < 2) {
-        this._t[this.index] = result;
-      } else { //如果大于2的话，把arguments变成正常数组，保存
-        var result_tmp = [];
-        for (var r_i = 0, len = arguments.length; r_i < len; r_i++) {
-          result_tmp.push(arguments[r_i]);
-        }
-        this._t[this.index] = result_tmp;
-      }
-      this.next_tick();
-  }
-  //}
-}
-
-sas.cbi.prototype.next_tick = function() {
-  if (this.count[0] === this.count[1]) {
-    if (this._parents) {
-      this._parents[2][1]++;
-      this.next_tick.apply(null, this._parents);
-    } else { //完结
-
-      if (this._dis.end) {
-        this._dis.end(null, this._dis.plan); //国际惯例
-      }
-    }
-  } else {
-    if (typeof this.index === 'number') {
-      this._dis.dis(this.count[1], this._t, this.count, this._parents);
-    }
-  }
-}*/
-
-
-
- //*******************************************************************************************************************
-
-
-
-
-
-
-
+//*******************************************************************************************************************
 sas.index = function(i, t, count, parents, dis) {
   this.index = i;
   this.path = [i];
@@ -406,15 +296,6 @@ sas.index = function(i, t, count, parents, dis) {
   }
 }
 
-
-
-/*sas.index.prototype.path = function() {
-  if (!this._init) {
-    this.init();
-  }
-  return this._path;
-}*/
-
 sas.index.prototype.fspath = function() {
   var fspath_arr = [],
     path_arr = this.path;
@@ -427,13 +308,14 @@ sas.index.prototype.fspath = function() {
 }
 
 sas.index.prototype.push = function(a) {
-  this.count[0]++;
-  if (this.parent) {
-    this.parent[this.pIndex].push(a);
-  } else { //没有父级，就是到顶了。
-    this.dis.plan.push(a);
+    this.count[0]++;
+    if (this.parent) {
+      this.parent[this.pIndex].push(a);
+    } else { //没有父级，就是到顶了。
+      this.dis.plan.push(a);
+    }
   }
-}
+  //*******************************************************************************************************************
 
 if (typeof module === 'object' && typeof module.exports === 'object') {
   module.exports = sas;
