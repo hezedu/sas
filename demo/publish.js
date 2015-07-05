@@ -1,7 +1,6 @@
 var fs = require('fs');
 var sas = require('../sas-debug.js');
 var uglify = require('uglify-js');
-sas.debug=false;
 /*
  *去掉sas-debug.js里  //<DWDEBUG 到 DWDEBUG> 之间的内容
  * 添加一些注释。生成sas.js ， 利用 uglify 压缩sas-min.js文件。
@@ -12,11 +11,11 @@ var version = require('../package.json').version;
 var date  = new Date();
 var datearr=[]
 datearr[0] = date.getFullYear();
-datearr[1] = date.getMonth();
+datearr[1] = date.getMonth()+1;
 datearr[2] = date.getDate();
 
 //注释
-var note = "/*!\n *version:"+version+",\n *author:hezedu,\n *Released: jQuery.Released,\n *Date:"+datearr.join('-')+"\n*/\n";
+var note = "/*!\n *version:"+version+",\n *author:hezedu,\n *Released: mit,\n *Date:"+datearr.join('-')+"\n *repository:https://github.com/hezedu/sas\n *home:https://github.com/hezedu/sas*/\n";
 
 var read = function(cb) { //读取 sas-debug.js
   fs.readFile('../sas-debug.js', 'utf-8', function(err, buffer) {

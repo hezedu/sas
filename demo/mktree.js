@@ -1,6 +1,6 @@
 var sas = require('../sas-debug');
 var fs = require('fs');
-var dir = __dirname + '/root' + Date.now();//根目录名字: root+当前时间
+var dir = __dirname + '/data/root' + Date.now();//根目录名字: root+当前时间
 
 function _mkTree(data) { //iterator
   return function(cb, t) {
@@ -42,7 +42,8 @@ var plan = [
     }]
   }
 ];
-
+//console.log('message');
+var time = Date.now();
 sas(plan, {
   iterator: _mkTree
 });

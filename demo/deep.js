@@ -66,7 +66,17 @@ if(process.platform.substr(0,3)==='win'){
 }
 console.time('\u001b[91m用时\u001b[39m');
 
-sas([read_dir], { //////核心
+
+sas([read_dir],_stat,function() {
+    console.timeEnd('\u001b[91m用时\u001b[39m');
+    console.log('\n文件夹： \u001b[96m' + files_c2 + '\u001b[39m个');
+    console.log('文件： \u001b[96m' + file_c1 + '\u001b[39m个');
+    console.log('共： \u001b[96m' + (file_c1 + files_c2) + '\u001b[39m个');
+    console.log('最深处： \u001b[96m' + (deep + 1) + '\u001b[39m层 (相对于：\u001b[93m' + from + '\u001b[39m)');
+    console.log('位于： \u001b[96m' + deepstr + '\u001b[39m');
+  });
+
+/*sas([read_dir], { //////核心
   iterator: _stat,
   allEnd: function() {
     console.timeEnd('\u001b[91m用时\u001b[39m');
@@ -76,4 +86,4 @@ sas([read_dir], { //////核心
     console.log('最深处： \u001b[96m' + (deep + 1) + '\u001b[39m层 (相对于：\u001b[93m' + from + '\u001b[39m)');
     console.log('位于： \u001b[96m' + deepstr + '\u001b[39m');
   }
-});
+});*/
