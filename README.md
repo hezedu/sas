@@ -1,4 +1,4 @@
-# sas
+# sas2.0.1
 S代表sync,AS代表async。
 
 Sas 是一个javascript处理(同/异)步控制库，它最大的特点是 可递归.

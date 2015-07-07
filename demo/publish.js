@@ -8,53 +8,101 @@ var uglify = require('uglify-js');
  */
 
 var version = require('../package.json').version;
-var date  = new Date();
-var datearr=[]
+var date = new Date();
+var datearr = []
 datearr[0] = date.getFullYear();
-datearr[1] = date.getMonth()+1;
+datearr[1] = date.getMonth() + 1;
 datearr[2] = date.getDate();
 
 //注释
-var note = "/*!\n *version:"+version+",\n *author:hezedu,\n *Released: mit,\n *Date:"+datearr.join('-')+"\n *repository:https://github.com/hezedu/sas\n *home:https://github.com/hezedu/sas*/\n";
+var note = "/*!\n *version:" + version + "  Released: jQuery.Release \n *repository:https://github.com/hezedu/sas\n *by hezedu " + datearr.join('/') + "\n*/\n\n";
 
-var read = function(cb) { //读取 sas-debug.js
+var readDebug = function(cb) { //读取 sas-debug.js
   fs.readFile('../sas-debug.js', 'utf-8', function(err, buffer) {
     if (err) {
       return console.log('ERR:' + err);
     }
     buffer = buffer.replace(/\/\/\<DWDEBUG([\s\S ]*?)DWDEBUG\>/g, '');
-    cb(buffer);//将结果保存到this。
+    cb(buffer); //将结果保存。
   })
 }
 
+var readMe = function(cb) { //读取 README.md
+  fs.readFile('../README.md', 'utf-8', function(err, buffer) {
+    if (err) {
+      return console.log('ERR:' + err);
+    }
+    //buffer = buffer.replace(/\/\/\<DWDEBUG([\s\S ]*?)DWDEBUG\>/g, '');
+    cb(buffer); //将结果保存。
+  })
+}
 
-var writePro = function(cb, t) {//生成主文件
+var writeMe = function(cb, t) { //更新 readMe首部 版本号
 
-  var data = note+t.Sparent[0]; // Sparent this的第一个sync(数组)父级。
+  var data = t.Sparent[0].readMe;
+  var first_n = data.indexOf('\n');
+  var top = data.substr(0,first_n);
+
+  top = top.split('sas');
+  if(top[1] == version){
+    cb();
+  }else{
+    top[1] = version;
+    top = top.join('sas');
+    data = top+data.substr(first_n);
+
+    fs.writeFile('../README.md', data, function(err) {
+    if (err) {
+      return console.log('write err:' + err);
+    }
+    console.log('sas.js README.md.版本：' + version);
+    cb();
+  });
+
+  }
+  
+
+/*  fs.writeFile('../sas.js', data, function(err) {
+    if (err) {
+      return console.log('write err:' + err);
+    }
+    console.log('sas.js制作完成.版本：' + version);
+    cb();
+  });*/
+}
+
+var writePro = function(cb, t) { //生成主文件
+
+  var data = note + t.Sparent[0].readDebug; // Sparent this的第一个sync(数组)父级。
 
   fs.writeFile('../sas.js', data, function(err) {
     if (err) {
       return console.log('write err:' + err);
     }
-    console.log('sas.js制作完成.版本：'+version);
+    console.log('sas.js制作完成.版本：' + version);
     cb();
   });
 }
 
-var writeMin = function(cb, t) {//生成压缩min.js，前端使用
-  var data = t.Sparent[0];
+var writeMin = function(cb, t) { //生成压缩min.js，前端使用
+  var data = t.Sparent[0].readDebug;
   data = uglify.minify(data, {
     fromString: true
   });
-  fs.writeFile('../sas-min.js', note+data.code, function(err) {
+  fs.writeFile('../sas-min.js', note + data.code, function(err) {
     if (err) {
       return console.log('write err:' + err);
     }
-    console.log('sas-min.js压缩完成.版本：'+version);
+    console.log('sas-min.js压缩完成.版本：' + version);
     cb();
   });
 }
-sas([read, {
+sas([{
+  readDebug: readDebug,
+  readMe: readMe
+}, {
+  writeMe: writeMe,
   writePro: writePro,
   writeMin: writeMin
+  
 }]);
