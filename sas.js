@@ -1,5 +1,5 @@
 /*!
- *version:2.0.1  Released: jQuery.Release 
+ *version:2.0.2  Released: jQuery.Release 
  *repository:https://github.com/hezedu/sas
  *by hezedu 2015/7/8
 */
@@ -133,7 +133,7 @@ sas.min.prototype.forFn = function(i, t, count, parents) {
   var ext = null,
     self = this;
   if (t[i].length > 1) {
-    ext = new sas.Index(i, t, count, parents, this);
+    ext = new sas.Index(i, t, count, parents);
   }
   
   t[i](cb, ext);
@@ -154,9 +154,7 @@ sas.min.prototype.forFn = function(i, t, count, parents) {
         return self.STOP = true;
         break;
       case '$THIS=': //替换掉 this
-        if (parents) {
-          parents[1][parents[0]] = pream;
-        }
+        parents[1][parents[0]] = pream;
         count[1] = count[0];
         break;
       case '$END': //结束 this
@@ -229,16 +227,13 @@ sas.min.prototype._end = function() { //over
 
 //*********************************** Index ***********************************
 
-sas.Index = function(i, t, count, parents, dis) {
+sas.Index = function(i, t, count, parents) {
   this.index = i;
   this.path = [i];
   this.count = count;
-  this.dis = dis;
 
   var j = 0,
     ps, isSP = false;
-
-  if (parents) {
     ps = parents;
     this.parent = parents[1];
     this.pIndex = parents[0];
@@ -263,7 +258,6 @@ sas.Index = function(i, t, count, parents, dis) {
             }
             return ps;
           }*/
-  }
 }
 
 sas.Index.prototype.fspath = function() {
@@ -279,11 +273,7 @@ sas.Index.prototype.fspath = function() {
 
 sas.Index.prototype.push = function(a) {
   this.count[0]++;
-  if (this.parent) {
-    this.parent[this.pIndex].push(a);
-  } else { //没有父级，就是到顶了。
-    this.dis.plan.push(a);
-  }
+  this.parent[this.pIndex].push(a);
 }
 
 //*********************************** module ***********************************
