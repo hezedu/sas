@@ -1,9 +1,11 @@
 # sas2.0.2
 S代表sync,AS代表async。
 
-Sas 是一个javascript处理(同/异)步控制库，它最大的特点是 可递归.
+Sas 是一个javascript处理(同/异)步控制引挚.
 
 它的目地是为了破解 callback hell.
+
+
 #安装
 [Node.js](http://nodejs.org)： `npm install sas`
 
@@ -19,60 +21,10 @@ ___sas-min.js___   压缩好的,前端用.
 
 ___/demo___   示例文件夹.
 
-#快速示例
+#示例
+找到磁盘里最深的目录.
 
-异步创建文档树 (demo文件夹下mktree.js):
-```javascript
-var sas = require('../sas-debug');
-var fs = require('fs');
-var dir = __dirname + '/root' + Date.now();//根目录名字: root+当前时间
-
-function _mkTree(data) { //iterator
-  return function(cb, t) {
-    var fspath = dir + '/' + t.fspath().join('');
-    if (t.index === 0) { //根据this 的index 判定是否为目录
-      fs.mkdir(fspath, 777, function(err, result) {
-        if (err) {
-          return cb('$STOP');
-        }
-        cb();
-      });
-    } else { //创建文件并写入。
-      fs.writeFile(fspath, data, function(err) {
-        if (err) {
-          return cb('$STOP');
-        }
-        cb();
-      });
-    }
-  }
-}
-
-var tree = [
-  null, {
-    '/1': [null, {
-      '/1-1': 'hello!1-1',
-      '/1-2': 'hello!1-2',
-      '/1-3': 'hello!1-3'
-    }],
-    '/2': [null, {
-      '/2-1': 'hello!2-1',
-      '/2-2': 'hello!2-2',
-      '/2-3': 'hello!2-3'
-    }],
-    '/3': [null, {
-      '/3-1': 'hello!3-1',
-      '/3-2': 'hello!3-2',
-      '/3-3': 'hello!3-3'
-    }]
-  }
-];
-
-sas(tree, {
-  iterator: _mkTree
-});
-```
-__结果:__将会在当前目录创建一个root开头的文件夹,里面有1,2,3三个文件夹,三个文件下各有三个文件,文件内容是hello! 加上文件名字.
+![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/140deep.png?raw=true)
 
 #使用说明
 用法很简单,sas只有一个function
