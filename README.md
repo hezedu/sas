@@ -5,26 +5,14 @@ Sas 是一个javascript处理(同/异)步控制引挚.
 
 它的目地是为了破解 callback hell.
 
+找到磁盘里最深的目录.
+
+![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/140deep.png?raw=true)
 
 #安装
 [Node.js](http://nodejs.org)： `npm install sas`
 
 浏览器直接src,不支持IE8.
-#项目说明
-项目目录下:
-
-___sas.js___   主要的.
-
-___sas-debug.js___   debug版,默认会生成log,影响性能.用于开发和示例.
-
-___sas-min.js___   压缩好的,前端用.
-
-___/demo___   示例文件夹.
-
-#示例
-找到磁盘里最深的目录.
-
-![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/140deep.png?raw=true)
 
 #使用说明
 用法很简单,sas只有一个function
@@ -58,28 +46,6 @@ function(cb,t){
 `cb`回调,任务完成后必须返回.
 
 `t`可选参数,智能对象,用不着的话就不要选,你不用选了会有浪费一点性能.这个后面再详解.
-
----------------------------------------
-
-支持无限嵌套,但是要注意一些风格问题:
-```javascript
-//异步内嵌套异步,毫无意义.
-{
-  'attr1': task1,
-  {
-    'key1': task2,
-    'key2': task3
-  }
-}
-////////////////
-//同步内嵌套同步,多此一举.
-[
-  task1, [
-  task2, task3
-  ]
-]
-```
-以上都不会出错,但是都是些冗余的嵌套,因此不推荐.
 
 ---------------------------------------
 
@@ -372,16 +338,16 @@ opt.process= function(count1,count2){
 
 ---------------------------------------
 
-#出题：磁盘最深处
-想知道你磁盘里最深的地方在哪吗?
+#项目说明
+项目目录下:
 
-我已在在 [demo/deep.js](https://github.com/hezedu/sas/blob/master/demo/deep.js) 里实现了。
+___sas.js___   主要的.
 
+___sas-debug.js___   debug版,默认会生成log,影响性能.用于开发和示例.
 
+___sas-min.js___   压缩好的,前端用.
 
-![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/saslogdeep.png?raw=true)
-
-你能否找到另外更好更快的方法？
+___/demo___   示例文件夹.
 
 ---------------------------------------
 
