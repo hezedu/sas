@@ -68,71 +68,10 @@ function(cb){
 多重嵌套:[mktree](https://github.com/hezedu/sas/blob/master/demo/mktree.js)
 
 ---------------------------------------
-##opts
-opt.iterator 用来替换每一个`tasks`中不是function的基础单位.
-结构为:
-```javascript
-opt.iterator=function(param){
-  return function(cb,t){//return一个task.
-    cb();
-  }
-}
-```
 
-###示例:
-```javascript
-var sas = require('../sas-debug');
-var rdom = function() { //随机time
-  return Math.random() * 1000;
-}
-
-var hello = function(param){//iterator
-  return function(cb){
-    setTimeout(function(){
-    	cb('hello'+param);
-    },rdom());
-  }
-}
-
-var end = function(cb) {
-  setTimeout(function() {
-    cb('我是一个原生的task');
-    console.log(plan);
-  }, rdom());
-}
-
-var plan = [
-  '你好!',
-  hello(' world'),
-  end
-]
-sas(plan,{iterator:hello});
-
-```
-结果为
-
-`[ 'hello你好!', 'hello world', '我是一个原生的task' ]`
-
-opt.allEnd 只在返回cb('$STOP') 或程序完全结束时触发.
-```javascript
-opt.allEnd(err,result){ //国际惯例,第一个err,第二个结果
-
-};
-```
-
-opt.process 任务进度。
-```javascript
-opt.process= function(count1,count2){
-  //count1 已轮询的计数
-  //count2 已回调的计数.
-}
-```
-示例：[前端进度条](https://github.com/hezedu/sas/blob/master/demo/process.html)
-
----------------------------------------
+##cb
 
 
-##`cb`
 整个程序运行起来就像导火索一样,自动将当前任务替换为cb的值.
 ```javascript
 ////////////后面一直用到的
@@ -257,7 +196,10 @@ sas([{
 
 ---------------------------------------
 
-##`t`
+
+
+
+##t
 ###t是一个智能对象.像this但又不是this,所以叫t.
 
 不用它的时候不要选,选了它一定要用.
@@ -279,7 +221,53 @@ sas([{
 `t.push(tasks)`: 将一些元素添加到`this`里,以继续运行.只能数组元素用.
 
 
+
+
+
 ---------------------------------------
+
+
+
+
+
+##opts
+opt.iterator 用来替换每一个`tasks`中不是function的基础单位.
+结构为:
+```javascript
+opt.iterator=function(param){
+  return function(cb,t){//return一个task.
+    cb();
+  }
+}
+```
+
+opt.allEnd 只在返回cb('$STOP') 或程序完全结束时触发.
+```javascript
+opt.allEnd(err,result){ //国际惯例,第一个err,第二个结果
+
+};
+```
+
+opt.process 任务进度。
+```javascript
+opt.process= function(count1,count2){
+  //count1 已轮询的计数
+  //count2 已回调的计数.
+}
+```
+示例：[前端进度条](https://github.com/hezedu/sas/blob/master/demo/process.html)
+
+
+
+
+
+
+
+
+---------------------------------------
+
+
+
 
 
 #追踪
@@ -290,7 +278,16 @@ sas([{
 
 其中白色为Sync,灰色为Async.
 
+
+
+
+
+
+
 ---------------------------------------
+
+
+
 
 #项目说明
 项目目录下:
@@ -302,6 +299,9 @@ ___sas-debug.js___   debug版,默认会生成log,影响性能.用于开发和示
 ___sas-min.js___   压缩好的,前端用.
 
 ___/demo___   示例文件夹.
+
+
+
 
 ---------------------------------------
 
