@@ -10,11 +10,21 @@ S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制引�
 
 浏览器直接src,不支持IE8.
 
-#使用说明
+#API style
+###sas(tasks,opt.end);
+###sas(tasks,opt.iterator,opt.end);
+###sas(tasks,opt);
 
-###sas(arr,opt);
+##`tasks`数组,包含三种元素:
 
-##`arr`数组,包含三种元素:
+数组Array:代表同步.
+```javascript
+[//同步挨个执行
+   task1,
+   task2,
+   task3
+] 
+```
 
 对象Object:代表异步.
 ```javascript
@@ -24,14 +34,7 @@ S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制引�
   'key3': task3
 }
 ```
-数组Array:代表同步.
-```javascript
-[//同步挨个执行
-   task1,
-   task2,
-   task3
-] 
-```
+
 函数Function:基础单位,代表任务.
 ```javascript
 function(cb,t){
