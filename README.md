@@ -11,11 +11,11 @@ S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制引�
 浏览器直接src,不支持IE8.
 
 #API
-___sas(tasks,end)___
+###sas(tasks,end);
 
-___sas(tasks,iterator,end)___
+###sas(tasks,iterator,end);
 
-___sas(tasks,opt)___
+###sas(tasks,opts);
 
 
 
