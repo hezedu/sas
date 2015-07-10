@@ -12,9 +12,7 @@ S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制引�
 
 #API
 ###sas(tasks,end);
-
 ###sas(tasks,iterator,end);
-
 ###sas(tasks,opts);
 
 
