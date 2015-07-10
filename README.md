@@ -11,7 +11,6 @@ S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制引�
 浏览器直接src,不支持IE8.
 
 #使用说明
-用法很简单,sas只有一个function
 
 ###sas(arr,opt);
 
