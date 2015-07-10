@@ -12,8 +12,8 @@ S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制引�
 
 #API
 ###sas(tasks,opts)
-###sas(tasks,opts.end)
-###sas(tasks,opts.iterator,opts.end)
+###sas(tasks,opts..allEnd)
+###sas(tasks,opts.iterator,opts..allEnd)
 
 ---------------------------------------
 
@@ -68,10 +68,8 @@ function(cb){
 多重嵌套:[mktree](https://github.com/hezedu/sas/blob/master/demo/mktree.js)
 
 ---------------------------------------
-##`opt`可选
+##opts
 opt.iterator 用来替换每一个`tasks`中不是function的基础单位.
-opt.end 只在返回cb('$STOP') 或程序完全结束时触发.
-
 结构为:
 ```javascript
 opt.iterator=function(param){
@@ -80,6 +78,7 @@ opt.iterator=function(param){
   }
 }
 ```
+
 ###示例:
 ```javascript
 var sas = require('../sas-debug');
@@ -114,9 +113,24 @@ sas(plan,{iterator:hello});
 
 `[ 'hello你好!', 'hello world', '我是一个原生的task' ]`
 
+opt.allEnd 只在返回cb('$STOP') 或程序完全结束时触发.
+```javascript
+opt.allEnd(err,result){ //国际惯例,第一个err,第二个结果
+
+};
+```
+
+opt.process 任务进度。
+```javascript
+opt.process= function(count1,count2){
+  //count1 已轮询的计数
+  //count2 已回调的计数.
+}
+```
+示例：[前端进度条](https://github.com/hezedu/sas/blob/master/demo/mktree.js)
+
 ---------------------------------------
 
-`opt`还有两个属性,这个放最后说.我们先来看一下重点,任务function的两个参数:
 
 ##`cb`
 整个程序运行起来就像导火索一样,自动将当前任务替换为cb的值.
@@ -267,67 +281,14 @@ sas([{
 
 ---------------------------------------
 
-最后,我们再来说一下___`opt`___另外属性:
 
-`opt.allEnd`
+#追踪
 
-只在返回cb('$STOP') 或程序完全结束时触发.
-```javascript
-opt.allEnd(err,result){ //国际惯例,第一个err,第二个结果
-
-};
-```
-
-第一个参数`err`:只有cb('$STOP')才会有值,否则一直都是null;
-
-第二个参数`result`:只有程序完全结束才会有值,值为完成后的`arr`.
-```javascript
-sas([
-  test('aaa'), {
-    key1: test('ccc'),
-    key2: test('ddd')
-  },
-  test('bbb')
-], {
-  allEnd: function(err, result) {
-    //不可能err,因为我程序里没有cb('$STOP').
-    console.log(result);
-  }
-});
-
-
-//////////////////////////
-//log结果
-[ 'aaa', { key1: 'ccc', key2: 'ddd' }, 'bbb' ]
-```
-`opt.process`
-
-返回程序进度:
-```javascript
-opt.process= function(count1,count2){
-  //count1 已轮询的计数
-  //count2 已回调的计数.
-}
-```
-异步进度条的实现详见demo process.html
-
-注:如果回调很多的话,可能会有影响性能.
-
-`opt.debug`
-
-只有sas-debug.js里有这个属性,默认是`true`.
-
-将会显示如下追踪:
+使用项目目录下：___sas-debug.js___将会显示如下追踪:
 
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/saslog.png?raw=true)
 
 其中白色为Sync,灰色为Async.
-
-在回调很多的情况下,log过多会造成严重阻塞.
-
-想要关闭掉也可以这样:
-
-`sas.debug = false`
 
 ---------------------------------------
 
