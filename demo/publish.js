@@ -4,6 +4,7 @@ var uglify = require('uglify-js');
 /*
  *去掉sas-debug.js里  //<DWDEBUG 到 DWDEBUG> 之间的内容
  * 添加一些注释。生成sas.js ， 利用 uglify 压缩sas-min.js文件。
+ * 更改readMe版本号.
  *没什么难度可言。
  */
 
