@@ -127,7 +127,7 @@ opt.process= function(count1,count2){
   //count2 已回调的计数.
 }
 ```
-示例：[前端进度条](https://github.com/hezedu/sas/blob/master/demo/mktree.js)
+示例：[前端进度条](https://github.com/hezedu/sas/blob/master/demo/process.html)
 
 ---------------------------------------
 
