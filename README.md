@@ -1,11 +1,7 @@
 # sas2.0.2
-S代表sync,AS代表async。
+S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制引挚.
 
-Sas 是一个javascript处理(同/异)步控制引挚.
-
-它的目地是为了破解 callback hell.
-
-找到磁盘里最深的目录.
+磁盘最深处
 
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/140deep.png?raw=true)
 
@@ -49,7 +45,7 @@ function(cb,t){
 
 ---------------------------------------
 
-###有效率的正确示例:
+###示例:
 ```javascript
 //同步内异步
 [{
