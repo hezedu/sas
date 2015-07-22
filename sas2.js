@@ -1,3 +1,9 @@
+/*!
+ *version:2.0.2  Released: jQuery.Release 
+ *repository:https://github.com/hezedu/sas
+ *by hezedu 2015/7/22
+*/
+
 //*********************************** 主 ***********************************
 
 function sas(tasks, opts, end) {
@@ -55,25 +61,12 @@ sas._copy = function(t, i, c) {
         c[i] = t[i];
     }
   }
-  //<DWDEBUG1######################## color
-sas._color = function(c, str, b) {
-    b = b || 39;
-    if (typeof window !== 'undefined') {
-      console.log(str);
-    } else {
-      console.log('\u001b[' + c + 'm' + str + '\u001b[' + b + 'm');
-    }
-  }
-  //##############################DWDEBUG>
+  
 //*********************************** min ***********************************
 
 //min
 sas.min = function(tasks, ite, end, opts) {
-  //<DWDEBUG2###################### start
-  sas._color(1, '\n开始', 22);
-  this.debug_start = Date.now();
-  this.debug_time = 0;
-  //##############################DWDEBUG>
+  
   this.tasks_count = 0;
   this.tasks_count_cb = 0;
   this.STOP = false;
@@ -139,34 +132,18 @@ sas.min.prototype.forFn = function(i, t, count, parents) {
   this.tasks_count++;
   var ext = null,
     self = this;
-  //if (t[i].length > 1) {
-    ext = new sas.Index(i, t, count, parents,this);
-  //}
-  //<DWDEBUG3################################# cb前
-/*  if (!ext) {
+  if (t[i].length > 1) {
     ext = new sas.Index(i, t, count, parents,this);
   }
-  var path = ext.path.join('/');
-  var _start = Date.now();
-  var a_or_sa_c = 90,
-    a_or_sa_str = 'AS';
-  if (typeof i === 'number') {
-    a_or_sa_c = 37;
-    a_or_sa_str = 'S ';
-  }*/
-  //########################################DWDEBUG>
+  
   t[i](ext);
 
-/*  function cb(result, pream) {
+  function cb(result, pream) {
     self.tasks_count_cb++;
     if (self.STOP) {
       return;
     }
-    //<DWDEBUG4################################# cb 后
-    var time = Date.now() - _start;
-    self.debug_time += time;
-    sas._color(a_or_sa_c, a_or_sa_str + ':[' + count[0] + '/' + count[1] + ']\t' + path + '\t' + time + 'ms');
-    //########################################DWDEBUG>
+    
     //if (typeof result === 'string') {
     switch (result) {
       //==================魔法字==================
@@ -205,7 +182,7 @@ sas.min.prototype.forFn = function(i, t, count, parents) {
         self.next_tick(i, t, count, parents);
     }
     //}
-  }*/
+  }
 }
 
 //下一步
@@ -216,15 +193,7 @@ sas.min.prototype.next_tick = function(i, t, count, parents) {
       parents[2][1]++;
       this.next_tick.apply(this, parents);
     } else { //完结
-      //<DWDEBUG5####################################### end
-/*      var time2 = Date.now() - this.debug_start;
-      sas._color(1, '结束', 22);
-      sas._color(96, '回调个数：' + this.tasks_count + '/' + this.tasks_count_cb);
-      sas._color(96, '回调统计：' + this.debug_time + 'ms'); //所有回调的时间,有可能因为过快或其它原因统计失误
-      sas._color(96, '实计用时：' + time2 + 'ms');
-      time2 = this.debug_time - time2;
-      sas._color(36, '节省：' + (time2 >= 0 ? time2 : '--') + 'ms');*/
-      //########################################DWDEBUG>
+      
       if (this.end) {
         this.end(null, this.plan); //国际惯例
       }
@@ -316,7 +285,7 @@ sas.Index.prototype.go = function(){
 sas.Index.prototype.reload = function(p){
   //this.count[1]++;
   this._t[this.index] = p || this._t[this.index];
-  this._dis.dis(this.index,this._t,this.count,this._parents);
+  this._dis.next_tick(this.index,this._t,this.count,this._parents);
 }
 
 //*********************************** module ***********************************
