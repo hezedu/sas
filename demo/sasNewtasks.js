@@ -7,6 +7,8 @@ function _mkTree(data) { //iterator
 
   return function(t) {
     var fspath = dir + '/' + t.fspath().join('');
+    console.log(t.fspath())
+    console.log(fspath)
     if (t.index === 0) { //根据this 的index 判定是否为目录
       fs.mkdir(fspath, 777, function(err, result) {
         if (err) {
