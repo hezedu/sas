@@ -1,4 +1,4 @@
-# sas2.0.2
+# sas2.0.3
 S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制引挚.
 
 使用sas寻找磁盘最深处:

@@ -65,7 +65,7 @@ sas._color = function(c, str, b) {
     }
   }
   //##############################DWDEBUG>
-//*********************************** min ***********************************
+  //*********************************** min ***********************************
 
 //min
 sas.min = function(tasks, ite, end, opts) {
@@ -171,9 +171,8 @@ sas.min.prototype.forFn = function(i, t, count, parents) {
     switch (result) {
       //==================魔法字==================
       case '$STOP': //中止整个程序
-        if (self.end) {
-          self.end(pream); //国际惯例，第一个参数err.
-        }
+        self.error = pream;
+        self._end();
         return self.STOP = true;
         break;
       case '$THIS=': //替换掉 this
@@ -225,9 +224,7 @@ sas.min.prototype.next_tick = function(i, t, count, parents) {
       time2 = this.debug_time - time2;
       sas._color(36, '节省：' + (time2 >= 0 ? time2 : '--') + 'ms');
       //########################################DWDEBUG>
-      if (this.end) {
-        this.end(null, this.plan); //国际惯例
-      }
+      this._end();
     }
   } else {
     if (typeof i === 'number') {
@@ -250,9 +247,9 @@ sas.min.prototype._end = function() { //over
   if (this.process) {
     clearInterval(this._t);
     this.process(this.tasks_count, this.tasks_count_cb);
-    if (this.end) {
-      this.end(this.error, this.plan); //国际惯例
-    }
+  }
+  if (this.end) {
+    this.end(this.error, this.plan); //国际惯例
   }
 }
 
@@ -265,30 +262,30 @@ sas.Index = function(i, t, count, parents) {
 
   var j = 0,
     ps, isSP = false;
-    ps = parents;
-    this.parent = parents[1];
-    this.pIndex = parents[0];
+  ps = parents;
+  this.parent = parents[1];
+  this.pIndex = parents[0];
 
-    while (ps[3]) {
-      j++;
-      if (!isSP && typeof ps[0] === 'number') {
-        this.Sparent = ps[1];
-        this.SpIndex = ps[0];
-        isSP = true;
-      }
-      this.path.splice(0, 0, ps[0]);
-      ps = ps[3];
+  while (ps[3]) {
+    j++;
+    if (!isSP && typeof ps[0] === 'number') {
+      this.Sparent = ps[1];
+      this.SpIndex = ps[0];
+      isSP = true;
     }
-    /*      this.parents = function(num) {
-            if (num >= j) {
-              return;
-            }
-            ps = parents;
-            for (var x = 0; x < num;) {
-              ps = ps[3];
-            }
-            return ps;
-          }*/
+    this.path.splice(0, 0, ps[0]);
+    ps = ps[3];
+  }
+  /*      this.parents = function(num) {
+          if (num >= j) {
+            return;
+          }
+          ps = parents;
+          for (var x = 0; x < num;) {
+            ps = ps[3];
+          }
+          return ps;
+        }*/
 }
 
 sas.Index.prototype.fspath = function() {
