@@ -187,7 +187,7 @@ sas.min.prototype.forFn = function(i, t, count, parents) {
         break;
       case '$RELOAD': //重载当前任务
         t[i] = pream || t[i];
-        self.dis(i, t, count, parents);
+        return self.dis(i, t, count, parents);
         break;
         //==================魔法字结束==================
       default:
@@ -200,9 +200,9 @@ sas.min.prototype.forFn = function(i, t, count, parents) {
             result_tmp.push(arguments[r_i]);
           }
           t[i] = result_tmp;
-        }
-        self.next_tick(i, t, count, parents);
+        }       
     }
+      self.next_tick(i, t, count, parents);
     //}
   }
 }
