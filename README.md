@@ -96,16 +96,13 @@ var end = function(cb){
 
 sas([
   test(123),
-  function(cb) {
-    cb('参数个数大于1的话 ', '会生成一个数组');
-  },
   test(), //什么都没有 undefined
   end
 ]);
 
 //////////////////////////////////////
 log结果:
-[ 123, [ '参数个数大于1的话 ', '会生成一个数组' ], undefined, 'end' ]
+[ 123, undefined, 'end' ]
 //
 ```
 他有一些实用的魔法字参数:
