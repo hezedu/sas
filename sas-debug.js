@@ -171,7 +171,7 @@ sas.min.prototype.forFn = function(i, t, count, parents) {
     switch (result) {
       //==================魔法字==================
       case '$STOP': //中止整个程序
-        self.error = pream;
+        self.error = pream || new Error('sas $STOP');
         self._end();
         return self.STOP = true;
         break;
@@ -200,30 +200,20 @@ sas.min.prototype.forFn = function(i, t, count, parents) {
             result_tmp.push(arguments[r_i]);
           }
           t[i] = result_tmp;
-        }       
+        }
     }
-      self.next_tick(i, t, count, parents);
+    self.next_tick(i, t, count, parents);
     //}
   }
 }
 
 //下一步
 sas.min.prototype.next_tick = function(i, t, count, parents) {
-
   if (count[0] === count[1]) {
     if (parents) {
       parents[2][1]++;
       this.next_tick.apply(this, parents);
     } else { //完结
-      //<DWDEBUG5####################################### end
-      var time2 = Date.now() - this.debug_start;
-      sas._color(1, '结束', 22);
-      sas._color(96, '回调个数：' + this.tasks_count + '/' + this.tasks_count_cb);
-      sas._color(96, '回调统计：' + this.debug_time + 'ms'); //所有回调的时间,有可能因为过快或其它原因统计失误
-      sas._color(96, '实计用时：' + time2 + 'ms');
-      time2 = this.debug_time - time2;
-      sas._color(36, '节省：' + (time2 >= 0 ? time2 : '--') + 'ms');
-      //########################################DWDEBUG>
       this._end();
     }
   } else {
@@ -244,6 +234,16 @@ sas.min.prototype._process = function() { //over
 
 //程序结束
 sas.min.prototype._end = function() { //over
+
+  //<DWDEBUG5####################################### end
+  var time2 = Date.now() - this.debug_start;
+  sas._color(1, '结束', 22);
+  sas._color(96, '回调个数：' + this.tasks_count + '/' + this.tasks_count_cb);
+  sas._color(96, '回调统计：' + this.debug_time + 'ms'); //所有回调的时间,有可能因为过快或其它原因统计失误
+  sas._color(96, '实计用时：' + time2 + 'ms');
+  time2 = this.debug_time - time2;
+  sas._color(36, '节省：' + (time2 >= 0 ? time2 : '--') + 'ms');
+  //########################################DWDEBUG>
   if (this.process) {
     clearInterval(this._t);
     this.process(this.tasks_count, this.tasks_count_cb);

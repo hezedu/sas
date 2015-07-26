@@ -14,19 +14,22 @@ var $stopTask = function(cb) {
   }, random)
 }
 
-sas._color(93,'同步$STOP:');
+sas._color(93, '同步$STOP:');
 sas([task,
   task,
   $stopTask,
   task,
   task
-], function() {
-  sas._color(93,'异步$STOP:');
+], function(err) {
+  sas._color(91, err);
+  sas._color(93, '异步$STOP:');
   sas({
     k1: task,
     k2: task,
     k4: $stopTask,
     k3: task,
     k5: task
+  }, function(err) {
+    sas._color(91, err);
   });
 });
