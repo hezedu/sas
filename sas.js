@@ -1,5 +1,5 @@
 /*!
- *version:2.0.5  Released: jQuery.Release 
+ *version:2.0.6  Released: jQuery.Release 
  *repository:https://github.com/hezedu/sas
  *by hezedu 2015/7/26
 */
@@ -169,15 +169,12 @@ sas.min.prototype.forFn = function(i, t, count, parents) {
         //==================魔法字结束==================
       default:
         count[1]++;
-        if (arguments.length < 2) {
+        t[i] = result;
+/*        if (arguments.length < 2) {
           t[i] = result;
         } else { //如果大于2的话，把arguments变成正常数组，保存
-          var result_tmp = [];
-          for (var r_i = 0, len = arguments.length; r_i < len; r_i++) {
-            result_tmp.push(arguments[r_i]);
-          }
-          t[i] = result_tmp;
-        }
+          t[i] = Array.prototype.slice.call(arguments);
+        }*/
     }
     self.next_tick(i, t, count, parents);
     //}
