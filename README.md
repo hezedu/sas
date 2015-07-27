@@ -24,11 +24,8 @@ S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制流.
 
 ___Array___代表同步.
 ```javascript
-[//同步挨个执行
-   task1,
-   task2,
-   task3
-] 
+//同步挨个执行
+[task1,task2,task3] 
 ```
 
 ___Object___代表异步.
