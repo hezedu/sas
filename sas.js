@@ -1,7 +1,7 @@
 /*!
- *version:2.0.6  Released: jQuery.Release 
+ *version:2.0.7  Released: jQuery.Release 
  *repository:https://github.com/hezedu/sas
- *by hezedu 2015/7/26
+ *by hezedu 2015/7/27
 */
 
 //*********************************** 主 ***********************************
@@ -117,7 +117,7 @@ sas.min.prototype.dis = function(i, t, count, parents) {
 
     default:
       //other Ctrl:
-      if (this.ite) {
+      if (this.ite && t[i] !== undefined) {
         t[i] = this.ite(t[i]);
         this.forFn(i, t, count, parents);
       } else {
@@ -140,13 +140,16 @@ sas.min.prototype.forFn = function(i, t, count, parents) {
 
   function cb(result, pream) {
     self.tasks_count_cb++;
-    if (self.STOP) {
+    if (self.STOP || count[0]===count[1]) {
       return;
     }
     
     //if (typeof result === 'string') {
     switch (result) {
       //==================魔法字==================
+      case undefined: //什么都不发生。
+        count[1]++;
+        break;
       case '$STOP': //中止整个程序
         self.error = pream || new Error('sas $STOP');
         self._end();
@@ -159,8 +162,11 @@ sas.min.prototype.forFn = function(i, t, count, parents) {
       case '$END': //结束 this
         count[1] = count[0];
         break;
-      case '$HOLD': // 新加功能：2015-3-23 保持原来的。
-        count[1]++;
+      case '$GO': // 跳转。
+        pream = pream || 1;
+        count[1] += pream;
+        count[1] = (count[1] < 0) ? 0 : 
+          (count[1] > count[0]) ? count[0] : count[1];
         break;
       case '$RELOAD': //重载当前任务
         t[i] = pream || t[i];
