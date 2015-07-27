@@ -72,8 +72,6 @@ function(cb){
 
 ##cb
 
-
-整个程序运行起来就像导火索一样,自动将当前任务替换为cb的值.
 ```javascript
 ////////////后面一直用到的
 var sas = require('../sas-debug');
@@ -96,13 +94,13 @@ var end = function(cb){
 
 sas([
   test(123),
-  test(), //什么都没有 undefined
+  test(null), 
   end
 ]);
 
 //////////////////////////////////////
 log结果:
-[ 123, undefined, 'end' ]
+[ 123, null, 'end' ]
 //
 ```
 他有一些实用的魔法字参数:
@@ -186,9 +184,9 @@ sas([{
 [ { key1: '我直接存到this里拉!', key2: [ 'aaa', 'bbb' ] }, 'end' ]
 //好处是少了一层嵌套,用起来方便.
 ```
-`cb('$HOLD')`
+`cb('$GO')`
 
-保持原来数据。
+跳转
 
 最后别忘了一定要cb哦.
 
