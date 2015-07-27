@@ -1,5 +1,5 @@
 /*!
- *version:2.0.7  Released: jQuery.Release 
+ *version:2.0.8  Released: jQuery.Release 
  *repository:https://github.com/hezedu/sas
  *by hezedu 2015/7/27
 */
