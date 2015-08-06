@@ -89,7 +89,8 @@ sas.min = function(tasks, ite, end, opts) {
 //min 初始化
 sas.min.prototype.init = function() {
   var _count = [1, 0];
-  this.dis(_count[1], [this.plan], _count);
+  this.plan = [this.plan];
+  this.dis(_count[1],this.plan, _count);
 }
 
 //递归
@@ -252,7 +253,7 @@ sas.min.prototype._end = function() { //over
     this.process(this.tasks_count, this.tasks_count_cb);
   }
   if (this.end) {
-    this.end(this.error, this.plan); //国际惯例
+    this.end(this.error, this.plan[0]); //国际惯例
   }
 }
 
