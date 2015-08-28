@@ -33,22 +33,22 @@ sas.OBJ = '[object Object]';
 //复制tasks, 深递归
 sas.copy = function(t) {
   var c = [];
-  sas._copy([t], 0, c);
+  this._copy([t], 0, c);
   return c[0];
 }
 
 sas._copy = function(t, i, c) {
-    switch (sas.type.call(t[i])) {
-      case sas.OBJ: //obj
+    switch (this.type.call(t[i])) {
+      case this.OBJ: //obj
         c[i] = {};
         for (var j in t[i]) {
-          sas._copy(t[i], j, c[i]);
+          this._copy(t[i], j, c[i]);
         }
         break;
-      case sas.ARR: //arr
+      case this.ARR: //arr
         c[i] = [], len = t[i].length;
         for (var j = 0; j < len; j++) {
-          sas._copy(t[i], j, c[i]);
+          this._copy(t[i], j, c[i]);
         }
         break;
       default:
