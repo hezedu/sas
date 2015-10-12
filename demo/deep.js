@@ -62,7 +62,7 @@ function _stat(path) { //iterator
 console.log('\n\u001b[93m正在查找磁盘最深的地方请稍等……\u001b[39m');
 console.log('\u001b[36m包括所有隐藏文件夹\u001b[39m');
 if(process.platform.substr(0,3)==='win'){
-  console.log('\u001b[90m如果程序初次运行会比较慢，第二次就快了。\u001b[39m\n');
+  console.log('\u001b[90m 你的系统Window初次起动会比较慢，第二次就快了。\u001b[39m\n');
 }
 console.time('\u001b[91m用时\u001b[39m');
 

@@ -1,7 +1,7 @@
 /*!
- *version:2.0.10  Released: jQuery.Release 
+ *version:2.0.11  Released: jQuery.Release 
  *repository:https://github.com/hezedu/sas
- *by hezedu 2015/8/28
+ *by hezedu 2015/10/12
 */
 
 //*********************************** 主 ***********************************
@@ -84,6 +84,7 @@ sas.min.prototype.init = function() {
   var _count = [1, 0];
   this.plan = [this.plan];
   this.dis(_count[1],this.plan, _count);
+  this._process();
 }
 
 //递归
@@ -206,10 +207,12 @@ sas.min.prototype.next_tick = function(i, t, count, parents) {
 
 //进度条
 sas.min.prototype._process = function() { //over
+
   if (this.process) {
-    this._t = setInterval(function() {
-      this.process(this.tasks_count, this.tasks_count_cb);
-    }, this.process_interval);
+    var self = this;
+    self._t = setInterval(function() {
+      self.process(self.tasks_count, self.tasks_count_cb);
+    }, self.process_interval);
   }
 }
 

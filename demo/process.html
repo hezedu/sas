@@ -68,8 +68,10 @@ var processTest = function(str) {
 
 sas(line, {
   iterator: processTest,
+  process_interval:500,
   process:function(a,b){
       var process100 = (b/a)*100;
+      console.log(process100)
       process.style.width = process100+'%';
       process.innerHTML= b+' / '+a;
       detail.innerHTML=JSON.stringify(line);

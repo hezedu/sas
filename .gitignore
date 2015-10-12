@@ -5,3 +5,6 @@
 /bak
 /test/node_modules
 /demo/node_modules
+/demo/test.js
+/demo/async.js
+/demo/obstruction.js
