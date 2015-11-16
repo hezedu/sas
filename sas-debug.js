@@ -29,6 +29,16 @@ sas.type = Object.prototype.toString;
 sas.ARR = '[object Array]';
 sas.FN = '[object Function]';
 sas.OBJ = '[object Object]';
+//sas 错误转接器
+sas.errHandle = function(cb){
+  return function(err, result){
+    if(err){
+      return cb('$STOP', err);
+    }else{
+      cb(result);
+    }
+  }
+}
 
 //复制tasks, 深递归
 sas.copy = function(t) {

@@ -1,7 +1,7 @@
 /*!
- *version:2.0.11  Released: jQuery.Release 
+ *version:2.0.12  Released: jQuery.Release 
  *repository:https://github.com/hezedu/sas
- *by hezedu 2015/10/12
+ *by hezedu 2015/11/16
 */
 
 //*********************************** 主 ***********************************
@@ -35,6 +35,16 @@ sas.type = Object.prototype.toString;
 sas.ARR = '[object Array]';
 sas.FN = '[object Function]';
 sas.OBJ = '[object Object]';
+//sas 错误转接器
+sas.errHandle = function(cb){
+  return function(err, result){
+    if(err){
+      return cb('$STOP', err);
+    }else{
+      cb(result);
+    }
+  }
+}
 
 //复制tasks, 深递归
 sas.copy = function(t) {
