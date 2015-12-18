@@ -13,12 +13,18 @@ var task = function(str){
   }
 }
 
+function first(cb){
+    setTimeout(function(){
+      cb('$THIS=', 9);
+    },random());
+}
+
 
 var th_is = function(cb){
   console.log('this[0]=='+this[0]);
   cb('$THIS=',this[0]);
 }
 
-sas([task('1'),task('2'),task('3'),task('4'),th_is],function(err,result){
+sas({a: [first, task('1'),task('2'),task('3'),task('4'),th_is], b:task('5') },function(err,result){
   console.log(result)
 })
