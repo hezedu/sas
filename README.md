@@ -1,14 +1,42 @@
 # sas2.0.12
 S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制流.
-#API
+##API
 ```
 sas(tasks);
 sas(tasks,opts);
 sas(tasks,allEnd);
 sas(tasks,iterator,allEnd);
 ```
+# 使用方法
+##同步(顺序执行)
+sas用array代表同步。
+```
+sas([task1,task2]);
+```
+##异步(并行)
+sas用Object代表异步。
+```
+sas({
+  task1:task1,
+  task2:task2
+});
+```
+##同步+异步
+同步和异步可无限嵌套运行。
+```
+sas([task1, {
+  task1:task2,
+  task2:task3
+},task4]);
+```
 
-使用sas寻找磁盘最深处:
+##任务task
+sas用一个function代表一个task, function第一个参数必须为一个callback。
+```
+var task = function(callback){
+  callback();
+}
+```
 
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/140deep.png?raw=true)
 
