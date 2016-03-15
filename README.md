@@ -9,12 +9,12 @@ sas(tasks,iterator,allEnd);
 ```
 # 使用方法
 ##顺行(顺序执行)
-sas用array代表同步。
+sas用<b>array</b>代表同步。
 ```
 sas([task1,task2]);
 ```
 ##异步(并行)
-sas用Object代表异步。
+sas用<b>Object</b>代表异步。
 ```
 sas({
   task1:task1,
@@ -31,7 +31,7 @@ sas([task1, {
 ```
 
 ##任务task
-sas用一个function代表一个task, function第一个参数必须为一个callback。
+sas用一个<b>function</b>代表一个task, function第一个参数必须为一个callback。
 ```
 var task = function(callback){
   callback();
