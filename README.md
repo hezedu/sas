@@ -1,5 +1,5 @@
 # sas2.0.12
-S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制流.
+S代表sync,AS代表async。Sas 是一个javascript异步控制流.
 ##API
 ```
 sas(tasks);
@@ -8,7 +8,7 @@ sas(tasks,allEnd);
 sas(tasks,iterator,allEnd);
 ```
 # 使用方法
-##同步(顺序执行)
+##顺行(顺序执行)
 sas用array代表同步。
 ```
 sas([task1,task2]);
