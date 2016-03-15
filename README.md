@@ -1,53 +1,23 @@
 # sas2.0.12
-S代表sync,AS代表async。Sas 是一个为对抗javascript回调地狱而开发出来的同/异步控制流.
-##API
-```
-sas(tasks);
-sas(tasks,opts);
-sas(tasks,allEnd);
-sas(tasks,iterator,allEnd);
-```
-##安装
-[Node.js](http://nodejs.org)： `npm install sas`
+S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制流.
 
-浏览器直接src,不支持IE8.
-# 使用方法
-##同步(顺序执行)
-sas用<b>Array</b>代表同步。
-```
-sas([task1,task2]);
-```
-##异步(并行)
-sas用<b>Object</b>代表异步。
-```
-sas({
-  task1:task1,
-  task2:task2
-});
-```
-##同步+异步
-同步和异步可无限嵌套运行。
-```
-sas([task1, {
-  task1:task2,
-  task2:task3
-},task4]);
-```
-
-##任务task
-sas用<b>Function</b>代表一个task, function第一个参数必须为一个callback。
-```
-var task = function(callback){
-  callback();
-}
-```
-
+使用sas寻找磁盘最深处:
 
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/140deep.png?raw=true)
 
+#安装
+[Node.js](http://nodejs.org)： `npm install sas`
 
+浏览器直接src,不支持IE8.
 
+#API
+sas(tasks);
 
+sas(tasks,opts);
+
+sas(tasks,opts.allEnd);
+
+sas(tasks,opts.iterator,opts.allEnd);
 
 ---------------------------------------
 
