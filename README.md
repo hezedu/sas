@@ -35,12 +35,13 @@ sas([task1, {
 ```
 
 ##任务task
-sas用一个<b>function</b>代表一个task, function第一个参数必须为一个callback。
+sas用<b>Function</b>代表一个task, function第一个参数必须为一个callback。
 ```
 var task = function(callback){
   callback();
 }
 ```
+
 
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/140deep.png?raw=true)
 
