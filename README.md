@@ -7,6 +7,10 @@ sas(tasks,opts);
 sas(tasks,allEnd);
 sas(tasks,iterator,allEnd);
 ```
+##安装
+[Node.js](http://nodejs.org)： `npm install sas`
+
+浏览器直接src,不支持IE8.
 # 使用方法
 ##同步(顺序执行)
 sas用<b>Array</b>代表同步。
@@ -40,10 +44,7 @@ var task = function(callback){
 
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/140deep.png?raw=true)
 
-#安装
-[Node.js](http://nodejs.org)： `npm install sas`
 
-浏览器直接src,不支持IE8.
 
 
 
