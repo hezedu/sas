@@ -44,7 +44,8 @@ sas.errHandle = function(cb){
 sas.copy = function(t) {
   var c = [];
   this._copy([t], 0, c);
-  return c[0];
+  c = c[0];
+  return c;
 }
 
 sas._copy = function(t, i, c) {
@@ -56,8 +57,8 @@ sas._copy = function(t, i, c) {
         }
         break;
       case this.ARR: //arr
-        c[i] = [], len = t[i].length;
-        for (var j = 0; j < len; j++) {
+        c[i] = [];
+        for (var j = 0, len = t[i].length; j < len; j++) {
           this._copy(t[i], j, c[i]);
         }
         break;

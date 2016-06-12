@@ -1,7 +1,7 @@
 /*!
- *version:2.0.12  Released: jQuery.Release 
+ *version:2.0.13  Released: jQuery.Release 
  *repository:https://github.com/hezedu/sas
- *by hezedu 2015/11/16
+ *by hezedu 2016/6/12
 */
 
 //*********************************** 主 ***********************************
@@ -50,7 +50,8 @@ sas.errHandle = function(cb){
 sas.copy = function(t) {
   var c = [];
   this._copy([t], 0, c);
-  return c[0];
+  c = c[0];
+  return c;
 }
 
 sas._copy = function(t, i, c) {
@@ -62,8 +63,8 @@ sas._copy = function(t, i, c) {
         }
         break;
       case this.ARR: //arr
-        c[i] = [], len = t[i].length;
-        for (var j = 0; j < len; j++) {
+        c[i] = [];
+        for (var j = 0, len = t[i].length; j < len; j++) {
           this._copy(t[i], j, c[i]);
         }
         break;
