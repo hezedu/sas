@@ -1,9 +1,10 @@
 /*!
  *version:2.0.13  Released: jQuery.Release 
  *repository:https://github.com/hezedu/sas
- *by hezedu 2016/6/12
+ *by hezedu 2016/6/15
 */
 
+'use strict'
 //*********************************** 主 ***********************************
 
 function sas(tasks, opts, end) {
