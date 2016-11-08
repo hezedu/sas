@@ -39,9 +39,6 @@ sas(tasks,opts);
 sas(tasks,callback);
 
 sas(tasks, iterator, callback);
-
----------------------------------------
-
 ##tasks
 
 包含三种元素:
