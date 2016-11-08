@@ -29,7 +29,7 @@ sas(tasks, function(err, result){
 ```
 
 #Install
-[Node.js](http://nodejs.org)： `npm install sas`
+`npm install sas`
 
 浏览器直接src,不支持IE8.
 
