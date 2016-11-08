@@ -1,5 +1,6 @@
 # sas2.0.13
-S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制流.
+
+Sas is a JavaScript Sync/Async Control, It used Array delegate series, used Object delegate parallel, used Function delegate task, And  Recursive execution.
 
 #安装
 [Node.js](http://nodejs.org)： `npm install sas`
