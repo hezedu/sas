@@ -32,95 +32,44 @@ sas(tasks, function(err, result){
 浏览器直接src,不支持IE8.
 
 #API
-sas(tasks);
+sas(tasks)
 
-sas(tasks,opts);
+sas(tasks,opts)
 
-sas(tasks,callback);
+sas(tasks,callback)
 
-sas(tasks, iterator, callback);
+sas(tasks, iterator, callback)
 ##tasks
 
 包含三种元素:
 
-___Array___代表同步.
+___Array___ delegate series.
 ```javascript
-//同步挨个执行
+//sequential execution
 [task1,task2,task3] 
 ```
 
-___Object___代表异步.
+___Object___ delegate parallel.
 ```javascript
-{ //异步同时执行
+{ //parallel execution
   'key1': task1,
   'key2': task2,
   'key3': task3
 }
 ```
 
-___Function___代表任务.
+___Function___ delegate task.
 ```javascript
-function(cb){
-  cb();
+function(callback){
+  callback();
 }
 ```
+#Task API
+task(callback)
 
----------------------------------------
-
-###嵌套示例:
-```javascript
-//同步内异步
-[{
-  'key1': task1,
-  'key2': task2
-}, {
-  'key1': task3,
-  'key2': task4
-}]
-
-//异步内同步
-{
-  'key1': [task1, task2],
-  'key2': [task1, task2]
-}
-```
-多重嵌套:[mktree](https://github.com/hezedu/sas/blob/master/demo/mktree.js)
-
----------------------------------------
-
-##cb
-
-```javascript
-////////////后面一直用到的
-var sas = require('../sas-debug');
-var rdom = function() { //随机time
-  return Math.random() * 1000;
-}
-var test = function(param){
-  return function(cb){
-    setTimeout(function(){
-    	cb(param);
-    },rdom());
-  }
-}
-var end = function(cb){
-    cb('end');
-    console.log(this);
-  }
-/////////////////////////////////
+task(callback, index)
 
 
-sas([
-  test(123),
-  test(null), 
-  end
-]);
-
-//////////////////////////////////////
-log结果:
-[ 123, null, 'end' ]
-//
-```
 他有一些实用的魔法字参数:
 
 `cb('$STOP',err)`
