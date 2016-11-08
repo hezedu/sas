@@ -11,9 +11,9 @@ sas(tasks);
 
 sas(tasks,opts);
 
-sas(tasks,opts.allEnd);
+sas(tasks,callback);
 
-sas(tasks,opts.iterator,opts.allEnd);
+sas(tasks, iterator, callback);
 
 ---------------------------------------
 
