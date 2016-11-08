@@ -69,6 +69,7 @@ task(callback)
 
 task(callback, index)
 
+##callback
 
 他有一些实用的魔法字参数:
 
