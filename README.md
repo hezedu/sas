@@ -1,6 +1,32 @@
-# sas2.0.13
+# Sas2.0.13
 
 Sas is a JavaScript Sync/Async Control, It used Array delegate series, used Object delegate parallel, used Function delegate task, And  Recursive execution.
+
+#Quick Sample
+```javascript
+var rdom = function() { //随机time
+  return Math.random() * 1000;
+}
+var taskGenerator = function(param){
+  return function(callback){
+    setTimeout(function(){
+    	callback(param);
+    },rdom());
+  }
+}
+
+var tasks = [
+  taskGenerator('start'),
+  {
+    a: taskGenerator('hehe'),
+    b: taskGenerator('haha')
+  },
+  taskGenerator('end')
+]
+sas(tasks, function(err, result){
+  console.log(result);
+})
+```
 
 #安装
 [Node.js](http://nodejs.org)： `npm install sas`
