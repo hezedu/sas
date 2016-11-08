@@ -35,11 +35,11 @@ sas(tasks, function(err, result){
 
 #API
 sas(tasks);
-<br>
+
 sas(tasks,opts);
-<br>
+
 sas(tasks,callback);
-<br>
+
 sas(tasks, iterator, callback);
 
 ---------------------------------------
