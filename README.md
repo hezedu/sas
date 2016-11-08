@@ -4,7 +4,7 @@ Sas is a JavaScript Sync/Async Control, It used Array delegate series, used Obje
 
 #Quick Sample
 ```javascript
-var rdom = function() { //随机time
+var rdom = function() { //time
   return Math.random() * 1000;
 }
 var taskGenerator = function(param){
