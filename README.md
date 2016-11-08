@@ -1,10 +1,6 @@
 # sas2.0.13
 S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制流.
 
-使用sas寻找磁盘最深处:
-
-![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/140deep.png?raw=true)
-
 #安装
 [Node.js](http://nodejs.org)： `npm install sas`
 
