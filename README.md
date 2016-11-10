@@ -1,76 +1,108 @@
-# Sas2.0.13
+# sas2.0.13
+S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制流.
 
-Sas is a JavaScript Sync/Async Control, It used Array delegate series, used Object delegate parallel, used Function delegate task, And  Recursive execution.
+使用sas寻找磁盘最深处:
 
-#Quick Sample
-```javascript
-var taskGenerator = function(param){
-  return function(callback){
-    setTimeout(function(){
-    	callback(param);
-    }, Math.random() * 1000);
-  }
-}
+![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/140deep.png?raw=true)
 
-var tasks = [
-  taskGenerator('start'),
-  {
-    a: taskGenerator('hehe'),
-    b: taskGenerator('haha')
-  },
-  taskGenerator('end')
-]
-
-sas(tasks, function(err, result){
-  console.log(result);
-})
-```
-
-#Install
-`npm install sas`
+#安装
+[Node.js](http://nodejs.org)： `npm install sas`
 
 浏览器直接src,不支持IE8.
 
 #API
-sas(tasks)
+sas(tasks);
 
-sas(tasks,opts)
+sas(tasks,opts);
 
-sas(tasks,callback)
+sas(tasks,opts.allEnd);
 
-sas(tasks, iterator, callback)
+sas(tasks,opts.iterator,opts.allEnd);
+
+---------------------------------------
+
 ##tasks
 
 包含三种元素:
 
-___Array___ delegate series.
+___Array___代表同步.
 ```javascript
-//sequential execution
+//同步挨个执行
 [task1,task2,task3] 
 ```
 
-___Object___ delegate parallel.
+___Object___代表异步.
 ```javascript
-{ //parallel execution
+{ //异步同时执行
   'key1': task1,
   'key2': task2,
   'key3': task3
 }
 ```
 
-___Function___ delegate task.
+___Function___代表任务.
 ```javascript
-function(callback){
-  callback();
+function(cb){
+  cb();
 }
 ```
-#Task API
-task(callback)
 
-task(callback, index)
+---------------------------------------
 
-##callback
+###嵌套示例:
+```javascript
+//同步内异步
+[{
+  'key1': task1,
+  'key2': task2
+}, {
+  'key1': task3,
+  'key2': task4
+}]
 
+//异步内同步
+{
+  'key1': [task1, task2],
+  'key2': [task1, task2]
+}
+```
+多重嵌套:[mktree](https://github.com/hezedu/sas/blob/master/demo/mktree.js)
+
+---------------------------------------
+
+##cb
+
+```javascript
+////////////后面一直用到的
+var sas = require('../sas-debug');
+var rdom = function() { //随机time
+  return Math.random() * 1000;
+}
+var test = function(param){
+  return function(cb){
+    setTimeout(function(){
+      cb(param);
+    },rdom());
+  }
+}
+var end = function(cb){
+    cb('end');
+    console.log(this);
+  }
+/////////////////////////////////
+
+
+sas([
+  test(123),
+  test(null), 
+  end
+]);
+
+//////////////////////////////////////
+log结果:
+[ 123, null, 'end' ]
+//
+```
 他有一些实用的魔法字参数:
 
 `cb('$STOP',err)`
