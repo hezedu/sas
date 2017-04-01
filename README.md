@@ -5,12 +5,12 @@ S代表sync,AS代表async。Sas 是一个javascript处理(同/异)步控制流.
 
 ![image](https://github.com/hezedu/SomethingBoring/blob/master/sas/140deep.png?raw=true)
 
-#安装
+# 安装
 [Node.js](http://nodejs.org)： `npm install sas`
 
 浏览器直接src,不支持IE8.
 
-#API
+# API
 sas(tasks);
 
 sas(tasks,opts);
@@ -21,7 +21,7 @@ sas(tasks,opts.iterator,opts.allEnd);
 
 ---------------------------------------
 
-##tasks
+## tasks
 
 包含三种元素:
 
@@ -49,7 +49,7 @@ function(cb){
 
 ---------------------------------------
 
-###嵌套示例:
+### 嵌套示例:
 ```javascript
 //同步内异步
 [{
@@ -70,7 +70,7 @@ function(cb){
 
 ---------------------------------------
 
-##cb
+## cb
 
 ```javascript
 ////////////后面一直用到的
@@ -196,8 +196,8 @@ sas([{
 
 
 
-##t
-###t是一个智能对象.像this但又不是this,所以叫t.
+## t
+### t是一个智能对象.像this但又不是this,所以叫t.
 
 不用它的时候不要选,选了它一定要用.
 
@@ -227,7 +227,7 @@ sas([{
 
 
 
-##opts
+## opts
 opt.iterator 用来替换每一个`tasks`中不是function的基础单位.
 结构为:
 ```javascript
@@ -267,7 +267,7 @@ opt.process= function(count1,count2){
 
 
 
-#追踪
+# 追踪
 
 使用项目目录下：___sas-debug.js___将会显示如下追踪:
 
@@ -286,7 +286,7 @@ opt.process= function(count1,count2){
 
 
 
-#项目说明
+# 项目说明
 项目目录下:
 
 ___sas.js___   主要的.
