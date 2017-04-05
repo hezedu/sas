@@ -1,7 +1,7 @@
 /*!
- *version:2.0.13  Released: jQuery.Release 
+ *version:2.1.0  Released: jQuery.Release 
  *repository:https://github.com/hezedu/sas
- *by hezedu 2016/6/15
+ *by hezedu 2017/4/5
 */
 
 'use strict'
