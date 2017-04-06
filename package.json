@@ -13,17 +13,17 @@
     "type": "git",
     "url": "https://github.com/hezedu/sas.git"
   },
-
   "author": {
     "name": "hezedu"
   },
-  "dependencies": {
-  },
-  "devDependencies":{
+  "dependencies": {},
+  "devDependencies": {
     "babel-eslint": "^6.1.2",
-    "eslint": "^3.4.0"
+    "dist-wrap": "^1.2.0",
+    "eslint": "^3.4.0",
+    "uglify-js": "^2.8.21"
   },
-  "licenses": "MIT",
+  "license": "MIT",
   "email": "hezedu@hotmail.com",
   "description": "Async for node and the browser . can be recursively callback",
   "bugs": {

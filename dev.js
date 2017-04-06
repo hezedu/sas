@@ -1,8 +1,8 @@
 /*!
-  *Version: 3.0.0
-  *Released: MIT
   *Repository: https://github.com/hezedu/sas
+  *Released: MIT
 */
+
 var realType = Object.prototype.toString;
 
 // sas(tasks);
@@ -58,7 +58,6 @@ function Main(tasks, ite, end, opts) {
   this.processInterval = opts.processInterval || 1000;
   this.init(tasks);
 }
-
 
 Main.prototype.init = function(tasks) {
   var _count = [1, 0];
@@ -213,7 +212,6 @@ Main.prototype._end = function(){
 
 function I(i, t, root, parents) {
   this.index = i;
-  //this.context = t;
   this.ROOT = root;
   this._parents = arguments;
   this._indexs = null;
