@@ -4,9 +4,9 @@ var sas = require('../index');
 var rootDir = '/', depth = 0, deepestPath = '';
 
 function read_dir(cb, i) {
-  var fsIndexs = i.fsIndexs(), path = fsIndexs.join('') || rootDir;
-  if (fsIndexs.length > depth) { //record
-    depth = fsIndexs.length; 
+  var indexs = i.indexs(), path = indexs.join('') || rootDir;
+  if (indexs.length > depth) { //record
+    depth = indexs.length; 
     deepestPath = path + '/';
   }
   fs.readdir(path, function(err, files) {
