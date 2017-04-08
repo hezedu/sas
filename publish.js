@@ -24,10 +24,10 @@ function readDev(cb) {
   })
 }
 
-var readMe = (cb) => fs.readFile('./README.md', 'utf-8', cb);
+var $readMe = (cb) => fs.readFile('./README.md', 'utf-8', cb);
 
 var writeMe = function(cb) { //更新 readMe首部 版本号
-  var data = this[0];
+  var data = this.readMe;
   var first_n = data.indexOf('\n');
   var top = data.substr(0, first_n);
   top = top.split('Sas');
@@ -64,5 +64,5 @@ sas({
     distDev,
     distPro: [distPro, proMin]
   }],
-  readMeUpdate: [readMe, writeMe]
+  readMeUpdate: [$readMe, writeMe]
 });

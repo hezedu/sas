@@ -1,4 +1,5 @@
 /*!
+  *Author: Du Wei
   *Repository: https://github.com/hezedu/sas
   *Released: MIT
 */
@@ -11,22 +12,22 @@ var realType = Object.prototype.toString;
 // sas(tasks, opts);
 // sas(tasks, opts, end);
 function sas(tasks, opts, end) {
-  var ite;
+  var iterator;
   if (typeof opts !== 'object') {
     switch (arguments.length) {
       case 2:
         end = opts;
         break;
       case 3:
-        ite = opts;
+        iterator = opts;
         break;
       default:
         opts = {};
     }
   } else {
-    ite = opts.iterator;
+    iterator = opts.iterator;
   }
-  new Main(tasks, ite, end, opts);
+  new Main(tasks, iterator, end, opts);
 }
 
 //<DWDEBUG1######################## color
@@ -43,12 +44,13 @@ function _colorLog(c, str, b) {
 //##############################DWDEBUG>
 
 function Main(tasks, ite, end, opts) {
-  //<DWDEBUG2###################### start
+  //<DWDEBUG2###################### Start
   _colorLog(1, '\nStart', 22);
   this._debugStart = Date.now();
   this._debugTime = 0;
   //##############################DWDEBUG>
   this.tasks = tasks;
+  this.result = {}; //Tasks's context
   this.tasksCount = 0;
   this.tasksCbCount = 0;
   this.error = null;
@@ -56,10 +58,10 @@ function Main(tasks, ite, end, opts) {
   this.ite = ite;
   this.process = opts.process;
   this.processInterval = opts.processInterval || 1000;
-  this.init(tasks);
+  this.init();
 }
 
-Main.prototype.init = function(tasks) {
+Main.prototype.init = function() {
   var _count = [1, 0];
   this.dis(_count[1],[this.tasks], _count);
   this._process();
@@ -109,11 +111,11 @@ Main.prototype.dis = function(i, t, count, parents) {
 Main.prototype.forFn = function(i, t, count, parents) {
   this.tasksCount++;
   var ext = null,
-    self = this;
-  if (t[i].length > 1) {
+    self = this, ti = t[i];
+  if (ti.length > 1) {
     ext = new I(i, t, this.tasks, parents);
   }
-  //<DWDEBUG3################################# Before callback
+  //<DWDEBUG3################################# Task start
   if (!ext) {
     ext = new I(i, t, this.tasks, parents);
   }
@@ -126,14 +128,14 @@ Main.prototype.forFn = function(i, t, count, parents) {
     _s_or_p_info = 'S '; //sequence
   }
   //########################################DWDEBUG>
-  t[i](cb, ext);
+  ti.call(this.result, cb, ext);
 
   function cb(pream, opts) {
     self.tasksCbCount++;
     if (self.error || count[0] === count[1]) {
       return;
     }
-    //<DWDEBUG4################################# cb 后
+    //<DWDEBUG4################################# Task end
     var time = Date.now() - _start;
     self._debugTime += time;
     _colorLog(_s_or_p_stype , _s_or_p_info + ':[' + count[1] + '/' + count[0] + ']\t' + path + '\t' + time + 'ms');
@@ -142,14 +144,9 @@ Main.prototype.forFn = function(i, t, count, parents) {
     if(pream){
       switch (pream) {
         case '$reload':
-          t[i] = opts || t[i];
+          t[i] = opts || ti;
           return self.dis(i, t, count, parents);
         case '$up':
-          count[1] = count[0];
-          t[i] = opts;
-          break;
-        case '$rise':
-          parents[1][parents[0]] = opts;
           count[1] = count[0];
           break;
         default: //error:
@@ -159,12 +156,13 @@ Main.prototype.forFn = function(i, t, count, parents) {
       }
     }else{
       count[1]++;
-      t[i] = opts;
+    }
+    if(ti.name[0] === '$'){
+      self.result[ti.name.substr(1)] = opts;
     }
     self.nextTick(i, t, count, parents);
   }
 }
-
 
 Main.prototype.nextTick = function(i, t, count, parents) {
   if (count[0] === count[1]) {
@@ -204,57 +202,37 @@ Main.prototype._end = function(){
     this.process(this.tasksCount, this.tasksCbCount);
   }
   if (this.end) {
-    this.end(this.error, this.tasks); //International practice: first error.
+    this.end(this.error, this.result); //International practice: first error.
   }
 }
 
 //*********************************** I ***********************************
 
-function I(i, t, root, parents) {
+function I(i, t, root) {
   this.index = i;
-  this.ROOT = root;
+  this._root = root;
   this._parents = arguments;
-  this._indexs = null;
 }
 
-I.prototype.indexs = function(key){
-  if(!this._indexs){
+I.prototype.indexs = function(){
     var ps = this._parents, indexs = [];
-    //if(ps){
-      while (ps[3]) {
-        indexs.splice(0, 0, ps[0]);
-        ps = ps[3];
-      }
-    //}
-    this._indexs = indexs;
-  }
-  return this._indexs;
+    while (ps[3]) {
+      indexs.splice(0, 0, ps[0]);
+      ps = ps[3];
+    }
+    return indexs;
 }
 
-I.prototype.upper = function(i) {
+I.prototype.upperIndex = function(i) {
   i = i || 1;
   var ps = this._parents;
-  while(i > 0 && ps[1] !== this.ROOT){
+  while(i > 0 && ps[1] !== this._root){
     ps = ps[3];
     i--;
   }
   if(i === 0) {
-    return {
-      context: ps[1],
-      index: ps[0]
-    }
+    return ps[0]
   }
-}
-
-I.prototype.fsIndexs = function() {
-  var arr = [],
-    indexArr = this.indexs();
-  for (var i = 0, len = indexArr.length; i < len; i++) {
-    if (typeof indexArr[i] === 'string') {
-      arr.push(indexArr[i]);
-    }
-  }
-  return arr;
 }
 
 module.exports = sas;

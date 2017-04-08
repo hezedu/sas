@@ -1,10 +1,9 @@
 {
   "name": "sas",
-  "version": "2.1.0",
-  "main": "sas",
+  "version": "3.0.0",
+  "main": "index",
   "keywords": [
     "async",
-    "recursively",
     "callback",
     "browser",
     "nodejs"
@@ -14,7 +13,7 @@
     "url": "https://github.com/hezedu/sas.git"
   },
   "author": {
-    "name": "hezedu"
+    "name": "Du Wei"
   },
   "dependencies": {},
   "devDependencies": {
@@ -25,7 +24,7 @@
   },
   "license": "MIT",
   "email": "hezedu@hotmail.com",
-  "description": "Async for node and the browser . can be recursively callback",
+  "description": "The Callback Hell Terminator",
   "bugs": {
     "url": "https://github.com/hezedu/sas/issues"
   }
