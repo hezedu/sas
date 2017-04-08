@@ -30,32 +30,38 @@ function sas(tasks, opts, end) {
   new Main(tasks, iterator, end, opts);
 }
 
-//<DWDEBUG1######################## color
-//The code between the two dwdebug tags in the comments 
+//<DWDEBUG #################################
+//The code between the two DWDEBUG tags in the comments 
 //will be deleted in the official version
-function _colorLog(c, str, b) {
-  b = b || 39;
-  if (typeof window !== 'undefined') {
-    console.log(str);
-  } else {
-    console.log('\u001b[' + c + 'm' + str + '\u001b[' + b + 'm');
+var _colorLog;
+if (typeof window !== 'undefined') {
+  _colorLog = function(style, str) {
+    if(!style) return console.log(str);
+    console.log('%c%s', 'color:' + style, str);
+  }
+}else{
+  var _colorMap = {red: 31,cyan: 96, gray: 90}
+  _colorLog = function(style, str) {
+    console.log(style ? '\u001b[' + _colorMap[style] + 'm' + str + '\u001b[39m' : str);
   }
 }
-//##############################DWDEBUG>
+//################################# DWDEBUG>
 
-function Main(tasks, ite, end, opts) {
-  //<DWDEBUG2###################### Start
-  _colorLog(1, '\nStart', 22);
-  this._debugStart = Date.now();
-  this._debugTime = 0;
-  //##############################DWDEBUG>
+function Main(tasks, iterator, end, opts) {
+  
+  //<DWDEBUG #################################
+  console.log('Start');
+  this._debugStartTime = Date.now();
+  this._callbacksTimeCount = 0;
+  //################################# DWDEBUG>
+
   this.tasks = tasks;
   this.result = {}; //Tasks's context
   this.tasksCount = 0;
   this.tasksCbCount = 0;
   this.error = null;
   this.end = end;
-  this.ite = ite;
+  this.ite = iterator;
   this.process = opts.process;
   this.processInterval = opts.processInterval || 1000;
   this.init();
@@ -115,19 +121,21 @@ Main.prototype.forFn = function(i, t, count, parents) {
   if (ti.length > 1) {
     ext = new I(i, t, this.tasks, parents);
   }
-  //<DWDEBUG3################################# Task start
+
+  //<DWDEBUG #################################
   if (!ext) {
     ext = new I(i, t, this.tasks, parents);
   }
-  var path = ext.indexs().join('/');
-  var _start = Date.now();
-  var _s_or_p_stype = 90,
-    _s_or_p_info = 'P '; //parallel
-  if (typeof i === 'number') {
-    _s_or_p_stype = 37;
-    _s_or_p_info = 'S '; //sequence
+  var path = ext.indexs().join('/'), 
+    _start = Date.now(), 
+    _style, 
+    _info = 'S '; //sequence
+  if (typeof i === 'string') {
+    _style = 'gray';
+    _info = 'P '; //parallel
   }
-  //########################################DWDEBUG>
+  //################################# DWDEBUG>
+
   ti.call(this.result, cb, ext);
 
   function cb(pream, opts) {
@@ -135,12 +143,22 @@ Main.prototype.forFn = function(i, t, count, parents) {
     if (self.error || count[0] === count[1]) {
       return;
     }
-    //<DWDEBUG4################################# Task end
-    var time = Date.now() - _start;
-    self._debugTime += time;
-    _colorLog(_s_or_p_stype , _s_or_p_info + ':[' + count[1] + '/' + count[0] + ']\t' + path + '\t' + time + 'ms');
-    //########################################DWDEBUG>
-    
+
+    //<DWDEBUG #################################
+    var callbackTimeCost = Date.now() - _start, 
+      _magicPream = '';
+    self._callbacksTimeCount += callbackTimeCost;
+    if(pream){
+      if(typeof pream === 'string' && pream[0] === '$'){
+        _magicPream = pream
+      }else{
+        _style = 'red';
+        _magicPream = 'error';
+      }
+    }
+    _colorLog(_style , _info + _magicPream + ':[' + count[0] + '/' + (count[1] + 1) + ']\t' + path + '\t' + callbackTimeCost + 'ms');
+    //################################# DWDEBUG>
+
     if(pream){
       switch (pream) {
         case '$reload':
@@ -157,6 +175,7 @@ Main.prototype.forFn = function(i, t, count, parents) {
     }else{
       count[1]++;
     }
+
     if(ti.name[0] === '$'){
       self.result[ti.name.substr(1)] = opts;
     }
@@ -169,7 +188,7 @@ Main.prototype.nextTick = function(i, t, count, parents) {
     if (parents) {
       parents[2][1]++;
       this.nextTick.apply(this, parents);
-    } else { //end
+    } else {
       this._end();
     }
   } else {
@@ -179,7 +198,7 @@ Main.prototype.nextTick = function(i, t, count, parents) {
   }
 }
 
-Main.prototype._process = function() { //over
+Main.prototype._process = function() {
   if (this.process) {
     var self = this;
     self._t = setInterval(function() {
@@ -190,13 +209,14 @@ Main.prototype._process = function() { //over
 
 //Program end
 Main.prototype._end = function(){
-  //<DWDEBUG5####################################### end
-  var time2 = Date.now() - this._debugStart;
-  _colorLog(1, 'End', 22);
-  _colorLog(96, 'Callbacks count:\t' + this.tasksCount + '/' + this.tasksCbCount);
-  _colorLog(96, 'Callbacks time count:\t' + this._debugTime + 'ms');
-  _colorLog(96, 'Real time cost:\t' + time2 + 'ms');
-  //########################################DWDEBUG>
+
+  //<DWDEBUG #################################
+  console.log('End');
+  _colorLog('cyan', 'Callbacks count:\t' + this.tasksCount + '/' + this.tasksCbCount);
+  _colorLog('cyan', 'Callbacks time count:\t' + this._callbacksTimeCount + 'ms');
+  _colorLog('cyan', 'Real time cost:\t' + (Date.now() - this._debugStartTime) + 'ms');
+  //################################# DWDEBUG>
+
   if (this.process) {
     clearInterval(this._t);
     this.process(this.tasksCount, this.tasksCbCount);
@@ -215,12 +235,12 @@ function I(i, t, root) {
 }
 
 I.prototype.indexs = function(){
-    var ps = this._parents, indexs = [];
-    while (ps[3]) {
-      indexs.splice(0, 0, ps[0]);
-      ps = ps[3];
-    }
-    return indexs;
+  var ps = this._parents, indexs = [];
+  while (ps[3]) {
+    indexs.splice(0, 0, ps[0]);
+    ps = ps[3];
+  }
+  return indexs;
 }
 
 I.prototype.upperIndex = function(i) {
