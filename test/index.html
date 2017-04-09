@@ -16,9 +16,9 @@
   }
 
   function test(){
-    sas(['Seq start',
+    sas(['Series start',
     {one: 'Parallel 1', two: 'Parallel 2'}, 
-      'Seq end'],
+      'Series end'],
     {iterator:iterator});
   }
 
@@ -32,9 +32,9 @@
       require(['/dist/sas-min.js'], function(amdSas){
         console.log('amdTest start');
         function amdTest(){
-          amdSas(['Seq start',
+          amdSas(['Series start',
           {one: 'Parallel 1', two: 'Parallel 2'}, 
-            'Seq end'],
+            'Series end'],
           {iterator:iterator}, function(){
             console.log('amdTest end');
           });

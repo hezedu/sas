@@ -129,7 +129,7 @@ Main.prototype.forFn = function(i, t, count, parents) {
   var path = ext.indexs().join('/'), 
     _start = Date.now(), 
     _style, 
-    _info = 'S '; //sequence
+    _info = 'S '; //series
   if (typeof i === 'string') {
     _style = 'gray';
     _info = 'P '; //parallel
