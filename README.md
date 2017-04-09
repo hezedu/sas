@@ -1,9 +1,9 @@
 # Sas 3.0.0 建设中...
-The Callback Hell Terminator<br>
+Sas is the callback hell terminator.<br>
 How to prove it?
 
 **Install:**`npm install sas`,<br>
-and run the next demo:
+and run the next demo.
 ### Demo: Disk's max depth explorer
 ```js
 var fs = require('fs');
