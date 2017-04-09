@@ -48,7 +48,7 @@ sas(read_dir ,stat, function() {
 });
 ```
 This demo explores all the folders and files in you disk asynchronously, Record the maximum depth,
-and have a good ending to return to your results.<br>
+and have a good ending to bring to your results.<br>
 Can other ways to achieve it in the 40 line code? if have please tell me.<br>
 
 If you want to know how **Sas** did it, please visit<br>

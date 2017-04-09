@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  </head>
+  <body>
+    <h1>sas 前端测试</h1>
+<script>
+
+  function iterator(v){
+    return function(callback){
+      setTimeout(function(){
+        console.log('v', v);
+        callback(null, v.toUpperCase());
+      }, Math.random() * 1000);
+    }
+  }
+
+  function test(){
+    sas(['Seq start',
+    {one: 'Parallel 1', two: 'Parallel 2'}, 
+      'Seq end'],
+    {iterator:iterator});
+  }
+
+</script>
+    <script src='/dist/sas-dev.js'></script>
+    <script>test();</script>
+    <script src='/dist/sas.js'></script>
+    <script>test();</script>
+    <script src='//cdn.bootcss.com/require.js/2.3.3/require.min.js'></script>
+    <script>
+      require(['/dist/sas-min.js'], function(amdSas){
+        console.log('amdTest start');
+        function amdTest(){
+          amdSas(['Seq start',
+          {one: 'Parallel 1', two: 'Parallel 2'}, 
+            'Seq end'],
+          {iterator:iterator}, function(){
+            console.log('amdTest end');
+          });
+        }
+        amdTest();
+      })
+    
+    </script>
+  </body>
+</html>

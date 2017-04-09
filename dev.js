@@ -40,7 +40,7 @@ if (typeof window !== 'undefined') {
     console.log('%c%s', 'color:' + style, str);
   }
 }else{
-  var _colorMap = {red: 31,cyan: 96, gray: 90}
+  var _colorMap = {red: 31,darkcyan: 36, gray: 90}
   _colorLog = function(style, str) {
     console.log(style ? '\u001b[' + _colorMap[style] + 'm' + str + '\u001b[39m' : str);
   }
@@ -212,9 +212,9 @@ Main.prototype._end = function(){
 
   //<DWDEBUG #################################
   console.log('End');
-  _colorLog('cyan', 'Callbacks count:\t' + this.tasksCount + '/' + this.tasksCbCount);
-  _colorLog('cyan', 'Callbacks time count:\t' + this._callbacksTimeCount + 'ms');
-  _colorLog('cyan', 'Real time cost:\t' + (Date.now() - this._debugStartTime) + 'ms');
+  _colorLog('darkcyan', 'Callbacks count:\t' + this.tasksCount + '/' + this.tasksCbCount);
+  _colorLog('darkcyan', 'Callbacks time count:\t' + this._callbacksTimeCount + 'ms');
+  _colorLog('darkcyan', 'Real time cost:\t' + (Date.now() - this._debugStartTime) + 'ms');
   //################################# DWDEBUG>
 
   if (this.process) {

@@ -20,6 +20,7 @@
     "babel-eslint": "^6.1.2",
     "dist-wrap": "^1.2.0",
     "eslint": "^3.4.0",
+    "express": "^4.15.2",
     "uglify-js": "^2.8.21"
   },
   "license": "MIT",
