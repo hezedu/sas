@@ -31,10 +31,10 @@ function stat(path) { //iterator
   }
 }
 
-console.log('exploring disk\'s depth...');
+console.log('Exploring disk\'s max depth...');
 console.time('Time cost');
 sas(read_dir ,stat, function() {
-    console.timeEnd('Time cost');
-    console.log('Depth:' + (depth + 1));
-    console.log('Deepest path:'+ deepestPath);
+  console.timeEnd('Time cost');
+  console.log('Max Depth:' + (depth + 1));
+  console.log('Deepest path:' + deepestPath);
 });
