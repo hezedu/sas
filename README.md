@@ -2,7 +2,7 @@
 The Callback Hell Terminator<br>
 How to prove it?
 
-Install:`npm install sas`<br>
+**Install:**`npm install sas`,<br>
 and run the next demo:
 ### Demo: Disk's max depth explorer
 ```js
@@ -47,8 +47,9 @@ sas(read_dir ,stat, function() {
   console.log('Deepest path:' + deepestPath);
 });
 ```
-This demo explores all the folders and files in the disk asynchronously, Record the maximum depth,
-and have a good end to return result.<br>
+This demo explores all the folders and files in you disk asynchronously, Record the maximum depth,
+and have a good ending to return to your results.<br>
 Can other ways to achieve it in the 40 line code? if have please tell me.<br>
+
 If you want to know how **Sas** did it, please visit<br>
 docs: https://hezedu.github.io/sas/
