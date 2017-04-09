@@ -1,21 +1,19 @@
-# Sas 3.0.0 建设中...
+# Sas 3.0.0
 Sas is the callback hell terminator.<br>
 How to prove it?
 
-**Install:**`npm install sas`,<br>
+**Install:**`npm install sas`<br>
 and run the next demo.
-### Demo: Disk's max depth explorer
+### Demo: Disk's Max Depth Explorer
 ```js
 var fs = require('fs');
-var sas = require('sas');
+var sas = require('../index');
 
-var rootDir = '/', depth = 0, deepestPath = '';
-
-function read_dir(cb, i) {
-  var indexs = i.indexs(), path = indexs.join('') || rootDir;
-  if (indexs.length > depth) { //record
-    depth = indexs.length; 
-    deepestPath = path + '/';
+function readdir(cb, i) {
+  var indexs = i.indexs(), path = indexs.join('') || '/';
+  if (indexs.length > this.depth) { //record
+    this.depth = indexs.length;
+    this.deepestPath = path + '/';
   }
   fs.readdir(path, function(err, files) {
     if (err || !files.length) return cb();
@@ -32,7 +30,7 @@ function stat(path) { //iterator
     fs.lstat(path, function(err, stat) {
       if (err || stat.isSymbolicLink()) return cb();
       if (stat.isDirectory()) {
-        return cb('$reload', read_dir);
+        return cb('$reload', readdir);
       }
       cb();
     });
@@ -41,15 +39,14 @@ function stat(path) { //iterator
 
 console.log('Exploring disk\'s max depth...');
 console.time('Time cost');
-sas(read_dir ,stat, function() {
+sas(readdir ,{iterator: stat, context: {depth: 0}}, function(err, result) {
   console.timeEnd('Time cost');
-  console.log('Max Depth:' + (depth + 1));
-  console.log('Deepest path:' + deepestPath);
+  console.log('Max Depth:' + (result.depth + 1));
+  console.log('Deepest path:' + result.deepestPath);
 });
 ```
 This demo explores all the folders and files in you disk asynchronously, Record the maximum depth,
-and have a good ending to bring to your results.<br>
-Can other ways to achieve it in the 40 line code? if have please tell me.<br>
-
-If you want to know how **Sas** did it, please visit<br>
-docs: https://hezedu.github.io/sas/
+and have a good ending to bring to your results.
+If other ways can to achieve it in less than 40 lines code, please tell me.<br>
+If you want to know how **Sas** did it, please visit docs:<br>
+https://hezedu.github.io/sas/

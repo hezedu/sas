@@ -56,7 +56,7 @@ function Main(tasks, iterator, end, opts) {
   //################################# DWDEBUG>
 
   this.tasks = tasks;
-  this.result = {}; //Tasks's context
+  this.result = opts.context || {}; //Tasks's context
   this.tasksCount = 0;
   this.tasksCbCount = 0;
   this.error = null;

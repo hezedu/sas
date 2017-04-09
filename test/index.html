@@ -10,7 +10,7 @@
     return function(callback){
       setTimeout(function(){
         console.log('v', v);
-        callback(null, v.toUpperCase());
+        callback();
       }, Math.random() * 1000);
     }
   }
