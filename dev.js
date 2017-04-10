@@ -8,26 +8,16 @@ var realType = Object.prototype.toString;
 
 // sas(tasks);
 // sas(tasks, end);
-// sas(tasks,iterator, end);
 // sas(tasks, opts);
 // sas(tasks, opts, end);
 function sas(tasks, opts, end) {
-  var iterator;
-  if (typeof opts !== 'object') {
-    switch (arguments.length) {
-      case 2:
-        end = opts;
-        break;
-      case 3:
-        iterator = opts;
-        break;
-      default:
-        opts = {};
-    }
-  } else {
-    iterator = opts.iterator;
+  if(!opts){
+    opts = {};
+  }else if(typeof opts === 'function'){
+    end = opts;
+    opts = {};
   }
-  new Main(tasks, iterator, end, opts);
+  new Main(tasks, opts, end);
 }
 
 //<DWDEBUG #################################
@@ -47,7 +37,7 @@ if (typeof window !== 'undefined') {
 }
 //################################# DWDEBUG>
 
-function Main(tasks, iterator, end, opts) {
+function Main(tasks, opts, end) {
   
   //<DWDEBUG #################################
   console.log('Start');
@@ -61,7 +51,7 @@ function Main(tasks, iterator, end, opts) {
   this.tasksCbCount = 0;
   this.error = null;
   this.end = end;
-  this.ite = iterator;
+  this.ite = opts.iterator;
   this.process = opts.process;
   this.processInterval = opts.processInterval || 1000;
   this.init();

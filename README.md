@@ -1,9 +1,13 @@
 # Sas 3.0.0 建设中...
-Sas is the callback hell terminator.<br>
-How to prove it?
+Sas是一个为了解决Javascript回调地狱而设计的异步控制库，它使用**Array**代表串行，使用**Object**代表并行，使用**Function**代表任务。无限嵌套，递归执行。无论多深，它都能精准的返回你想要的结果，它就是回调地狱终结者。
 
+- 它很小，源代码在包含很多注释和空格的情况下，仍不到200行。
+- 它很简单，它只有一个接口：`sas`
+- 它很强大。你可以运行下面的Demo来见识它的威力。
+
+首先你得安装它：<br>
 **Install:** `npm install sas`<br>
-and run the next demo.
+
 ### Demo: Disk's Max Depth Explorer
 ```js
 var fs = require('fs');
@@ -45,8 +49,8 @@ sas(readdir ,{iterator: stat, context: {depth: 0}}, function(err, result) {
   console.log('Deepest path:' + result.deepestPath);
 });
 ```
-This demo explores all the folders and files in you disk asynchronously, Record the maximum depth,
-and have a good ending to bring to your results.
-If other ways can to achieve it in less than 40 lines code, please tell me.<br>
-If you want to know how **Sas** did it, please visit docs:<br>
-https://hezedu.github.io/sas/
+这个demo异步的浏览你硬盘上所有文件/文件夹，找出最深的那个。最后完美结束，并把结果告诉你。这只在40行代码中实现了！
+如果你想知道sas是怎么做到的，请访问文档：https://hezedu.github.io/sas/
+
+### 前端直接src
+在本项目根目录下`./dist`有打包好的文件供前端使用，支持`amd`加载。如果没有amd的话，会暴露到全局一个变量：`sas`。
