@@ -26,7 +26,6 @@ function sas(tasks, opts, end) {
     }
   } else {
     iterator = opts.iterator;
-    end = end || opts.end;
   }
   new Main(tasks, iterator, end, opts);
 }

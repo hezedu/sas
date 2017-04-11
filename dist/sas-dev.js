@@ -1,5 +1,5 @@
 /*!
-  *Version: 3.0.1
+  *Version: 3.0.2
   *Author: Du Wei
   *Repository: https://github.com/hezedu/sas
   *Released: MIT
@@ -30,7 +30,6 @@
       }
     } else {
       iterator = opts.iterator;
-      end = end || opts.end;
     }
     new Main(tasks, iterator, end, opts);
   }
