@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<% var data = htmlWebpackPlugin.options.indexData %>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="<%=data.BASE_STATIC %>/static/favicon.png">
+    <title>Sas Docs</title>
+    <script src="<%=data.BASE_STATIC %>/static/sas-min.js"></script>
+  </head>
+  <body>
+  <div id="app" class="clear_app"></div>
+  <script>
+  var SERVER_CONFIG = <%=JSON.stringify(data)%>
+  </script>
+</body>
+</html>

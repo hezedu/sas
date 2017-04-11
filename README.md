@@ -1,3 +1,2 @@
-# infernostride
-可以递归的callback! 
- Can be recursively callback!
+# clear
+One front end architecture. used webpack and react.

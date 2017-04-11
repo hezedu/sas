@@ -1,0 +1,5 @@
+webpack.config.js
+.eslintrc.js
+node_modules
+script
+test.js

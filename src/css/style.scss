@@ -1,0 +1,65 @@
+$color:#fff;
+$topColor:#000;
+$leftColor:#888;
+$midColor:#444;
+$midColor2:#ccc;
+$topH : 50px;
+$leftWidth:200px;
+$leftAHeight:35px;
+*{margin: 0; padding: 0;box-sizing: border-box;}
+:global {
+  html , body, .height100, .clear_app{height: 100%;}
+  body{font-family: "Microsoft YaHei", "Hiragino Sans GB";line-height: 1.5; font-size: 16px}
+  ul, ol { list-style: none; display: block}
+  a { text-decoration: none;cursor:pointer;}
+  .dw-heightlight{background-color:yellow}
+  input{padding-left:.5em}
+  hr{border-color: #fff}
+  .note{color:$leftColor}
+  .clear-tree-node{padding-left:10px;color:$midColor2;height: 35px;line-height: 35px}
+  // .clearfix:after { content:""; display:block; height:0; width:0; visibility:hidden; clear:both; } 
+  // .demo-wrap{height: 100px;line-height:50px; background: #ccc; text-align: center}
+  // .demo-series{height:100%; width:30%;float:left;border:1px solid #000}
+  // .demo-parallel{height:50%;border:1px solid #000}
+
+}
+
+.btn{padding:5px 10px;cursor: pointer}
+.loginBox{width: 400px; height: 200px;margin:auto; position: absolute;
+  left:0; right:0; background: #eee;top:0; bottom:0;padding:10px;}
+.loginBox .btn{margin-top: 5px;float: right}
+.loginBox_title{text-align: center; padding: 5px;font-size:1.3em}
+.loginBox input{width:80%; display: block;margin:10px auto;height: 35px;}
+
+.homeTitle{position: absolute; top:0; bottom:0; width: 100%; text-align: center;
+   margin: auto; height: 200px;font-size: 30px;}
+.homeTitle big{font-size: 100px;}
+.homeTitle small{font-size: 33px;}
+.homeTitle a{color:$topColor; border-bottom:2px solid $topColor}
+
+.topNavWarp{padding-left: $leftWidth;padding-right: $leftWidth;
+  height:$topH;line-height: $topH;position: fixed; top:0;font-size:1.2em;
+  left:0;z-index: 2;width: 100%; background-color:$topColor;color:$color;}
+.topNavWarp a:hover{background: $midColor2;color:$topColor}
+.title{padding:0 10px;left:0;color:$midColor2;position: absolute; display: block;font-size:1.2em;}
+.topNav{padding-left: 20px}
+.topNav a{color:$midColor2; display: block;float: left; margin:0 10px;padding: 0 20px}
+.topNav a.active, .topNav a:hover{background: $midColor; color:$color}
+.topRightBar {right:0px;font-size: 16px;position: absolute;color:$color;padding-right:40px;height: 100%;}
+.topRightBar a.githubIcon{float: left;position: absolute;right: 0;top:0;height: 100%;padding:0 5px}
+.topRightBar .githubIcon img{width:30px;height: 30px;vertical-align: middle}
+.loginBar a{color: $midColor2; padding:5px 10px;margin-right:10px;}
+
+.bottomWarp{padding-top:$topH;height: 100%;position: relative;}
+.bottomWarp>:global(.markdown-body){width: 980px;padding:45px;margin: 0 auto;}
+
+.mainWarp{padding-left:$leftWidth; width:100%; position: relative; height: 100%;}
+.mainWarp>:global(.markdown-body){padding:10px 40px 80px;}
+.main hr{margin: 10px 0;}
+.leftNav{width: $leftWidth;height: 100%;position: fixed;top:$topH;left:0;z-index: 2;padding-top: 10px;
+background-color: $midColor}
+.leftNav a{color:$color;display: block; height: $leftAHeight;
+  line-height: $leftAHeight;padding-left:10px;}
+.leftNav li{display: block;};
+.leftNav>ul ul{margin-left: 1em}
+.leftNav a.active, .leftNav a:hover{background-color: $color;color:$topColor}
