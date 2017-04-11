@@ -4,7 +4,7 @@ var base = require('./dev');
 const conf = {
   indexDir: './',
   staticPath : 'dist',
-  baseUrl: '/clear'
+  baseUrl: '/sas'
 };
 
 module.exports =  _.merge(base, conf);
