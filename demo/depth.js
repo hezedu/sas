@@ -1,11 +1,12 @@
 var fs = require('fs');
 var sas = require('../index');
+var rootDir = '/', depth = 0, deepestPath;
 
 function readdir(cb, i) {
-  var indexs = i.indexs(), path = this.dir + indexs.join('/');
-  if (indexs.length > this.depth) { //record
-    this.depth = indexs.length;
-    this.deepestPath = path;
+  var indexs = i.indexs(), path = rootDir + indexs.join('/');
+  if (indexs.length > depth) { //record
+    depth = indexs.length;
+    deepestPath = path;
   }
   fs.readdir(path, function(err, files) {
     if (err || !files.length) return cb();
@@ -31,8 +32,9 @@ function stat(path) { //iterator
 
 console.log('Exploring disk\'s deepest depth...');
 console.time('time cost');
-sas(readdir ,{iterator: stat, context: {depth: 0, dir: '/'}}, function(err, result) {
-  console.log('Deepest depth:',  result.depth);
-  console.log('Deepest path:', result.deepestPath);
+
+sas(readdir ,stat, function() {
+  console.log('Deepest depth:',  depth);
+  console.log('Deepest path:', deepestPath);
   console.timeEnd('time cost');
 });

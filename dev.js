@@ -9,15 +9,26 @@ var realType = Object.prototype.toString;
 // sas(tasks);
 // sas(tasks, end);
 // sas(tasks, opts);
+// sas(tasks, iterator, end);
 // sas(tasks, opts, end);
 function sas(tasks, opts, end) {
-  if(!opts){
-    opts = {};
-  }else if(typeof opts === 'function'){
-    end = opts;
-    opts = {};
+  var iterator;
+  if (typeof opts !== 'object') {
+    switch (arguments.length) {
+      case 2:
+        end = opts;
+        break;
+      case 3:
+        iterator = opts;
+        break;
+      default:
+        opts = {};
+    }
+  } else {
+    iterator = opts.iterator;
+    end = end || opts.end;
   }
-  new Main(tasks, opts, end);
+  new Main(tasks, iterator, end, opts);
 }
 
 //<DWDEBUG #################################
@@ -37,7 +48,7 @@ if (typeof window !== 'undefined') {
 }
 //################################# DWDEBUG>
 
-function Main(tasks, opts, end) {
+function Main(tasks, iterator, end, opts) {
   
   //<DWDEBUG #################################
   console.log('Start');
@@ -51,7 +62,7 @@ function Main(tasks, opts, end) {
   this.tasksCbCount = 0;
   this.error = null;
   this.end = end;
-  this.ite = opts.iterator;
+  this.iterator = iterator;
   this.process = opts.process;
   this.processInterval = opts.processInterval || 1000;
   this.init();
@@ -93,8 +104,8 @@ Main.prototype.dis = function(i, t, count, parents) {
 
     default:
       //Other control:
-      if (this.ite && t[i] !== undefined) {
-        t[i] = this.ite(t[i]);
+      if (this.iterator) {
+        t[i] = this.iterator(t[i]);
         this.forFn(i, t, count, parents);
       } else {
         count[1]++;

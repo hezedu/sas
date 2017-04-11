@@ -39,34 +39,34 @@ function proMin(cb) { //生成压缩min.js，前端使用
   fs.writeFile('./dist/sas-min.js', note + data.code, cb);
 }
 
-sas([readDev, {
-  writePro,
-  distDev,
-  distPro: [distPro, proMin]
-}]);
+// sas([readDev, {
+//   writePro,
+//   distDev,
+//   distPro: [distPro, proMin]
+// }]);
 
-// var $readMe = (cb) => fs.readFile('./README.md', 'utf-8', cb);
+var $readMe = (cb) => fs.readFile('./README.md', 'utf-8', cb);
 
-// var writeMe = function(cb) { //更新 readMe首部 版本号
-//   var data = this.readMe;
-//   var first_n = data.indexOf('\n');
-//   var top = data.substr(0, first_n);
-//   top = top.split('Sas ');
-//   if(top[1] === version){
-//     cb();
-//   }else{
-//     top[1] = version;
-//     top = top.join('Sas ');
-//     data = top + data.substr(first_n);
-//     fs.writeFile('./README.md', data, cb);
-//   }
-// }
+var writeMe = function(cb) { //更新 readMe首部 版本号
+  var data = this.readMe;
+  var first_n = data.indexOf('\n');
+  var top = data.substr(0, first_n);
+  top = top.split('Sas ');
+  if(top[1] === version){
+    cb();
+  }else{
+    top[1] = version;
+    top = top.join('Sas ');
+    data = top + data.substr(first_n);
+    fs.writeFile('./README.md', data, cb);
+  }
+}
 
-// sas({
-//   code: [readDev, {
-//     writePro,
-//     distDev,
-//     distPro: [distPro, proMin]
-//   }],
-//   readMeUpdate: [$readMe, writeMe]
-// });
+sas({
+  code: [readDev, {
+    writePro,
+    distDev,
+    distPro: [distPro, proMin]
+  }],
+  readMeUpdate: [$readMe, writeMe]
+});

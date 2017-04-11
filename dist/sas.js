@@ -1,5 +1,5 @@
 /*!
-  *Version: 3.0.0
+  *Version: 3.0.1
   *Author: Du Wei
   *Repository: https://github.com/hezedu/sas
   *Released: MIT
@@ -13,24 +13,35 @@
   // sas(tasks);
   // sas(tasks, end);
   // sas(tasks, opts);
+  // sas(tasks, iterator, end);
   // sas(tasks, opts, end);
   function sas(tasks, opts, end) {
-    if(!opts){
-      opts = {};
-    }else if(typeof opts === 'function'){
-      end = opts;
-      opts = {};
+    var iterator;
+    if (typeof opts !== 'object') {
+      switch (arguments.length) {
+        case 2:
+          end = opts;
+          break;
+        case 3:
+          iterator = opts;
+          break;
+        default:
+          opts = {};
+      }
+    } else {
+      iterator = opts.iterator;
+      end = end || opts.end;
     }
-    new Main(tasks, opts, end);
+    new Main(tasks, iterator, end, opts);
   }
-  function Main(tasks, opts, end) {
+  function Main(tasks, iterator, end, opts) {
     this.tasks = tasks;
     this.result = opts.context || {}; //Tasks's context
     this.tasksCount = 0;
     this.tasksCbCount = 0;
     this.error = null;
     this.end = end;
-    this.ite = opts.iterator;
+    this.iterator = iterator;
     this.process = opts.process;
     this.processInterval = opts.processInterval || 1000;
     this.init();
@@ -72,8 +83,8 @@
   
       default:
         //Other control:
-        if (this.ite && t[i] !== undefined) {
-          t[i] = this.ite(t[i]);
+        if (this.iterator) {
+          t[i] = this.iterator(t[i]);
           this.forFn(i, t, count, parents);
         } else {
           count[1]++;
