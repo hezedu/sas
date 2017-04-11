@@ -2,18 +2,18 @@ var fs = require('fs');
 var sas = require('../index');
 
 function readdir(cb, i) {
-  var indexs = i.indexs(), path = indexs.join('') || '/';
+  var indexs = i.indexs(), path = this.dir + indexs.join('/');
   if (indexs.length > this.depth) { //record
     this.depth = indexs.length;
-    this.deepestPath = path + '/';
+    this.deepestPath = path;
   }
   fs.readdir(path, function(err, files) {
     if (err || !files.length) return cb();
-    var obj = {}, len = files.length;
-    for (var i = 0; i < len; i++) {
-      obj['/' + files[i]] = path + '/' + files[i];
+    var tasks = {}, i = 0, len = files.length;
+    for (; i < len; i++) {
+      tasks[files[i]] = path + '/' + files[i];
     }
-    cb('$reload', obj);
+    cb('$reload', tasks);
   });
 }
 
@@ -29,10 +29,10 @@ function stat(path) { //iterator
   }
 }
 
-console.log('Exploring disk\'s max depth...');
-console.time('Time cost');
-sas(readdir ,{iterator: stat, context: {depth: 0}}, function(err, result) {
-  console.timeEnd('Time cost');
-  console.log('Max Depth:' + (result.depth + 1));
-  console.log('Deepest path:' + result.deepestPath);
+console.log('Exploring disk\'s deepest depth...');
+console.time('time cost');
+sas(readdir ,{iterator: stat, context: {depth: 0, dir: '/'}}, function(err, result) {
+  console.log('Deepest depth:',  result.depth);
+  console.log('Deepest path:', result.deepestPath);
+  console.timeEnd('time cost');
 });

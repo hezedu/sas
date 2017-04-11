@@ -1,7 +1,7 @@
 {
   "name": "sas",
-  "version": "3.0.0 建设中...",
-  "main": "index",
+  "version": "3.0.0",
+  "main": "index.js",
   "keywords": [
     "async",
     "callback",
@@ -15,11 +15,8 @@
   "author": {
     "name": "Du Wei"
   },
-  "dependencies": {},
   "devDependencies": {
-    "babel-eslint": "^6.1.2",
     "dist-wrap": "^2.0.0",
-    "eslint": "^3.4.0",
     "express": "^4.15.2",
     "uglify-js": "^2.8.21"
   },
