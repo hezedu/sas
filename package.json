@@ -6,7 +6,7 @@
     "async",
     "callback",
     "browser",
-    "Recursive",
+    "recursive",
     "nodejs"
   ],
   "repository": {
