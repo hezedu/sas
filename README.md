@@ -52,7 +52,7 @@ sas(readdir ,stat, function() {
 });
 ```
 This demo will browse all the files / folders on your hard drive asynchronously, find the deepest path, and tell you the results<br>
-If you want to know how **sas** is done, please visit:[Docs](https://hezedu.github.io/sas/#/docs/sas/tasks)。
+If you want to know how **sas** did it, please visit: [Docs](https://hezedu.github.io/sas/#/docs/sas/tasks)。
 
 ### Front-end direct src
 In the root directory of the project `. / Dist` has some wrapped files for the front-end use, support` amd` load. If there is no amd, it will be exposed to a global variable:` sas`.
