@@ -8,7 +8,7 @@
 `tasksCbCount`：当前已完成的task数。
 ### .processInterval
 process执行间隔，默认`1000`。
-### Demo: Command Line Process
+### Demo: 命令行数字式进度显示
 ```js
 var sas = require('sas');
 
@@ -42,6 +42,6 @@ sas(tasks, {iterator, process: _process}, function(){
   console.log('\nend');
 });
 ```
-### context
+### .context
 Task的初始上下文，默认`{}`，详见下一节。
 

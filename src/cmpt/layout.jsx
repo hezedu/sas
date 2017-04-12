@@ -6,7 +6,6 @@ import {navRoutes} from '../router.config';
 import find from 'lodash/find';
 import virgin from 'virgin';
 window.sas = require('sas/dev.js');
-console.log(window.sas);
 //======================router======================
 export class Root extends Component {
   static contextTypes = {

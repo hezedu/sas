@@ -53,7 +53,7 @@ $leftAHeight:35px;
 .bottomWarp{padding-top:$topH;height: 100%;position: relative;}
 .bottomWarp>:global(.markdown-body){width: 980px;padding:45px;margin: 0 auto;}
 
-.mainWarp{padding-left:$leftWidth; width:100%; position: relative; height: 100%;}
+.mainWarp{padding-left:$leftWidth; width:100%;position: relative; height: 100%;}
 .mainWarp>:global(.markdown-body){padding:10px 40px 80px;}
 .main hr{margin: 10px 0;}
 .leftNav{width: $leftWidth;height: 100%;position: fixed;top:$topH;left:0;z-index: 2;padding-top: 10px;

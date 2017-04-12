@@ -1,10 +1,11 @@
 # sas(tasks, <span class="dw-heightlight">end</span>)
-End是一个function, 它将在程序结束时执行。带来结果或者得到一个错误。<br>
+**end**是一个function, 它将在程序结束时执行。带来结果或者得到一个错误。<br>
 ## end(error, result)
+参数遵循___error-first___样式。
 ### error
-国际callback惯例：第一个参数是error.只要task的callback传递一个错误，程序将会中止，错误将会出现在end的第一个参数那里。
+只要task的callback传递一个错误，程序将会中止，错误将会出现在end的第一个参数那里。
 ```js
-var sas = require('sar');
+var sas = require('sas');
 
 // 为了方便演示，使用下的方法生成task:
 function taskGenerator(k){
