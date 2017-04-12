@@ -10,7 +10,7 @@ var sas = require('sas');
 
 //not what you see on the surface
 sas([function(callback){
-    console.log(this) //输出:{}
+    console.log(this) // {}
     callback();
 }])
 
@@ -19,12 +19,12 @@ sas([function(callback){
     this.hello = world;
     callback();
 }], function(err, result){
-    console.log(result) //输出:{hello: 'world'}
+    console.log(result) // {hello: 'world'}
 })
 
 // context init
 sas([function(callback){
-    console.log(this); //输出:{hello: 'world'}
+    console.log(this); // {hello: 'world'}
     callback();
 }], {context: {hello: 'world'}})
 
@@ -36,7 +36,7 @@ sas([
     }, 
     {p:[{p:[
     function(callback){
-          console.log(this.hello); //输出:'world'
+          console.log(this.hello); // 'world'
           callback();
     }
 ]}]}]);
