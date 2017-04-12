@@ -10,7 +10,7 @@ Sas是一个为了解决Javascript回调地狱而设计的**可递归**的异步
 ### Demo: 使用sas寻找磁盘最深处
 ```js
 var fs = require('fs');
-var sas = require('../index');
+var sas = require('sas');
 var rootDir = '/', depth = 0, deepestPath;
 
 function readdir(cb, i) {
