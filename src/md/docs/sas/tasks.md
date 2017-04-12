@@ -1,36 +1,36 @@
 # sas(<span class="dw-heightlight">tasks</span>)
-Tasks可以是任何东西，当它是以下三种type时具有特殊含意:
-- **Array[]** 代表串行
-- **Object{}** 代表并行
-- **Function** 代表task，task第一个参数必须是callback，且callback必须被执行：
+The task can be anything that has a special meaning when it is the following three types:
+- **Array[]** delegate series
+- **Object{}** delegate parallel
+- **Function** delegate task, first param of the task must be a callback, and the callback must be executed:
 
 ```js
-//一个基本的同步task
+// A basic synchronization task
 function task(callback){
   callback();
 }
 ```
-sas可以处理同步task(sas的第一个字母**S**就是sync的意思), 但异步的task才是sas的主要猎物：
+Sas can handle the synchronization task (sas the first letter S is the meaning of sync), but the asynchronous task is sas the main prey:
 ```js
-//一个简单的异步task
+//A simple asynchronous task
 function task(callback){
   setTimeout(callback)
 }
 ```
-下面的demo将使用这三种type：
-### Demo:节省的时间
+The following demo will use these three types:
+### Demo: Save Time
 ```js 
 var sas = require('sas');
 var totalTime = 0, realTime = 0;
 
-// 为了方便，使用下的方法生成task:
+// For convenience, use the following method to generate task:
 function taskGenerator(k){
   return function task(callback){
     var time = Date.now();
 
     setTimeout(function(){
       var costTime = Date.now() - time;
-      console.log(k + ' 用时：' + costTime + 'ms');
+      console.log(k + ' cost: ' + costTime + 'ms');
       totalTime += costTime;
       callback();
     }, Math.random() * 1000)
@@ -40,9 +40,9 @@ function taskGenerator(k){
 function seriesEnd(callback){
   var realTime = Date.now() - startTime;
   console.log('end');
-  console.log('所有callback时间：' + totalTime + 'ms');
-  console.log('实际用时: ' + realTime + 'ms');
-  console.log('节省时间: ' + (totalTime - realTime) + 'ms');
+  console.log('Callbacks time count: ' + totalTime + 'ms');
+  console.log('Real time cost: ' + realTime + 'ms');
+  console.log('Saved time: ' + (totalTime - realTime) + 'ms');
   callback();
 }
 
@@ -56,4 +56,4 @@ sas([ // arrays is series
   }, seriesEnd
 ]);
 ```
-Yeah!你已经不经易间使用了嵌套，callback的深度为2，这是不是很酷？然而这对sas只是最基本的。
+Did you notice, this Demo is nesting, the callback depth is 2. Ain't it cool? However, this is only the most basic sas.

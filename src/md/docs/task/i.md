@@ -1,10 +1,10 @@
 # task(callback, <span class="dw-heightlight">i</span>)
 
-**i**是task的第二个隐藏参数，会告诉你当前的一些位置信息。
+**i** is the second hidden param of the task, will tell you some of the current location information.
 
-- `index` 当前task的index
-- `indexs` 数组。当前task到最顶层的所经过的所有路径。
-- `upperIndex([len=1])` function。返回当前task上面len层的index
+- `index` The index of the current task
+- `indexs` function. return a array. all index of root
+- `upperIndex([len=1])` function. Returns the index of the `len` layer above the current task
 
 ```js
 var sas = require('sas');

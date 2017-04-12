@@ -5,7 +5,7 @@ import NavTree from './tree.jsx';
 import {navRoutes} from '../router.config';
 import find from 'lodash/find';
 import virgin from 'virgin';
-window.sas = require('sas/dev.js');
+window.sas = require('sas');
 //======================router======================
 export class Root extends Component {
   static contextTypes = {
@@ -52,6 +52,13 @@ export class Top extends Component {
             {this.NavList()}
           </div>
           <div className={style.topRightBar}>
+            <div className={style.langBar}>
+              <span>English</span>
+              <a href='https://hezedu.github.io/sas-cn-docs/'>
+              中文
+              </a>
+            </div>
+
           <a href='https://github.com/hezedu/sas' className={style.githubIcon}>
           <img src={window.SERVER_CONFIG.BASE_STATIC + '/static/pinned-octocat.svg'} />
           </a>
@@ -103,7 +110,7 @@ hljs.registerLanguage('css', require('highlight.js/lib/languages/css'));
 //   tabReplace: '  '
 // })
 
-var homeMd = require('sas/README.md');
+var homeMd = require('../md/README.md');
 //======================默认首页======================
 export class Home extends Component {
 
