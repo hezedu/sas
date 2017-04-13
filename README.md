@@ -1,5 +1,5 @@
-English [中文](README-cn.md)Sas 3.0.2
-# Sas
+English [中文](README-cn.md)
+# Sas 3.0.3
 Sas is a can be recursive asynchronous library of Javascript. It is designed to solve the callback hell. 
 It use Array delegate series, use Object delegate parallel, use Function delegate task. Series and parallel can unlimited nesting, It will recursive execution. no matter how deep, can accurate return to the results you want. It is callback hell terminator.
 - It is very small, the source code contains a lot of comments and spaces in the case, still less than 200 lines.
@@ -52,7 +52,7 @@ sas(readdir ,stat, function() {
 });
 ```
 This demo will browse all the files / folders on your hard drive asynchronously, find the deepest path, and tell you the results<br>
-If you want to know how **sas** did it, please visit: [Docs](https://hezedu.github.io/sas/#/docs/sas/tasks)。
+If you want to know how **sas** did it, please visit: [Docs](https://hezedu.github.io/sas/#/docs/sas/tasks)
 
 ### Front-end direct src
 In the root directory of the project `. / Dist` has some wrapped files for the front-end use, support` amd` load. If there is no amd, it will be exposed to a global variable:` sas`.

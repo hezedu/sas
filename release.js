@@ -51,7 +51,7 @@ var writeMe = function(cb) { //更新 readMe首部 版本号
   var data = this.readMe;
   var first_n = data.indexOf('\n');
   var top = data.substr(0, first_n);
-  top = top.split('Sas ');
+  top = top.split('# Sas ');
   if(top[1] === version){
     cb();
   }else{
