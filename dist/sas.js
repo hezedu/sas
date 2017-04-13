@@ -48,59 +48,59 @@
   
   Main.prototype.init = function() {
     var _count = [1, 0];
-    this.dis(_count[1],[this.tasks], _count);
+    this.dis(this.tasks, _count[1], _count);
     this._process();
   }
   
   //Recursion
-  Main.prototype.dis = function(i, t, count, parents) {
+  Main.prototype.dis = function(v, i, count, parents) {
     if (this.error) {
       return;
     }
     var _count;
-    switch (realType.call(t[i])) {
+    switch (realType.call(v)) {
+      
       //Function control
       case '[object Function]':
-        this.forFn(i, t, count, parents);
+        this.forFn(v, i, count, parents);
         break;
         
         //Object control
       case '[object Object]':
-        var keys = Object.keys(t[i]),
-          keys_len = keys.length;
-        _count = [keys_len, 0];
-        for (var o = 0; o < keys_len; o++) {
-          this.dis(keys[o], t[i], _count, arguments);
+        var keys = Object.keys(v), len = keys.length;
+        _count = [len, 0];
+        for (var o = 0; o < len; o++) {
+          var k = keys[o];
+          this.dis(v[k], k, _count, arguments);
         }
         break;
   
         //Array control
       case '[object Array]':
-        _count = [t[i].length, 0];
-        this.dis(_count[1], t[i], _count, arguments);
+        _count = [v.length, 0];
+        this.dis(v[0], _count[1], _count, arguments);
         break;
   
       default:
         //Other control:
         if (this.iterator) {
-          t[i] = this.iterator(t[i]);
-          this.forFn(i, t, count, parents);
+          this.forFn(this.iterator(v), i, count, parents);
         } else {
           count[1]++;
-          this.nextTick(i, t, count, parents);
+          this.nextTick(v, i, count, parents);
         }
     }
   }
   
   //Handle tasks
-  Main.prototype.forFn = function(i, t, count, parents) {
+  Main.prototype.forFn = function(v, i, count, parents) {
     this.tasksCount++;
     var ext = null,
-      self = this, ti = t[i];
-    if (ti.length > 1) {
-      ext = new I(i, t, this.tasks, parents);
+      self = this;
+    if (v.length > 1) {
+      ext = new I(v, i, count, parents, this.tasks);
     }
-    ti.call(this.result, cb, ext);
+    v.call(this.result, cb, ext);
   
     function cb(pream, opts) {
       self.tasksCbCount++;
@@ -110,8 +110,8 @@
       if(pream){
         switch (pream) {
           case '$reload':
-            t[i] = opts || ti;
-            return self.dis(i, t, count, parents);
+            opts  = opts || v;
+            return self.dis(opts, i, count, parents);
           case '$up':
             count[1] = count[0];
             break;
@@ -124,14 +124,15 @@
         count[1]++;
       }
   
-      if(ti.name[0] === '$'){
-        self.result[ti.name.substr(1)] = opts;
+      if(v.name[0] === '$'){
+        self.result[v.name.substr(1)] = opts;
       }
-      self.nextTick(i, t, count, parents);
+      self.nextTick(v, i, count, parents);
     }
   }
   
-  Main.prototype.nextTick = function(i, t, count, parents) {
+  Main.prototype.nextTick = function(v, i, count, parents) {
+  
     if (count[0] === count[1]) {
       if (parents) {
         parents[2][1]++;
@@ -141,7 +142,7 @@
       }
     } else {
       if (typeof i === 'number') {
-        this.dis(count[1], t, count, parents);
+        this.dis(parents[0][count[1]], count[1], count, parents);
       }
     }
   }
@@ -168,8 +169,9 @@
   
   //*********************************** I ***********************************
   
-  function I(i, t, root) {
+  function I(v, i, count, parents, root) {
     this.index = i;
+    this._count = count;
     this._root = root;
     this._parents = arguments;
   }
@@ -177,7 +179,7 @@
   I.prototype.indexs = function(){
     var ps = this._parents, indexs = [];
     while (ps[3]) {
-      indexs.splice(0, 0, ps[0]);
+      indexs.splice(0, 0, ps[1]);
       ps = ps[3];
     }
     return indexs;
@@ -186,12 +188,12 @@
   I.prototype.upperIndex = function(i) {
     i = i || 1;
     var ps = this._parents;
-    while(i > 0 && ps[1] !== this._root){
+    while(i > 0 && ps[0] !== this._root){
       ps = ps[3];
       i--;
     }
     if(i === 0) {
-      return ps[0]
+      return ps[1]
     }
   }
   

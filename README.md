@@ -1,4 +1,4 @@
-English [中文](README-cn.md)
+English [中文](README-cn.md)Sas 3.0.2
 # Sas
 Sas is a can be recursive asynchronous library of Javascript. It is designed to solve the callback hell. 
 It use Array delegate series, use Object delegate parallel, use Function delegate task. Series and parallel can unlimited nesting, It will recursive execution. no matter how deep, can accurate return to the results you want. It is callback hell terminator.

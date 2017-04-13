@@ -1,7 +1,10 @@
 {
   "name": "sas",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "main": "index.js",
+  "scripts": {
+    "lint": "eslint -c C:/Users/HASEE/home/.eslin2trc.json dev.js"
+  },
   "keywords": [
     "async",
     "callback",
