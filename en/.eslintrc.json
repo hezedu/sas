@@ -1,0 +1,36 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true
+    },
+    "extends": "eslint:recommended",
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            2
+        ],
+        "no-unused-vars": "warn",
+        "no-trailing-spaces": "warn",
+        "no-multiple-empty-lines": "warn",
+        "prefer-const": 0,
+        "space-infix-ops": "error",
+        "camelcase": "error",
+        "no-console": 0,
+        "linebreak-style": 0,
+        "quotes": 0,
+        "semi": 0,
+        "react/jsx-uses-vars": "error"
+    }
+}

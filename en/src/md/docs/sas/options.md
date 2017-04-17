@@ -1,14 +1,14 @@
 # sas(tasks, <span class="dw-heightlight">options</span>, end)
 ### iterator(value)
-就像前面的`taskGenerator`, 它将会处理tasks里所有非`Array`,`Object`和`Function`类型的 **value**。<br>
-它必须return一个`task`。<br>
-`sas(tasks, iterator, end)` 相当于 `sas(tasks, {iterator: iterator}, end)` 
+Iterator like the previous `taskGenerator`, It will handle all non-"Array", "Object" and "Function" types' **value** in the tasks.<br>
+It must return a `task`。<br>
+`sas(tasks, iterator, end)` equivalent to `sas(tasks, {iterator: iterator}, end)` 
 ### .process(tasksCount, tasksCbCount)
-`tasksCount`：当前所有task数。
-`tasksCbCount`：当前已完成的task数。
+`tasksCount`：All the current number of executed tasks.
+`tasksCbCount`：All the current number of callbacked tasks.
 ### .processInterval
-process执行间隔，默认`1000`。
-### Demo: 命令行数字式进度显示
+Process execution interval, default `1000`.
+### Demo: Command line digital progress display
 ```js
 var sas = require('sas');
 
@@ -21,7 +21,7 @@ function iterator(v){
 function nativeTask(callback){
    setTimeout(function(){
      callback();
-    console.log('我是一个原生的Task.');
+    console.log('I am a native Task.');
   }, Math.random() * 100)
 }
 
@@ -43,5 +43,4 @@ sas(tasks, {iterator, process: _process}, function(){
 });
 ```
 ### .context
-Task的初始上下文，默认`{}`，详见下一节。
-
+The default context of the task, default is `{}`, see the next section.

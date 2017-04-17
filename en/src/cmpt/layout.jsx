@@ -53,11 +53,12 @@ export class Top extends Component {
           </div>
           <div className={style.topRightBar}>
             <div className={style.langBar}>
-              <a href='https://hezedu.github.io/sas/'>
-              English
+              <span>English</span>
+              <a href='https://hezedu.github.io/sas-cn-docs/'>
+              中文
               </a>
-              <span>中文</span>
             </div>
+
           <a href='https://github.com/hezedu/sas' className={style.githubIcon}>
           <img src={window.SERVER_CONFIG.BASE_STATIC + '/static/pinned-octocat.svg'} />
           </a>
@@ -109,7 +110,7 @@ hljs.registerLanguage('css', require('highlight.js/lib/languages/css'));
 //   tabReplace: '  '
 // })
 
-var homeMd = require('../md/README-cn.md');
+var homeMd = require('../md/README.md');
 //======================默认首页======================
 export class Home extends Component {
 
