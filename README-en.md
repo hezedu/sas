@@ -50,7 +50,6 @@ sas(readdir ,stat, function() {
 ```
 This demo will browse all the files / folders on your hard drive asynchronously, find the deepest path, and tell you the results<br>
 If you want to know how **sas** did it, please visit: <br>
-
 [sas 2 文档](README-2.1.0.md)
 
 [sas 3 中文文档](https://hezedu.github.io/sas-cn-docs/#/docs/sas/tasks)

@@ -48,7 +48,7 @@ sas(readdir ,stat, function() {
 });
 ```
 这个demo会异步的浏览你硬盘上所有文件/文件夹，找出最深的那个。最后结束，并把结果告诉你。<br>
-如果你想知道**sas**是怎么做到的，请访问：
+如果你想知道**sas**是怎么做到的，请访问：<br>
 [sas 2 文档](README-2.1.0.md)
 
 [sas 3 中文文档](https://hezedu.github.io/sas-cn-docs/#/docs/sas/tasks)
