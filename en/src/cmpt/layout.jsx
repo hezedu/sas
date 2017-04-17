@@ -54,7 +54,7 @@ export class Top extends Component {
           <div className={style.topRightBar}>
             <div className={style.langBar}>
               <span>English</span>
-              <a href='https://hezedu.github.io/sas-cn-docs/'>
+              <a href='https://hezedu.github.io/sas/'>
               中文
               </a>
             </div>
