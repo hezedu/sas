@@ -1,14 +1,10 @@
-English [中文](README-cn.md)
-# Sas 3.0.3
-Sas is a can be recursive asynchronous library of Javascript. It is designed to solve the callback hell. 
-It use Array delegate series, use Object delegate parallel, use Function delegate task. Series and parallel can unlimited nesting, It will recursive execution. no matter how deep, can accurate return to the results you want. It is callback hell terminator.
-- It is very small, the source code contains a lot of comments and spaces in the case, still less than 200 lines.
-- It is very simple, it has only one interface: `sas`.
-- It is very powerful, you can run the following Demo to see its power.
+English(README-en.md)
+# Sas 3
+Sas是javascript的一个简单的可递归的异步控制库，它使用**Array**代表串行，使用**Object**代表并行，使用**Function**代表任务。串行和并行可无限嵌套，它将会递归执行，无论多深，都能返回你想要的结果。它很小，源代码在包含很多注释和空格的情况下，仍不到200行。
 
-First you have to install it:`npm install sas`<br>
+**安装** ：`npm install sas`<br>
 
-### Demo: Disk Depth Explorer:
+### Demo: 使用sas寻找磁盘最深处
 ```js
 var fs = require('fs');
 var sas = require('sas');
@@ -51,11 +47,16 @@ sas(readdir ,stat, function() {
   console.timeEnd('time cost');
 });
 ```
-This demo will browse all the files / folders on your hard drive asynchronously, find the deepest path, and tell you the results<br>
-If you want to know how **sas** did it, please visit: [Docs](https://hezedu.github.io/sas/#/docs/sas/tasks)
+这个demo会异步的浏览你硬盘上所有文件/文件夹，找出最深的那个。最后结束，并把结果告诉你。<br>
+如果你想知道**sas**是怎么做到的，请访问：
+[sas 2 文档](README-2.1.0.md)
 
-### Front-end direct src
-In the root directory of the project `. / Dist` has some wrapped files for the front-end use, support` amd` load. If there is no amd, it will be exposed to a global variable:` sas`.
+[sas 3 中文文档](https://hezedu.github.io/sas-cn-docs/#/docs/sas/tasks)
 
-#### browser
-IE8 and below are not supported.
+[sas3 English docs](https://hezedu.github.io/sas/#/docs/sas/tasks)
+
+### 前端直接src
+在本项目根目录下`./dist`有打包好的文件供前端使用，支持`amd`加载。如果没有amd的话，会暴露到全局一个变量：`sas`。
+
+### 浏览器支持
+不支持8及更早版本的IE浏览器。
