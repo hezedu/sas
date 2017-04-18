@@ -51,9 +51,9 @@ sas(readdir ,stat, function() {
 如果你想知道**sas**是怎么做到的，请访问：<br>
 [sas 2 文档](README-2.1.0.md)
 
-[sas 3 中文文档](https://hezedu.github.io/sas-cn-docs/#/docs/sas/tasks)
+[sas 3 中文文档](https://hezedu.github.io/sas/#/docs/sas/tasks)
 
-[sas3 English docs](https://hezedu.github.io/sas/#/docs/sas/tasks)
+[sas 3 English docs](https://hezedu.github.io/sas/en/#/docs/sas/tasks)
 
 ### 前端直接src
 在本项目根目录下`./dist`有打包好的文件供前端使用，支持`amd`加载。如果没有amd的话，会暴露到全局一个变量：`sas`。

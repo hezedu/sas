@@ -52,9 +52,9 @@ This demo will browse all the files / folders on your hard drive asynchronously,
 If you want to know how **sas** did it, please visit: <br>
 [sas 2 文档](README-2.1.0.md)
 
-[sas 3 中文文档](https://hezedu.github.io/sas-cn-docs/#/docs/sas/tasks)
+[sas 3 中文文档](https://hezedu.github.io/sas/#/docs/sas/tasks)
 
-[sas3 English docs](https://hezedu.github.io/sas/#/docs/sas/tasks)
+[sas 3 English docs](https://hezedu.github.io/sas/en/#/docs/sas/tasks)
 
 ### Front-end direct src
 In the root directory of the project `. / Dist` has some wrapped files for the front-end use, support` amd` load. If there is no amd, it will be exposed to a global variable:` sas`.
