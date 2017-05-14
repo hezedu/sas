@@ -1,5 +1,5 @@
 /*!
-  *Version: 3.0.3
+  *Version: 3.0.4
   *Author: Du Wei
   *Repository: https://github.com/hezedu/sas
   *Released: MIT
@@ -22,9 +22,8 @@ function sas(tasks, opts, end) {
       case 3:
         iterator = opts;
         break;
-      default:
-        opts = {};
     }
+    opts = {};
   } else {
     iterator = opts.iterator;
   }

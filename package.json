@@ -1,6 +1,6 @@
 {
   "name": "sas",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "main": "index.js",
   "scripts": {
     "lint": "eslint -c C:/Users/HASEE/home/.eslin2trc.json dev.js"

@@ -21,9 +21,8 @@ function sas(tasks, opts, end) {
       case 3:
         iterator = opts;
         break;
-      default:
-        opts = {};
     }
+    opts = {};
   } else {
     iterator = opts.iterator;
   }
