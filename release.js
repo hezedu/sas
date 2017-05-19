@@ -48,18 +48,30 @@ function proMin(cb) { //生成压缩min.js，前端使用
 var $readMe = (cb) => fs.readFile('./README.md', 'utf-8', cb);
 
 var writeMe = function(cb) { //更新 readMe首部 版本号
-  var data = this.readMe;
-  var first_n = data.indexOf('\n');
-  var top = data.substr(0, first_n);
-  top = top.split('# Sas ');
-  if(top[1] === version){
+  var oldVersion;
+  var readMe = this.readMe.replace(/# Sas .+/, function(mstr){
+    oldVersion = mstr.split('# Sas ')[1];
+    return `# Sas ${version}`
+  });
+  
+  if(oldVersion === version){
     cb();
   }else{
-    top[1] = version;
-    top = top.join('Sas ');
-    data = top + data.substr(first_n);
-    fs.writeFile('./README.md', data, cb);
+    fs.writeFile('./README.md', readMe, cb);
   }
+  
+  // var headLineStart = data.indexOf('# Sas ');
+  // var headLineEnd = data.indexOf('\n');
+  // var top = data.substr(0, first_n);
+  // top = top.split('# Sas ');
+  // if(top[1] === version){
+  //   cb();
+  // }else{
+  //   top[1] = version;
+  //   top = top.join('Sas ');
+  //   data = top + data.substr(first_n);
+  //   fs.writeFile('./README.md', data, cb);
+  // }
 }
 
 sas({

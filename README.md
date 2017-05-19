@@ -1,5 +1,5 @@
-[English](README-en.md)Sas 3.0.3Sas 3.0.4
-# Sas 3
+[English](README-en.md)
+# Sas 3.0.4
 Sas是javascript的一个简单的可递归的异步控制库，它使用**Array**代表串行，使用**Object**代表并行，使用**Function**代表任务。串行和并行可无限嵌套，它将会递归执行，无论多深，都能返回你想要的结果。它很小，源代码在包含很多注释和空格的情况下，仍不到200行。
 
 **安装** ：`npm install sas`<br>
