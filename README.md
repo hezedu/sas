@@ -4,50 +4,19 @@ Sas是javascript的一个简单的可递归的异步控制库，它使用**Array
 
 **安装** ：`npm install sas`<br>
 
-### Demo: 使用sas寻找磁盘最深处
+### Demo
 ```js
 var fs = require('fs');
 var sas = require('sas');
-var rootDir = '/', depth = 0, deepestPath;
 
-function readdir(cb, i) {
-  var indexs = i.indexs(), path = rootDir + indexs.join('/');
-  if (indexs.length > depth) { //record
-    depth = indexs.length;
-    deepestPath = path;
-  }
-  fs.readdir(path, function(err, files) {
-    if (err || !files.length) return cb();
-    var tasks = {}, i = 0, len = files.length;
-    for (; i < len; i++) {
-      tasks[files[i]] = path + '/' + files[i];
-    }
-    cb('$reload', tasks);
-  });
-}
-
-function stat(path) { //iterator
-  return function(cb) {
-    fs.lstat(path, function(err, stat) {
-      if (err || stat.isSymbolicLink()) return cb();
-      if (stat.isDirectory()) {
-        return cb('$reload', readdir);
-      }
-      cb();
-    });
-  }
-}
-
-console.log('Exploring disk\'s deepest depth...');
-console.time('time cost');
-
-sas(readdir ,stat, function() {
-  console.log('Deepest depth:',  depth);
-  console.log('Deepest path:', deepestPath);
-  console.timeEnd('time cost');
+sas({
+  $file1: cb => fs.readFile('somedir/file1.txt', cb),
+  $file2: cb => fs.readFile('somedir/file2.txt', cb)
+}, function(err, result){
+  console.log(err, result);
 });
 ```
-这个demo会异步的浏览你硬盘上所有文件/文件夹，找出最深的那个。最后结束，并把结果告诉你。<br>
+还有比这个更简单的写法吗？<br>
 如果你想知道**sas**是怎么做到的，请访问：<br>
 [sas 2 文档](README-2.1.0.md)
 
