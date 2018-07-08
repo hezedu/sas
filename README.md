@@ -10,10 +10,12 @@ var fs = require('fs');
 var sas = require('sas');
 
 sas({
-  $file1: cb => fs.readFile('somedir/file1.txt', cb),
-  $file2: cb => fs.readFile('somedir/file2.txt', cb)
-}, function(err, result){
+  $file1: cb => fs.readFile('somedir/file1.txt', 'utf-8', cb),
+  $file2: cb => fs.readFile('somedir/file2.txt', 'utf-8', cb)
+}, 
+function(err, result){
   console.log(err, result);
+  // null, {file1: 'some content...', file2: 'some content...'}
 });
 ```
 还有比这个更简单的写法吗？<br>
