@@ -18,8 +18,10 @@ function(err, result){
   // null, {file1: 'some content...', file2: 'some content...'}
 });
 ```
-还有比这个更简单的写法吗？<br>
-如果你想知道**sas**是怎么做到的，请访问：<br>
+还有比这个更简单的写法吗？
+
+如果你想知道**sas**是怎么做到的，请访问：
+
 [sas 2 文档](README-2.1.0.md)
 
 [sas 3 中文文档](https://hezedu.github.io/sas/#/docs/sas/tasks)
